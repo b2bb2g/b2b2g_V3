@@ -368,7 +368,8 @@
     "editProduct": "Edit product",
     "dashboard": "Dashboard",
     "recentActivity": "Recent activity",
-    "noActivity": "No recent activity."
+    "noActivity": "No recent activity.",
+    "welcomeBack": "Welcome back, {name}"
   },
   "epc": {
     "title": "EPC Projects",

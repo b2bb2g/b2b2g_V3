@@ -368,7 +368,8 @@
     "editProduct": "제품 수정",
     "dashboard": "대시보드",
     "recentActivity": "최근 활동",
-    "noActivity": "최근 활동이 없습니다."
+    "noActivity": "최근 활동이 없습니다.",
+    "welcomeBack": "{name} 님, 환영합니다"
   },
   "epc": {
     "title": "EPC 프로젝트",
