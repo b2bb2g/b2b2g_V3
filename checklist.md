@@ -151,7 +151,7 @@
 - [x] database.types 반영, lib/projects(queries·labels·actions)
 - [x] 공개 /epc·/epc/[id], 관리자 CRUD(/admin/epc, new, edit)
 - [x] i18n(en/ko) 39키, 푸터·관리자 콘솔 링크, 빌드 통과
-- [ ] 프로덕션 DB 마이그레이션 적용(사용자 승인 후) + 렌더/RLS 검증
+- [x] 프로덕션 DB 마이그레이션 적용(20260703320000) + RLS 검증(anon SELECT published만·insert 42501 차단)
 
 ### 슬라이스 4.4: Sourcing Requests / RFQ(product_requests)
 - [ ] product_requests + responses, 바이어 작성→관리자 승인→공급사 응답→중개
