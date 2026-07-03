@@ -10,12 +10,7 @@ import { ShareWidget } from '@/components/ShareWidget';
 
 type Card = { href: string; title: string; desc: string; badge?: number };
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ welcome?: string }>;
-}) {
-  const { welcome } = await searchParams;
+export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
   const tn = await getTranslations('nav');
   const supabase = await createClient();
@@ -66,12 +61,6 @@ export default async function DashboardPage({
           </span>
         }
       />
-
-      {welcome && (
-        <p className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          {t('loginWelcome', { name: profile.display_name })}
-        </p>
-      )}
 
       {notApproved && (
         <p className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">

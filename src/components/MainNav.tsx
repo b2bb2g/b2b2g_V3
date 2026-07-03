@@ -1,11 +1,13 @@
 // 메인 헤더(9장): menu_items 동적 메뉴 + 로그인 상태 아바타 메뉴 + 언어전환. 모든 페이지 상단.
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { listActiveMenu } from '@/lib/menu/queries';
 import { unreadNotificationCount } from '@/lib/notify/queries';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
 import { UserMenu, type MenuLink } from '@/components/UserMenu';
+import { WelcomeModal } from '@/components/WelcomeModal';
 
 export async function MainNav() {
   const [locale, tn, items] = await Promise.all([
@@ -53,8 +55,13 @@ export async function MainNav() {
     menu = { name: profile?.display_name ?? 'Member', role, items: links };
   }
 
+  // 로그인 직후 1회성 환영 모달(전역).
+  const showWelcome = menu !== null && (await cookies()).get('welcome')?.value === '1';
+
   return (
-    <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/90 backdrop-blur">
+    <>
+      {showWelcome && menu && <WelcomeModal name={menu.name} />}
+      <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center gap-x-6 gap-y-2 px-6 py-3">
         <Link href="/" className="text-lg font-bold tracking-tight">
           B2BB2G
@@ -89,5 +96,6 @@ export async function MainNav() {
         </div>
       </nav>
     </header>
+    </>
   );
 }

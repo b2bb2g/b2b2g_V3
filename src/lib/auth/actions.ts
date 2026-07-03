@@ -55,8 +55,9 @@ export async function login(_prev: ActionResult | null, formData: FormData): Pro
     cookieStore.delete('auth_ip');
   }
 
-  // 로그인 직후 환영 배너를 위한 플래그.
-  redirect('/dashboard?welcome=1');
+  // 로그인 직후 전역 환영 모달용 1회성 플래그(비-httpOnly: 클라이언트가 표시 후 삭제).
+  cookieStore.set('welcome', '1', { path: '/', maxAge: 30, sameSite: 'lax' });
+  redirect('/dashboard');
 }
 
 export async function signup(
