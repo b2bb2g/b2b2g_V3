@@ -59,29 +59,39 @@ export async function listMemberAuditLogs(profileId: string): Promise<AdminAudit
 
 export type PendingProduct = Pick<ProductRow, 'id' | 'title' | 'created_at'> & {
   companyName: string | null;
+  sectionName: string | null;
 };
 
 export async function listPendingProducts(): Promise<PendingProduct[]> {
   const supabase = await createClient();
   const { data: products } = await supabase
     .from('products')
-    .select('id, title, created_at, supplier_id')
+    .select('id, title, created_at, supplier_id, category_id')
     .eq('status', 'pending')
     .order('created_at', { ascending: true });
   if (!products || products.length === 0) return [];
 
   const supplierIds = [...new Set(products.map((p) => p.supplier_id))];
-  const { data: suppliers } = await supabase
-    .from('suppliers')
-    .select('id, company_name')
-    .in('id', supplierIds);
+  const [{ data: suppliers }, { data: cats }] = await Promise.all([
+    supabase.from('suppliers').select('id, company_name').in('id', supplierIds),
+    supabase.from('categories').select('id, name, parent_id'),
+  ]);
   const nameById = new Map((suppliers ?? []).map((s) => [s.id, s.company_name]));
+  const catById = new Map((cats ?? []).map((c) => [c.id, c]));
+
+  // 제품의 카테고리 → 상위 섹션 이름(하위 카테고리면 부모 섹션으로).
+  const sectionOf = (categoryId: string | null): string | null => {
+    const c = categoryId ? catById.get(categoryId) : null;
+    if (!c) return null;
+    return c.parent_id ? (catById.get(c.parent_id)?.name ?? c.name) : c.name;
+  };
 
   return products.map((p) => ({
     id: p.id,
     title: p.title,
     created_at: p.created_at,
     companyName: nameById.get(p.supplier_id) ?? null,
+    sectionName: sectionOf(p.category_id),
   }));
 }
 

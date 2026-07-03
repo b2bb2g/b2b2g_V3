@@ -1,8 +1,10 @@
-// 관리자 제품 노출 승인 큐(pending → listed/rejected). 승인은 즉시, 반려는 확인 다이얼로그(8.1).
+// 관리자 제품 노출 승인 큐(pending → listed/rejected). 각 제품의 섹션(대분류) 표시.
 import { getTranslations } from 'next-intl/server';
 import { listPendingProducts } from '@/lib/admin/queries';
 import { approveProduct, rejectProduct } from '@/lib/admin/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
 
 export default async function AdminProductsPage() {
@@ -10,17 +12,24 @@ export default async function AdminProductsPage() {
   const products = await listPendingProducts();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-2xl font-bold">{t('pendingProducts')}</h1>
+    <PageShell>
+      <PageHeader title={t('pendingProducts')} />
 
       {products.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
       ) : (
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+        <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
           {products.map((p) => (
             <li key={p.id} className="flex items-center justify-between gap-4 px-4 py-3">
               <div className="flex flex-col">
-                <span className="font-medium">{p.title}</span>
+                <div className="flex items-center gap-2">
+                  {p.sectionName && (
+                    <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600">
+                      {p.sectionName}
+                    </span>
+                  )}
+                  <span className="font-medium">{p.title}</span>
+                </div>
                 <span className="text-xs text-neutral-500">
                   {p.companyName} · {p.created_at.slice(0, 10)}
                 </span>
@@ -45,6 +54,6 @@ export default async function AdminProductsPage() {
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }
