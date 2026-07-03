@@ -1,8 +1,10 @@
 // 공개 제품 상세(6.4). 비회원은 기본 정보만, 가격·거래조건은 로그인 벽. 문의는 Phase 3.
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getProductDetail } from '@/lib/products/queries';
+import { publicImageUrl } from '@/lib/products/media';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('products');
@@ -10,7 +12,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const detail = await getProductDetail(id);
   if (!detail) notFound();
 
-  const { base, categoryName, companyName, isMember, full } = detail;
+  const { base, categoryName, companyName, images, isMember, full } = detail;
+  const ordered = [...images].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary));
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
@@ -21,9 +24,30 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <h1 className="text-3xl font-bold">{base.title}</h1>
         <p className="text-sm text-neutral-500">
           {categoryName ? `${categoryName} · ` : ''}
-          {companyName}
+          <Link href={`/suppliers/${base.supplier_id}`} className="underline">
+            {companyName}
+          </Link>
         </p>
       </div>
+
+      {ordered.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {ordered.map((img) => (
+            <div
+              key={img.id}
+              className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100"
+            >
+              <Image
+                src={publicImageUrl(img.path)}
+                alt=""
+                fill
+                sizes="(max-width: 640px) 50vw, 300px"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       {base.description && <p className="text-neutral-700">{base.description}</p>}
       {base.detail_body && (

@@ -35,6 +35,18 @@ export async function getMyProduct(id: string): Promise<ProductRow | null> {
   return data;
 }
 
+export async function getProductMedia(
+  productId: string,
+): Promise<{ id: string; url: string; is_primary: boolean }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('product_media')
+    .select('id, url, is_primary')
+    .eq('product_id', productId)
+    .order('sort_order');
+  return data ?? [];
+}
+
 export async function listActiveCategories(): Promise<Pick<CategoryRow, 'id' | 'name'>[]> {
   const supabase = await createClient();
   const { data } = await supabase

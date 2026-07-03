@@ -117,7 +117,16 @@
     "statusDraft": "Draft",
     "statusPending": "In review",
     "statusListed": "Listed",
-    "statusRejected": "Rejected"
+    "statusRejected": "Rejected",
+    "imagesTitle": "Product images",
+    "addImage": "Add image",
+    "primaryBadge": "Primary",
+    "setPrimary": "Set as primary",
+    "deleteImage": "Delete",
+    "imageTypeError": "Only image files are allowed.",
+    "imageSizeError": "Image must be under 5 MB.",
+    "uploadFailed": "Upload failed. Please try again.",
+    "noImages": "No images yet."
   },
   "products": {
     "listTitle": "Products",
@@ -135,7 +144,8 @@
     "shipFrom": "Ship from",
     "paymentTerms": "Payment terms",
     "daysUnit": "days",
-    "backToList": "Back to products"
+    "backToList": "Back to products",
+    "verifiedBadge": "Verified"
   },
   "admin": {
     "title": "Admin",

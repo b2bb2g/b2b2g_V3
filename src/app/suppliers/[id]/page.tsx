@@ -1,23 +1,31 @@
-// 공개 제품 목록(6.2/6.4). 비회원도 열람 — 제품명·카테고리·공급사명까지. 가격은 노출 안 함.
+// 공급사 미니홈(공개). 회사명·인증배지 + 해당 공급사의 노출(listed) 제품 목록.
 import Link from 'next/link';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { listPublicProducts } from '@/lib/products/queries';
+import { getPublicSupplier, listPublicProducts } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { EmptyState } from '@/components/ui/EmptyState';
 
-export default async function ProductsListPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
+export default async function SupplierPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('products');
-  const { category } = await searchParams;
-  const products = await listPublicProducts({ categoryId: category });
+  const { id } = await params;
+
+  const supplier = await getPublicSupplier(id);
+  if (!supplier) notFound();
+
+  const products = await listPublicProducts({ supplierId: id });
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-bold">{t('listTitle')}</h1>
+    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-6 py-16">
+      <div className="flex items-center gap-3">
+        <h1 className="text-3xl font-bold">{supplier.companyName}</h1>
+        {supplier.verified && (
+          <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">
+            {t('verifiedBadge')}
+          </span>
+        )}
+      </div>
 
       {products.length === 0 ? (
         <EmptyState message={t('empty')} />
@@ -41,10 +49,7 @@ export default async function ProductsListPage({
                   )}
                 </div>
                 <span className="font-medium">{p.title}</span>
-                <span className="text-xs text-neutral-500">
-                  {p.categoryName ? `${p.categoryName} · ` : ''}
-                  {p.companyName}
-                </span>
+                <span className="text-xs text-neutral-500">{p.categoryName}</span>
               </Link>
             </li>
           ))}

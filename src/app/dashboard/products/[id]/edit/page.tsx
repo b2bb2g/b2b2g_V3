@@ -1,9 +1,15 @@
 // 제품 수정 페이지. updateProduct 를 제품 id 로 bind 해 폼에 전달.
 import { notFound, redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { getMyProduct, getMySupplier, listActiveCategories } from '@/lib/supplier/queries';
+import {
+  getMyProduct,
+  getMySupplier,
+  getProductMedia,
+  listActiveCategories,
+} from '@/lib/supplier/queries';
 import { updateProduct } from '@/lib/supplier/actions';
 import { ProductForm } from '../../ProductForm';
+import { ProductImages } from './ProductImages';
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('supplier');
@@ -20,12 +26,13 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  const categories = await listActiveCategories();
+  const [categories, media] = await Promise.all([listActiveCategories(), getProductMedia(id)]);
   const boundUpdate = updateProduct.bind(null, id);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-6 py-16">
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8 px-6 py-16">
       <h1 className="text-2xl font-bold">{t('editProduct')}</h1>
+      <ProductImages productId={id} userId={supplier.profile_id} images={media} />
       <ProductForm categories={categories} product={product} action={boundUpdate} />
     </main>
   );

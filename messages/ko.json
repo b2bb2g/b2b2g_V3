@@ -117,7 +117,16 @@
     "statusDraft": "초안",
     "statusPending": "검토 중",
     "statusListed": "노출 중",
-    "statusRejected": "반려됨"
+    "statusRejected": "반려됨",
+    "imagesTitle": "제품 이미지",
+    "addImage": "이미지 추가",
+    "primaryBadge": "대표",
+    "setPrimary": "대표로 지정",
+    "deleteImage": "삭제",
+    "imageTypeError": "이미지 파일만 업로드할 수 있습니다.",
+    "imageSizeError": "이미지는 5MB 이하여야 합니다.",
+    "uploadFailed": "업로드에 실패했습니다. 다시 시도해주세요.",
+    "noImages": "아직 이미지가 없습니다."
   },
   "products": {
     "listTitle": "제품",
@@ -135,7 +144,8 @@
     "shipFrom": "출고지",
     "paymentTerms": "결제조건",
     "daysUnit": "일",
-    "backToList": "제품 목록으로"
+    "backToList": "제품 목록으로",
+    "verifiedBadge": "인증"
   },
   "admin": {
     "title": "관리자",

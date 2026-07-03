@@ -24,9 +24,13 @@ export type ProductListItem = {
   title: string;
   categoryName: string | null;
   companyName: string | null;
+  primaryImagePath: string | null;
 };
 
-export async function listPublicProducts(categoryId?: string): Promise<ProductListItem[]> {
+export async function listPublicProducts(opts?: {
+  categoryId?: string;
+  supplierId?: string;
+}): Promise<ProductListItem[]> {
   const supabase = await createClient();
   let query = supabase
     .from('products')
@@ -34,35 +38,47 @@ export async function listPublicProducts(categoryId?: string): Promise<ProductLi
     .eq('status', 'listed')
     .order('is_featured', { ascending: false })
     .order('created_at', { ascending: false });
-  if (categoryId) query = query.eq('category_id', categoryId);
+  if (opts?.categoryId) query = query.eq('category_id', opts.categoryId);
+  if (opts?.supplierId) query = query.eq('supplier_id', opts.supplierId);
 
   const { data: products } = await query;
   if (!products || products.length === 0) return [];
 
+  const productIds = products.map((p) => p.id);
   const categoryIds = [...new Set(products.map((p) => p.category_id).filter(Boolean))] as string[];
   const supplierIds = [...new Set(products.map((p) => p.supplier_id))];
 
-  const [{ data: cats }, { data: sups }] = await Promise.all([
+  const [{ data: cats }, { data: sups }, { data: media }] = await Promise.all([
     categoryIds.length
       ? supabase.from('categories').select('id, name').in('id', categoryIds)
       : Promise.resolve({ data: [] as { id: string; name: string }[] }),
     supabase.from('public_suppliers').select('id, company_name').in('id', supplierIds),
+    supabase
+      .from('product_media')
+      .select('product_id, url')
+      .eq('is_primary', true)
+      .in('product_id', productIds),
   ]);
   const catName = new Map((cats ?? []).map((c) => [c.id, c.name]));
   const supName = new Map((sups ?? []).map((s) => [s.id, s.company_name]));
+  const primaryImage = new Map((media ?? []).map((m) => [m.product_id, m.url]));
 
   return products.map((p) => ({
     id: p.id,
     title: p.title,
     categoryName: p.category_id ? (catName.get(p.category_id) ?? null) : null,
     companyName: supName.get(p.supplier_id) ?? null,
+    primaryImagePath: primaryImage.get(p.id) ?? null,
   }));
 }
+
+export type ProductImage = { id: string; path: string; isPrimary: boolean };
 
 export type ProductDetail = {
   base: PublicProduct;
   categoryName: string | null;
   companyName: string | null;
+  images: ProductImage[];
   isMember: boolean;
   // 회원에게만 채워지는 민감 정보(가격·거래조건). 비회원은 null.
   full: ProductRow | null;
@@ -81,7 +97,7 @@ export async function getProductDetail(id: string): Promise<ProductDetail | null
     .maybeSingle<PublicProduct>();
   if (!base) return null;
 
-  const [{ data: cat }, { data: sup }] = await Promise.all([
+  const [{ data: cat }, { data: sup }, { data: media }] = await Promise.all([
     base.category_id
       ? supabase.from('categories').select('name').eq('id', base.category_id).maybeSingle()
       : Promise.resolve({ data: null }),
@@ -90,6 +106,11 @@ export async function getProductDetail(id: string): Promise<ProductDetail | null
       .select('company_name')
       .eq('id', base.supplier_id)
       .maybeSingle(),
+    supabase
+      .from('product_media')
+      .select('id, url, is_primary')
+      .eq('product_id', id)
+      .order('sort_order'),
   ]);
 
   let full: ProductRow | null = null;
@@ -102,7 +123,21 @@ export async function getProductDetail(id: string): Promise<ProductDetail | null
     base,
     categoryName: cat?.name ?? null,
     companyName: sup?.company_name ?? null,
+    images: (media ?? []).map((m) => ({ id: m.id, path: m.url, isPrimary: m.is_primary })),
     isMember: !!user,
     full,
   };
+}
+
+export type PublicSupplier = { id: string; companyName: string; verified: boolean };
+
+export async function getPublicSupplier(id: string): Promise<PublicSupplier | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('public_suppliers')
+    .select('id, company_name, verified')
+    .eq('id', id)
+    .maybeSingle();
+  if (!data) return null;
+  return { id: data.id, companyName: data.company_name, verified: data.verified };
 }
