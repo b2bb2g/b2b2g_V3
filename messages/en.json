@@ -126,7 +126,13 @@
     "imageTypeError": "Only image files are allowed.",
     "imageSizeError": "Image must be under 5 MB.",
     "uploadFailed": "Upload failed. Please try again.",
-    "noImages": "No images yet."
+    "noImages": "No images yet.",
+    "goInquiries": "Inquiries",
+    "inquiriesInbox": "Inquiries",
+    "inquiryInboxEmpty": "No inquiries yet.",
+    "reply": "Reply",
+    "replyPlaceholder": "Write your reply",
+    "replyFailed": "Could not send reply."
   },
   "inquiry": {
     "title": "Contact this supplier",

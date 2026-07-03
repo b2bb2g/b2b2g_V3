@@ -126,7 +126,13 @@
     "imageTypeError": "이미지 파일만 업로드할 수 있습니다.",
     "imageSizeError": "이미지는 5MB 이하여야 합니다.",
     "uploadFailed": "업로드에 실패했습니다. 다시 시도해주세요.",
-    "noImages": "아직 이미지가 없습니다."
+    "noImages": "아직 이미지가 없습니다.",
+    "goInquiries": "문의",
+    "inquiriesInbox": "문의",
+    "inquiryInboxEmpty": "아직 문의가 없습니다.",
+    "reply": "회신",
+    "replyPlaceholder": "회신 내용을 작성하세요",
+    "replyFailed": "회신을 보내지 못했습니다."
   },
   "inquiry": {
     "title": "이 공급사에 문의",

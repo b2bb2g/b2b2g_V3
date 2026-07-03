@@ -296,6 +296,16 @@ export type Database = {
         Row: SupplierInquiryRow;
         Relationships: [];
       };
+      supplier_inquiry_messages: {
+        Row: {
+          id: string;
+          inquiry_id: string;
+          author_role: MessageAuthorRole;
+          body: string;
+          created_at: string;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       is_admin: {
