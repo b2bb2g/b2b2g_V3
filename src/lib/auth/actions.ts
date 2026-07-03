@@ -2,8 +2,6 @@
 // 이메일 가입·로그인·로그아웃 서버 액션. 결과는 폼(useActionState)으로 돌려준다.
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
-import { sendEmail } from '@/lib/email/send';
 import { publicEnv } from '@/lib/env';
 import { forgotPasswordSchema, loginSchema, resetPasswordSchema, signupSchema } from './schema';
 
@@ -72,31 +70,13 @@ export async function requestPasswordReset(
     return { ok: true };
   }
 
-  const { email } = parsed.data;
-  const admin = createAdminClient();
-
-  // 수신자 언어 확인(없으면 en).
-  const { data: profile } = await admin
-    .from('profiles')
-    .select('locale')
-    .eq('email', email)
-    .maybeSingle();
-
-  // 재설정 링크 생성. 존재하지 않는 계정이면 에러가 나지만 조용히 무시한다.
-  const { data, error } = await admin.auth.admin.generateLink({
-    type: 'recovery',
-    email,
-    options: { redirectTo: `${publicEnv.siteUrl}/auth/callback?next=/auth/reset-password` },
+  // SSR 표준 방식: PKCE 재설정 메일 발송(Supabase SMTP). 링크는 /auth/callback 으로
+  // 돌아와 code 를 세션으로 교환한 뒤 /auth/reset-password 로 이동한다.
+  // 존재하지 않는 이메일이어도 동일한 성공 응답(계정 열거 방지).
+  const supabase = await createClient();
+  await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${publicEnv.siteUrl}/auth/callback?next=/auth/reset-password`,
   });
-
-  if (!error && data.properties?.action_link) {
-    await sendEmail({
-      to: email,
-      template: 'password_reset',
-      locale: profile?.locale ?? 'en',
-      payload: { url: data.properties.action_link },
-    });
-  }
 
   return { ok: true };
 }
