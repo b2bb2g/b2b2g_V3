@@ -43,3 +43,16 @@
 ## i18n 방침
 - 영어 기본 + 한국어. 사용자별 언어는 추후 `profiles.locale`. 슬라이스 1에서는 next-intl "without i18n routing" 구성으로 기본 en, 확장 가능 구조만 마련.
 - 모든 UI 문구는 `messages/en.json`·`messages/ko.json` 언어팩 키로 관리. JSX에 문자열 직접 삽입 금지(0.1 규칙).
+
+## 2026-07-03 세션 — 인증 UX + Phase 4 완주(4.3~4.8)
+
+- 비밀번호 재설정: PKCE 흐름이라 token_hash+`{{.Type}}` 대신 `{{.ConfirmationURL}}` 사용(콜백 code 교환). 재설정/이메일확인 후 로그아웃→로그인 재유도 + 안내 배너(한/영).
+- 로그인 기능: 로그인 상태 유지(auth_remember=0 시 sb-* 세션쿠키 강등, server/middleware setAll), IP보안(auth_ip 고정, proxy 대조·변경 시 로그아웃). 로그인 직후 환영 배너.
+- 4.3 EPC projects / 4.4 RFQ product_requests(+마스킹 뷰 public_product_requests) / 4.5 board_attachments(다형 가시성 함수 board_owner_visible + board-media 버킷 + 표시/업로더 컴포넌트) / 4.6 menu_items·services(동적 MainNav) / 4.7 short_links(+resolve_short_link RPC, /s/[slug], qrcode) / 4.8 ad_banners·popups(랜딩 BannerSlot/Popup).
+- 마이그레이션 6종 모두 프로덕션 적용 + anon RLS 검증(insert 42501 차단 확인). 각 슬라이스 커밋·push→Vercel 자동 배포.
+
+### 후속(시각 QA 필요/미완)
+- WYSIWYG 리치텍스트 툴바(TipTap 등) — 라이브러리 도입 + 브라우저 QA 필요. 현재 본문은 textarea + 새니타이즈 없는 whitespace-pre-line(외부 HTML 미허용이라 XSS 위험 낮음).
+- board_attachments 표시/업로더를 공지·FAQ·행사 보드에도 연결(현재 EPC·RFQ만). 동일 컴포넌트 재사용.
+- 추천가입 QR(에이전트 referral_code) — ShareWidget 재사용.
+- 배너/팝업/공유/업로더 등 상호작용 UI는 build+RLS로만 검증 → 실제 브라우저 동작 QA 권장.
