@@ -160,15 +160,15 @@ export async function listTopCategories(): Promise<{ id: string; name: string }[
   return data ?? [];
 }
 
-// 이름으로 상위 섹션(대분류) 조회. /Commercial·/Industrial 전용 페이지용.
-export async function getTopCategoryByName(
-  name: string,
+// slug 로 상위 섹션(대분류) 조회. /commercial·/industrial 전용 페이지용(표시명 변경돼도 안전).
+export async function getTopCategoryBySlug(
+  slug: string,
 ): Promise<{ id: string; name: string } | null> {
   const supabase = await createClient();
   const { data } = await supabase
     .from('categories')
     .select('id, name')
-    .eq('name', name)
+    .eq('slug', slug)
     .is('parent_id', null)
     .maybeSingle();
   return data;

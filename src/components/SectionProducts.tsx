@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import {
-  getTopCategoryByName,
+  getTopCategoryBySlug,
   listChildCategories,
   listPublicProducts,
 } from '@/lib/products/queries';
@@ -16,18 +16,18 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ProductSearch } from '@/app/products/ProductSearch';
 
 export async function SectionProducts({
-  name,
+  slug,
   basePath,
   selectedChild,
   q,
 }: {
-  name: string;
+  slug: string;
   basePath: string;
   selectedChild?: string;
   q?: string;
 }) {
   const t = await getTranslations('products');
-  const section = await getTopCategoryByName(name);
+  const section = await getTopCategoryBySlug(slug);
   if (!section) notFound();
 
   const children = await listChildCategories(section.id);

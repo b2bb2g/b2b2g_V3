@@ -23,7 +23,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
       <div className="flex flex-col gap-2">
-        <Link href="/products" className="text-sm text-neutral-500 underline">
+        <Link href="/commercial" className="text-sm text-neutral-500 underline">
           {t('backToList')}
         </Link>
         <h1 className="text-3xl font-bold">{base.title}</h1>

@@ -56,7 +56,7 @@ export default async function HomePage() {
           <p className="max-w-xl text-lg text-neutral-600">{t('heroSubtitle')}</p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/products"
+              href="/commercial"
               className="rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white"
             >
               {t('browseProducts')}
@@ -90,7 +90,7 @@ export default async function HomePage() {
         <section className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-6 py-12">
           <div className="flex items-end justify-between">
             <h2 className="text-xl font-semibold">{t('featured')}</h2>
-            <Link href="/products" className="text-sm text-neutral-500 underline">
+            <Link href="/commercial" className="text-sm text-neutral-500 underline">
               {t('viewAll')}
             </Link>
           </div>

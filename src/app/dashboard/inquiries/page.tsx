@@ -21,7 +21,7 @@ export default async function MyInquiriesPage() {
       <h1 className="text-2xl font-bold">{t('myTitle')}</h1>
 
       {inquiries.length === 0 ? (
-        <EmptyState message={t('empty')} action={{ label: t('myTitle'), href: '/products' }} />
+        <EmptyState message={t('empty')} action={{ label: t('myTitle'), href: '/commercial' }} />
       ) : (
         <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
           {inquiries.map((i) => (

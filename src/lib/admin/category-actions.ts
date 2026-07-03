@@ -21,10 +21,16 @@ export async function createCategory(formData: FormData): Promise<void> {
   if (!name) return;
   const parentId = (formData.get('parent_id') as string) || null;
   const sortOrder = Number(formData.get('sort_order') ?? 0) || 0;
+  // 라우팅용 안정 식별자. 영숫자만 남겨 하이픈 슬러그로. 비면 null(하위 카테고리 등).
+  const slug =
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || null;
 
   await supabase
     .from('categories')
-    .insert({ name, parent_id: parentId, sort_order: sortOrder, is_active: true });
+    .insert({ name, slug, parent_id: parentId, sort_order: sortOrder, is_active: true });
   revalidatePath('/admin/categories');
 }
 

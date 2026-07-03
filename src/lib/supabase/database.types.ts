@@ -387,6 +387,7 @@ export type SupplierRow = {
 export type CategoryRow = {
   id: string;
   name: string;
+  slug: string | null;
   parent_id: string | null;
   sort_order: number;
   is_active: boolean;

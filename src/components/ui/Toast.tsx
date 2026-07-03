@@ -11,7 +11,7 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
   if (!ctx) {
-    throw new Error('useToast 는 ToastProvider 안에서만 사용할 수 있습니다.');
+    throw new Error('useToast must be used within a ToastProvider.');
   }
   return ctx;
 }
