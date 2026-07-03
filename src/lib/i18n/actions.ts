@@ -1,7 +1,6 @@
 'use server';
-// 언어 전환: locale 쿠키를 설정한다(라우팅 없는 next-intl 구성). 헤더 스위처에서 호출.
+// 언어 전환: locale 쿠키만 설정한다. 화면 갱신은 클라이언트의 router.refresh() 로(가볍고 즉각적).
 import { cookies } from 'next/headers';
-import { revalidatePath } from 'next/cache';
 import { isLocale, localeCookieName } from '@/i18n/config';
 
 export async function setLocale(locale: string): Promise<void> {
@@ -12,5 +11,4 @@ export async function setLocale(locale: string): Promise<void> {
     maxAge: 60 * 60 * 24 * 365,
     sameSite: 'lax',
   });
-  revalidatePath('/', 'layout');
 }
