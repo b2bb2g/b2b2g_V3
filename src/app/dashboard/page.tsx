@@ -81,9 +81,7 @@ export default async function DashboardPage() {
                 <span className="rounded-full bg-neutral-900 px-2 py-0.5 text-xs text-white">
                   {c.badge}
                 </span>
-              ) : (
-                <span className="text-neutral-300 transition group-hover:text-neutral-500">→</span>
-              )}
+              ) : null}
             </div>
             <span className="text-sm text-neutral-500">{c.desc}</span>
           </Link>

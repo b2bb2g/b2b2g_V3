@@ -10,9 +10,10 @@ import { UserMenu, type MenuLink } from '@/components/UserMenu';
 import { WelcomeModal } from '@/components/WelcomeModal';
 
 export async function MainNav() {
-  const [locale, tn, items] = await Promise.all([
+  const [locale, tn, tc, items] = await Promise.all([
     getLocale(),
     getTranslations('nav'),
+    getTranslations('common'),
     listActiveMenu(),
   ]);
   const label = (it: { label_en: string; label_ko: string }) =>
@@ -52,7 +53,7 @@ export async function MainNav() {
     }
     links.push({ label: tn('notifications'), href: '/dashboard/notifications', badge: unread });
 
-    menu = { name: profile?.display_name ?? 'Member', role, items: links };
+    menu = { name: profile?.display_name ?? tn('member'), role, items: links };
   }
 
   // 로그인 직후 1회성 환영 모달(전역).
@@ -64,7 +65,7 @@ export async function MainNav() {
       <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center gap-x-6 gap-y-2 px-6 py-3">
         <Link href="/" className="text-lg font-bold tracking-tight">
-          B2BB2G
+          {tc('brand')}
         </Link>
         <div className="hidden flex-wrap gap-x-5 gap-y-1 text-sm text-neutral-600 md:flex">
           {items.map((it) => (

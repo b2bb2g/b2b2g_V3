@@ -26,7 +26,9 @@ export default async function RequestsPage() {
                 className="flex flex-col gap-1 px-4 py-4 hover:bg-neutral-50"
               >
                 <div className="flex items-center gap-2">
-                  {r.is_pinned && <span className="text-xs text-amber-600">★</span>}
+                  {r.is_pinned && (
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                  )}
                   <span className="font-medium">{r.title}</span>
                   {r.buyer_verified && (
                     <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">

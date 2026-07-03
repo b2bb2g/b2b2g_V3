@@ -5,7 +5,8 @@
     "email": "Email",
     "password": "Password",
     "submit": "Submit",
-    "loading": "Processing..."
+    "loading": "Processing...",
+    "brand": "B2BB2G"
   },
   "home": {
     "heroTitle": "Discover verified Korean suppliers",
@@ -549,6 +550,8 @@
     "role_supplier": "Supplier",
     "role_buyer": "Buyer",
     "role_agent": "Agent",
-    "role_admin": "Administrator"
+    "role_admin": "Administrator",
+    "member": "Member",
+    "language": "Language"
   }
 }

@@ -30,8 +30,8 @@ export function WelcomeModal({ name }: { name: string }) {
       aria-live="polite"
     >
       <div className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-white px-6 py-4 shadow-xl">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-lg text-white">
-          👋
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white">
+          {(name.trim()[0] ?? '').toUpperCase()}
         </span>
         <p className="text-sm font-medium text-neutral-800">{t('loginWelcome', { name })}</p>
       </div>

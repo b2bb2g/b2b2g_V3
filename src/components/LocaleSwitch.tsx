@@ -2,13 +2,14 @@
 // 언어 전환 토글(EN/KO). 클릭 즉시 낙관적 하이라이트 + 스피너, 쿠키 설정 후 router.refresh 로 갱신.
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { setLocale } from '@/lib/i18n/actions';
 
 const LOCALES = ['en', 'ko'] as const;
 
 export function LocaleSwitch() {
   const locale = useLocale();
+  const t = useTranslations('nav');
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [optimistic, setOptimistic] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export function LocaleSwitch() {
     <div
       className="flex items-center rounded-full border border-neutral-300 text-xs"
       role="group"
-      aria-label="Language"
+      aria-label={t('language')}
     >
       {LOCALES.map((l) => {
         const isActive = active === l;

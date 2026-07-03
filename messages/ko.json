@@ -5,7 +5,8 @@
     "email": "이메일",
     "password": "비밀번호",
     "submit": "제출",
-    "loading": "처리 중..."
+    "loading": "처리 중...",
+    "brand": "B2BB2G"
   },
   "home": {
     "heroTitle": "검증된 한국 공급사를 만나보세요",
@@ -549,6 +550,8 @@
     "role_supplier": "공급사",
     "role_buyer": "바이어",
     "role_agent": "에이전트",
-    "role_admin": "관리자"
+    "role_admin": "관리자",
+    "member": "회원",
+    "language": "언어"
   }
 }

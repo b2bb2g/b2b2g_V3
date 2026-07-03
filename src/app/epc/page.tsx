@@ -23,7 +23,9 @@ export default async function EpcPage() {
             <li key={p.id}>
               <Link href={`/epc/${p.id}`} className="flex flex-col gap-1 px-4 py-4 hover:bg-neutral-50">
                 <div className="flex items-center gap-2">
-                  {p.is_pinned && <span className="text-xs text-amber-600">★</span>}
+                  {p.is_pinned && (
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                  )}
                   <span className="font-medium">{p.name}</span>
                 </div>
                 <span className="text-xs text-neutral-500">

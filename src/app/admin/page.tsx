@@ -71,10 +71,9 @@ export default async function AdminPage() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="flex items-center justify-between py-1.5 text-sm hover:text-neutral-900"
+                  className="py-1.5 text-sm text-neutral-600 hover:text-neutral-900"
                 >
-                  <span>{l.label}</span>
-                  <span className="text-neutral-300">→</span>
+                  {l.label}
                 </Link>
               ))}
             </nav>
