@@ -14,6 +14,15 @@ import {
   updateSupplierGrade,
 } from '@/lib/admin/actions';
 import { USER_ROLES, USER_STATUSES } from '@/lib/constants';
+import { Badge, type BadgeVariant } from '@/components/ui/Badge';
+
+const STATUS_VARIANT: Record<string, BadgeVariant> = {
+  approved: 'success',
+  pending: 'warning',
+  rejected: 'danger',
+  suspended: 'danger',
+  withdrawn: 'neutral',
+};
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2 text-sm';
 const card = 'flex flex-col gap-3 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm';
@@ -45,9 +54,9 @@ export default async function AdminMemberDetailPage({
         <div className="flex min-w-0 flex-col gap-1">
           <h1 className="truncate text-xl font-bold">{member.display_name}</h1>
           <p className="truncate text-sm text-neutral-500">{member.email}</p>
-          <div className="mt-1 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-neutral-600">{member.role}</span>
-            <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-neutral-600">{member.status}</span>
+          <div className="mt-1 flex flex-wrap gap-2">
+            <Badge variant="accent">{member.role}</Badge>
+            <Badge variant={STATUS_VARIANT[member.status] ?? 'neutral'}>{member.status}</Badge>
           </div>
         </div>
       </div>

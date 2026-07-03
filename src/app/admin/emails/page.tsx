@@ -2,11 +2,12 @@
 import { getTranslations } from 'next-intl/server';
 import { listEmailOutbox } from '@/lib/admin/extra-queries';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { Badge, type BadgeVariant } from '@/components/ui/Badge';
 
-const STATUS_STYLE: Record<string, string> = {
-  queued: 'bg-neutral-100 text-neutral-600',
-  sent: 'bg-emerald-100 text-emerald-800',
-  failed: 'bg-red-100 text-red-700',
+const STATUS_VARIANT: Record<string, BadgeVariant> = {
+  queued: 'neutral',
+  sent: 'success',
+  failed: 'danger',
 };
 
 export default async function AdminEmailsPage() {
@@ -26,9 +27,7 @@ export default async function AdminEmailsPage() {
               <li key={e.id} className="flex items-start justify-between gap-3 px-4 py-3 text-sm">
                 <div className="flex min-w-0 flex-col">
                   <div className="flex items-center gap-2">
-                    <span className={`rounded-full px-2 py-0.5 text-xs ${STATUS_STYLE[e.status] ?? ''}`}>
-                      {e.status}
-                    </span>
+                    <Badge variant={STATUS_VARIANT[e.status] ?? 'neutral'}>{e.status}</Badge>
                     <span className="truncate font-medium">{e.to_email}</span>
                   </div>
                   <span className="truncate text-xs text-neutral-400">

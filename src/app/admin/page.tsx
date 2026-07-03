@@ -64,7 +64,7 @@ export default async function AdminPage() {
   return (
     <main className="flex flex-col gap-6">
       {/* 환영 배너 */}
-      <div className="rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 p-6 text-white">
+      <div className="rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 p-6 text-white shadow-sm shadow-violet-600/20">
         <h1 className="text-2xl font-bold tracking-tight">
           {t('welcomeBack', { name: profile?.display_name ?? t('title') })}
         </h1>
@@ -76,7 +76,7 @@ export default async function AdminPage() {
         {cards.map((c) => (
           <div
             key={c.label}
-            className="flex items-center gap-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+            className="flex items-center gap-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
           >
             <span className={`flex h-11 w-11 items-center justify-center rounded-full ${c.wrap}`}>
               {c.icon}

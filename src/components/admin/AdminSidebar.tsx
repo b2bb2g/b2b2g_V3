@@ -45,7 +45,7 @@ export function AdminSidebar({
       </button>
 
       <aside className={`${open ? 'block' : 'hidden'} md:block md:w-60 md:shrink-0`}>
-        <div className="rounded-2xl bg-slate-900 p-4 text-slate-100 md:sticky md:top-20">
+        <div className="on-dark rounded-2xl bg-slate-900 p-4 text-slate-100 shadow-sm ring-1 ring-slate-800 md:sticky md:top-20">
           <nav className="flex flex-col gap-5">
             <Link href={home.href} className="px-2 py-1 text-lg font-bold tracking-tight text-white">
               {title}
@@ -62,9 +62,9 @@ export function AdminSidebar({
                       key={l.href}
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
+                      className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all ${
                         active
-                          ? 'bg-violet-600 text-white'
+                          ? 'bg-violet-600 font-medium text-white shadow-sm shadow-violet-900/40'
                           : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                       }`}
                     >

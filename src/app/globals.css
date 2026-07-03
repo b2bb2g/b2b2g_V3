@@ -16,4 +16,27 @@ body {
     'Helvetica Neue',
     Arial,
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 일관된 키보드 포커스 링(접근성 + 완성도) */
+:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 2px;
+}
+
+/* 폼 컨트롤 포커스: 은은한 다크 링 */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #171717;
+  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.08);
+}
+
+/* 다크 표면(사이드바) 위 포커스는 밝게 */
+.on-dark :focus-visible {
+  outline-color: #ffffff;
 }

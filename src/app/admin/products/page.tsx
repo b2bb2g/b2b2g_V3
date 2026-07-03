@@ -6,6 +6,7 @@ import { listTopCategories } from '@/lib/products/queries';
 import { approveProduct, rejectProduct, unlistProduct } from '@/lib/admin/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
+import { Badge, type BadgeVariant } from '@/components/ui/Badge';
 
 const STATUS_KEY = {
   draft: 'statusDraft',
@@ -14,11 +15,11 @@ const STATUS_KEY = {
   rejected: 'statusRejected',
 } as const;
 
-const STATUS_STYLE: Record<string, string> = {
-  draft: 'bg-neutral-100 text-neutral-600',
-  pending: 'bg-amber-100 text-amber-800',
-  listed: 'bg-emerald-100 text-emerald-800',
-  rejected: 'bg-red-100 text-red-700',
+const STATUS_VARIANT: Record<string, BadgeVariant> = {
+  draft: 'neutral',
+  pending: 'warning',
+  listed: 'success',
+  rejected: 'danger',
 };
 
 export default async function AdminProductsPage() {
@@ -53,9 +54,7 @@ export default async function AdminProductsPage() {
                 <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
-                      <span className={`rounded-full px-2 py-0.5 text-xs ${STATUS_STYLE[p.status]}`}>
-                        {ts(STATUS_KEY[p.status])}
-                      </span>
+                      <Badge variant={STATUS_VARIANT[p.status]}>{ts(STATUS_KEY[p.status])}</Badge>
                       <span className="font-medium">{p.title}</span>
                     </div>
                     <span className="text-xs text-neutral-500">
