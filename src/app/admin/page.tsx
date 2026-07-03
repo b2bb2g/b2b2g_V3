@@ -25,6 +25,12 @@ export default async function AdminPage() {
             count={counts.suppliers}
             cta={t('viewSuppliers')}
           />
+          <QueueCard
+            href="/admin/inquiries"
+            label={t('newInquiries')}
+            count={counts.inquiries}
+            cta={t('viewInquiries')}
+          />
         </div>
       </section>
     </main>

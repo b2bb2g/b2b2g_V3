@@ -40,3 +40,50 @@ export async function rejectSupplier(profileId: string): Promise<void> {
   await supabase.from('profiles').update({ status: 'rejected' }).eq('id', profileId);
   revalidatePath('/admin/suppliers');
 }
+
+// ── 문의 중개 ────────────────────────────────────────────────────────────────
+export async function forwardInquiry(inquiryId: string): Promise<void> {
+  const supabase = await requireAdmin();
+  if (!supabase) return;
+  await supabase.from('inquiries').update({ status: 'forwarded' }).eq('id', inquiryId);
+  revalidatePath(`/admin/inquiries/${inquiryId}`);
+  revalidatePath('/admin/inquiries');
+}
+
+export async function closeInquiry(inquiryId: string): Promise<void> {
+  const supabase = await requireAdmin();
+  if (!supabase) return;
+  await supabase.from('inquiries').update({ status: 'closed' }).eq('id', inquiryId);
+  revalidatePath(`/admin/inquiries/${inquiryId}`);
+  revalidatePath('/admin/inquiries');
+}
+
+export type MessageResult = { ok: true } | { ok: false; error: string };
+
+export async function addAdminMessage(
+  inquiryId: string,
+  _prev: MessageResult | null,
+  formData: FormData,
+): Promise<MessageResult> {
+  const supabase = await requireAdmin();
+  if (!supabase) return { ok: false, error: 'forbidden' };
+
+  const body = String(formData.get('body') ?? '').trim();
+  const visibleTo = formData.get('visibleTo') === 'admin_only' ? 'admin_only' : 'all';
+  if (!body) return { ok: false, error: 'invalid_input' };
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { error } = await supabase.from('inquiry_messages').insert({
+    inquiry_id: inquiryId,
+    author_id: user?.id ?? null,
+    author_role: 'admin',
+    body,
+    visible_to: visibleTo,
+  });
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath(`/admin/inquiries/${inquiryId}`);
+  return { ok: true };
+}

@@ -182,6 +182,22 @@
     "rejectConfirmBody": "제출자가 수정 후 다시 제출할 수 있습니다.",
     "columnItem": "항목",
     "columnCompany": "회사",
-    "columnSubmitted": "제출일"
+    "columnSubmitted": "제출일",
+    "newInquiries": "신규 문의",
+    "viewInquiries": "문의 중개",
+    "inquiriesTitle": "문의",
+    "forward": "공급사에 전달",
+    "close": "종료",
+    "requester": "요청자",
+    "product": "제품",
+    "content": "내용",
+    "conversation": "대화",
+    "addMessage": "메시지 추가",
+    "messageBody": "메시지",
+    "visibility": "공개 범위",
+    "visibleAll": "공유(바이어·공급사 중계)",
+    "visibleAdminOnly": "내부 메모(관리자만)",
+    "internalTag": "내부",
+    "backToInquiries": "문의 목록으로"
   }
 }

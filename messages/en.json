@@ -182,6 +182,22 @@
     "rejectConfirmBody": "The submitter can revise and resubmit.",
     "columnItem": "Item",
     "columnCompany": "Company",
-    "columnSubmitted": "Submitted"
+    "columnSubmitted": "Submitted",
+    "newInquiries": "New inquiries",
+    "viewInquiries": "Manage inquiries",
+    "inquiriesTitle": "Inquiries",
+    "forward": "Forward to supplier",
+    "close": "Close",
+    "requester": "Requester",
+    "product": "Product",
+    "content": "Content",
+    "conversation": "Conversation",
+    "addMessage": "Add message",
+    "messageBody": "Message",
+    "visibility": "Visibility",
+    "visibleAll": "Shared (buyer & supplier relay)",
+    "visibleAdminOnly": "Internal note (admin only)",
+    "internalTag": "internal",
+    "backToInquiries": "Back to inquiries"
   }
 }
