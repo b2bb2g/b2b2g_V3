@@ -34,9 +34,12 @@
 - [ ] `legal_documents` + /legal/{terms,privacy,cookies} placeholder
 - [ ] 쿠키 동의 배너(opt-in, 수락=거부 동등)
 
-### 슬라이스 5: 이메일 발송 기반
-- [ ] 트랜잭셔널 메일 서비스 연동 + `email_outbox`
-- [ ] 가입 인증·비밀번호 재설정 메일
+### 슬라이스 5: 이메일 발송 기반 (진행 중)
+- [x] `email_outbox` 마이그레이션(프로덕션 적용) + 관리자 열람 RLS
+- [x] Resend 연동 발송 모듈 + 언어별 템플릿 + service_role admin 클라이언트
+- [x] 실발송 파이프라인 검증(큐잉→Resend→outbox `sent` 기록, provider_message_id 확인)
+- [ ] 비밀번호 재설정 흐름(요청→링크 생성→우리 템플릿 발송→재설정 페이지)
+- [ ] (별도) 가입 인증 메일을 Supabase 기본 대신 우리 발송으로 대체 — Auth 훅 설정 필요
 
 ### 슬라이스 6: 공통 UX 컴포넌트 (8장)
 - [ ] 확인 다이얼로그·토스트·스켈레톤·비밀번호 토글·빈/오류 상태
