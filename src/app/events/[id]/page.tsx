@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getEvent, getMyRegistration } from '@/lib/events/queries';
 import { registerForEvent, cancelRegistration } from '@/lib/events/actions';
 import { CATEGORY_KEY, formatPeriod } from '@/lib/events/labels';
+import { BoardAttachments } from '@/components/BoardAttachments';
 
 export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('events');
@@ -48,6 +49,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       {event.body && (
         <div className="whitespace-pre-line leading-relaxed text-neutral-700">{event.body}</div>
       )}
+
+      <BoardAttachments ownerType="event" ownerId={event.id} />
 
       {event.external_link && (
         <a
