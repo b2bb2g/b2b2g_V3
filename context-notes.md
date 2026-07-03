@@ -21,6 +21,17 @@
 - `reports`(신고·차단) 테이블 도입 여부(12.1에서 보류).
 - 법적 페이지(약관·개인정보·쿠키)는 placeholder, 실서비스 전 변호사 검토 게이트 필요.
 
+## Supabase 연결 정보 (슬라이스 2)
+- **프로젝트 ref**: `hibmuepnzdutljloabjf`, **region: Singapore(`aws-1-ap-southeast-1`)**.
+- **마이그레이션 적용 경로**: direct 연결(`db.<ref>.supabase.co:5432`)은 IPv6 전용이라 이 네트워크에서 `no route to host`로 실패. **transaction pooler(`aws-1-ap-southeast-1.pooler.supabase.com:6543`, IPv4)** 로 적용해야 함.
+  - 적용 명령: `.env.local`의 `SUPABASE_DB_PASSWORD`로 URL 구성 후 `supabase db push --db-url ...`.
+  - `db push`는 라이브 DB 쓰기라 auto mode 분류기가 막을 수 있음 → 사용자 명시 승인 필요.
+- **타입 생성 주의**: `supabase gen types --db-url`은 로컬 컨테이너 런타임(podman/docker) 필요 → 이 환경엔 없음. 현재 [database.types.ts](src/lib/supabase/database.types.ts)는 마이그레이션에 맞춰 **손작성**. 컨테이너/access token 확보 시 자동 생성본으로 교체.
+- **TS 타입 함정(해결됨)**: supabase-js의 `GenericTable`은 `Row: Record<string, unknown>`을 요구 → `Row`로 쓰는 타입과 최상위 `Database`는 반드시 **`type` 별칭**이어야 함(`interface`는 인덱스 시그니처가 없어 제약 불만족 → 조회 결과가 `never`로 폴백). database.types.ts에 주석으로 남김.
+
+## [보안] DB 비밀번호 노출 — 조치 필요
+- 슬라이스 2 작업 중 `supabase gen types` 실패 에러 로그에 **DB 비밀번호가 평문으로 출력됨**(CLI가 연결 문자열을 에러에 그대로 실음). 세션 로그에 남았으므로 **Supabase 대시보드에서 DB 비밀번호를 로테이션 권장**. 로테이션 후 `.env.local`의 `SUPABASE_DB_PASSWORD` 갱신.
+
 ## i18n 방침
 - 영어 기본 + 한국어. 사용자별 언어는 추후 `profiles.locale`. 슬라이스 1에서는 next-intl "without i18n routing" 구성으로 기본 en, 확장 가능 구조만 마련.
 - 모든 UI 문구는 `messages/en.json`·`messages/ko.json` 언어팩 키로 관리. JSX에 문자열 직접 삽입 금지(0.1 규칙).

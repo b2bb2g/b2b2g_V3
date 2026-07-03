@@ -13,11 +13,13 @@
 - [x] 루트 레이아웃 + 홈 placeholder, 빌드·타입체크 통과 (npm run quality 그린)
 - [x] 커밋·push
 
-### 슬라이스 2: 인증·역할·RLS 뼈대
-- [ ] Supabase 클라이언트(@supabase/ssr) 설정 — server/browser
-- [ ] `profiles` + Auth(이메일), 역할 enum 4종 마이그레이션
-- [ ] RLS 뼈대(3.1 권한 매트릭스 기준)
-- [ ] 미들웨어 역할 게이트
+### 슬라이스 2: 인증·역할·RLS 뼈대 (완료)
+- [x] Supabase 클라이언트(@supabase/ssr) 설정 — server/browser/proxy, Database 타입 연결
+- [x] `profiles` + 역할 enum 4종 + 상태 enum 마이그레이션 (프로덕션 DB 적용 완료)
+- [x] RLS 뼈대(3.1 권한 매트릭스 기준) — 조회/수정/삽입/삭제 정책 + is_admin() + 자기수정 가드
+- [x] proxy(구 미들웨어) 역할 게이트 — 런타임 검증(홈 200, 보호라우트 307 리다이렉트)
+- [ ] (보류) 타입 자동 생성 `supabase gen types` — 컨테이너 런타임/토큰 확보 후 손작성본 대체
+- [ ] (보류) RLS 행 기반 검증 — auth 사용자 생기는 슬라이스 3에서
 
 ### 슬라이스 3: 가입·추천 흐름 (플로우 A)
 - [ ] 이메일 가입/로그인
