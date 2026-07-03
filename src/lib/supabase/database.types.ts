@@ -7,6 +7,19 @@
 export type UserRole = 'admin' | 'supplier' | 'agent' | 'buyer';
 export type UserStatus = 'pending' | 'approved' | 'rejected' | 'suspended' | 'withdrawn';
 
+export type EmailTemplate =
+  | 'signup_verify'
+  | 'password_reset'
+  | 'supplier_approved'
+  | 'supplier_rejected'
+  | 'inquiry_received'
+  | 'inquiry_replied'
+  | 'rfq_response'
+  | 'agent_invite'
+  | 'event_reminder'
+  | 'generic';
+export type EmailStatus = 'queued' | 'sent' | 'failed';
+
 // interface 가 아닌 type 로 선언해야 Record<string, unknown>(GenericTable) 제약을 만족한다.
 export type ProfileRow = {
   id: string;
@@ -28,6 +41,34 @@ export type ProfileInsert = Omit<ProfileRow, 'created_at' | 'updated_at'> &
 
 export type ProfileUpdate = Partial<ProfileRow>;
 
+export type EmailOutboxRow = {
+  id: string;
+  to_email: string;
+  profile_id: string | null;
+  template: EmailTemplate;
+  locale: string;
+  payload: Record<string, unknown>;
+  status: EmailStatus;
+  provider_message_id: string | null;
+  error: string | null;
+  sent_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type EmailOutboxInsert = Omit<
+  EmailOutboxRow,
+  'id' | 'created_at' | 'updated_at' | 'status' | 'provider_message_id' | 'error' | 'sent_at'
+> &
+  Partial<
+    Pick<
+      EmailOutboxRow,
+      'id' | 'status' | 'provider_message_id' | 'error' | 'sent_at' | 'profile_id' | 'locale'
+    >
+  >;
+
+export type EmailOutboxUpdate = Partial<EmailOutboxRow>;
+
 export type Database = {
   public: {
     Tables: {
@@ -35,6 +76,12 @@ export type Database = {
         Row: ProfileRow;
         Insert: ProfileInsert;
         Update: ProfileUpdate;
+        Relationships: [];
+      };
+      email_outbox: {
+        Row: EmailOutboxRow;
+        Insert: EmailOutboxInsert;
+        Update: EmailOutboxUpdate;
         Relationships: [];
       };
     };
@@ -50,6 +97,8 @@ export type Database = {
     Enums: {
       user_role: UserRole;
       user_status: UserStatus;
+      email_template: EmailTemplate;
+      email_status: EmailStatus;
     };
     CompositeTypes: {
       [_ in never]: never;
