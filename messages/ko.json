@@ -118,5 +118,21 @@
     "statusPending": "검토 중",
     "statusListed": "노출 중",
     "statusRejected": "반려됨"
+  },
+  "admin": {
+    "title": "관리자",
+    "overview": "승인 대기함",
+    "pendingProducts": "검토 대기 제품",
+    "pendingSuppliers": "승인 대기 공급사",
+    "viewProducts": "제품 검토",
+    "viewSuppliers": "공급사 검토",
+    "queueEmpty": "지금 검토할 항목이 없습니다.",
+    "approve": "승인",
+    "reject": "반려",
+    "rejectConfirmTitle": "반려할까요?",
+    "rejectConfirmBody": "제출자가 수정 후 다시 제출할 수 있습니다.",
+    "columnItem": "항목",
+    "columnCompany": "회사",
+    "columnSubmitted": "제출일"
   }
 }

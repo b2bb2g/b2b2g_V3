@@ -118,5 +118,21 @@
     "statusPending": "In review",
     "statusListed": "Listed",
     "statusRejected": "Rejected"
+  },
+  "admin": {
+    "title": "Admin",
+    "overview": "Approval queues",
+    "pendingProducts": "Products awaiting review",
+    "pendingSuppliers": "Suppliers awaiting approval",
+    "viewProducts": "Review products",
+    "viewSuppliers": "Review suppliers",
+    "queueEmpty": "Nothing to review right now.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectConfirmTitle": "Reject this item?",
+    "rejectConfirmBody": "The submitter can revise and resubmit.",
+    "columnItem": "Item",
+    "columnCompany": "Company",
+    "columnSubmitted": "Submitted"
   }
 }
