@@ -54,5 +54,32 @@
 - [x] Skeleton·EmptyState(표현 컴포넌트, Phase 2 목록/대시보드용)
 - [x] 빌드·렌더 검증(비밀번호 토글 a11y 라벨 노출 확인)
 
-## Phase 2~4
+## Phase 2 — 지어드(공급사·제품)
+
+### 슬라이스 2.1: 데이터 모델 기반 (완료)
+- [x] suppliers/categories/products/product_media/product_certifications + RLS
+- [x] owns_supplier() 헬퍼, Commercial/Industrial 대분류 시드
+- [x] 프로덕션 적용·스키마/카테고리/RLS 검증
+
+### 슬라이스 2.2: 공급사 온보딩 + 제품 등록(초안)
+- [ ] 공급사 회사정보 입력(suppliers 행 생성: company_name·사업자등록)
+- [ ] 제품 초안 CRUD(제목·설명·카테고리·가격·price_visible·MOQ·리드타임 등 텍스트 필드)
+- [ ] 공급사 대시보드에 내 제품 목록·상태
+
+### 슬라이스 2.3: 미디어 업로드 + 인증/수상
+- [ ] Supabase Storage 버킷·정책, product_media 업로드(이미지·대표이미지)
+- [ ] product_certifications 입력
+
+### 슬라이스 2.4: 관리자 승인 + 공개 노출
+- [ ] 관리자 제품 노출 승인 큐(draft/pending→listed/rejected)
+- [ ] 공급사 승인(profiles.status), 인증배지·등급
+
+### 슬라이스 2.5: 공개 목록/상세 + 회원제 게이트
+- [ ] /products 목록, /products/[id] 상세, /suppliers/[id] 미니홈
+- [ ] 비회원 가격·거래조건 마스킹(6.4, 열단위 뷰/쿼리), biz_reg_file 보호
+
+### 슬라이스 2.6: 실시간 검색·필터 (8.5)
+- [ ] as-you-type 검색(디바운스), 카테고리·국가 필터
+
+## Phase 3~4
 - 이후 세부화. 기획설계서 13장 참조.
