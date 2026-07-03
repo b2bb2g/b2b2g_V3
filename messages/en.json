@@ -50,7 +50,8 @@
     "title": "Dashboard",
     "welcome": "Signed in as {name}",
     "roleLabel": "Role",
-    "statusLabel": "Status"
+    "statusLabel": "Status",
+    "adminConsole": "Admin console"
   },
   "legal": {
     "terms": "Terms of Service",

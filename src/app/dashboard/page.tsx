@@ -53,6 +53,15 @@ export default async function DashboardPage() {
         </p>
       )}
 
+      {profile.role === 'admin' && (
+        <Link
+          href="/admin"
+          className="w-fit rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+        >
+          {t('adminConsole')}
+        </Link>
+      )}
+
       <Link href="/dashboard/notifications" className="w-fit text-sm underline">
         {tn('title')}
         {unread > 0 && (
