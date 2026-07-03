@@ -160,7 +160,7 @@
 - [x] 공개 /requests·/requests/[id](공급사 응답 폼), 바이어 /dashboard/requests(+new)
 - [x] 관리자 /admin/requests(+[id] 상태변경·응답중개), 푸터·콘솔·대시보드 링크
 - [x] i18n(en/ko) 42키, 빌드·tsc·eslint 통과
-- [ ] 프로덕션 DB 마이그레이션 적용(사용자 승인 후) + 마스킹/RLS 검증
+- [x] 프로덕션 DB 적용(20260703330000) + 마스킹/RLS 검증(anon 원본 0행·뷰 접근 가능·insert 42501 차단)
 
 ### 슬라이스 4.5: 공통 리치 에디터 + 첨부/인라인 미디어(board_attachments)
 - [ ] 전 게시판 공용 에디터·첨부(이미지·동영상 인라인/임베드)
