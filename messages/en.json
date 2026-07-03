@@ -33,7 +33,16 @@
     "verifyEmailBody": "We sent a confirmation link to your email. Click it to activate your account.",
     "pendingTitle": "Awaiting approval",
     "pendingBody": "Your account is under admin review. You'll be notified once it's approved.",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "forgotPassword": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotBody": "Enter your email and we'll send a reset link.",
+    "forgotCta": "Send reset link",
+    "forgotSent": "If that email is registered, a reset link has been sent.",
+    "resetTitle": "Set a new password",
+    "resetCta": "Update password",
+    "resetFailed": "Could not update the password. The link may have expired.",
+    "newPassword": "New password"
   },
   "dashboard": {
     "title": "Dashboard",
