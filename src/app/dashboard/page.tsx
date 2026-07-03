@@ -16,6 +16,7 @@ export default async function DashboardPage({
   const ts = await getTranslations('supplier');
   const ti = await getTranslations('inquiry');
   const tn = await getTranslations('notifications');
+  const tr = await getTranslations('requests');
   const supabase = await createClient();
 
   const {
@@ -110,12 +111,20 @@ export default async function DashboardPage({
       {isBuyerOrAgent && (
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-neutral-500">{ti('myTitle')}</h2>
-          <Link
-            href="/dashboard/inquiries"
-            className="w-fit rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-          >
-            {ti('myTitle')}
-          </Link>
+          <div className="flex gap-3">
+            <Link
+              href="/dashboard/inquiries"
+              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
+            >
+              {ti('myTitle')}
+            </Link>
+            <Link
+              href="/dashboard/requests"
+              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
+            >
+              {tr('myTitle')}
+            </Link>
+          </div>
         </section>
       )}
 

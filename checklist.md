@@ -154,8 +154,13 @@
 - [x] 프로덕션 DB 마이그레이션 적용(20260703320000) + RLS 검증(anon SELECT published만·insert 42501 차단)
 
 ### 슬라이스 4.4: Sourcing Requests / RFQ(product_requests)
-- [ ] product_requests + responses, 바이어 작성→관리자 승인→공급사 응답→중개
-- [ ] 바이어 개인정보 마스킹(관리자 외 비노출)
+- [x] product_requests + product_request_responses + enum 2종 + RLS 마이그레이션
+- [x] 공개 마스킹 뷰 public_product_requests(requester_id 제외, listed 만, buyer_verified 배지)
+- [x] lib/requests(queries·labels·actions): 바이어 작성·공급사 응답·관리자 상태중개
+- [x] 공개 /requests·/requests/[id](공급사 응답 폼), 바이어 /dashboard/requests(+new)
+- [x] 관리자 /admin/requests(+[id] 상태변경·응답중개), 푸터·콘솔·대시보드 링크
+- [x] i18n(en/ko) 42키, 빌드·tsc·eslint 통과
+- [ ] 프로덕션 DB 마이그레이션 적용(사용자 승인 후) + 마스킹/RLS 검증
 
 ### 슬라이스 4.5: 공통 리치 에디터 + 첨부/인라인 미디어(board_attachments)
 - [ ] 전 게시판 공용 에디터·첨부(이미지·동영상 인라인/임베드)

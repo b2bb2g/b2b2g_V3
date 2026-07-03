@@ -58,6 +58,57 @@ export type EventRegistrationRow = {
   created_at: string;
 };
 
+export type RequestStatus =
+  | 'submitted'
+  | 'admin_review'
+  | 'listed'
+  | 'closed'
+  | 'rejected';
+export type RequestResponseStatus =
+  | 'submitted'
+  | 'forwarded_to_buyer'
+  | 'accepted'
+  | 'declined';
+
+export type ProductRequestRow = {
+  id: string;
+  requester_id: string;
+  title: string;
+  body: string;
+  category_id: string | null;
+  target_country: string | null;
+  budget: number | null;
+  qty: number | null;
+  status: RequestStatus;
+  is_pinned: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductRequestResponseRow = {
+  id: string;
+  request_id: string;
+  supplier_id: string;
+  message: string;
+  status: RequestResponseStatus;
+  created_at: string;
+  updated_at: string;
+};
+
+// 공개 마스킹 뷰: requester_id 제외, listed 만, buyer_verified 배지 신호 포함.
+export type PublicProductRequestRow = {
+  id: string;
+  title: string;
+  body: string;
+  category_id: string | null;
+  target_country: string | null;
+  budget: number | null;
+  qty: number | null;
+  is_pinned: boolean;
+  created_at: string;
+  buyer_verified: boolean;
+};
+
 export type ProjectField = 'power_plant' | 'construction' | 'factory' | 'plant' | 'civil' | 'etc';
 export type ProjectStage = 'planning' | 'bidding' | 'in_progress' | 'completed';
 
@@ -429,6 +480,18 @@ export type Database = {
         Update: Partial<ProjectRow>;
         Relationships: [];
       };
+      product_requests: {
+        Row: ProductRequestRow;
+        Insert: Insertable<ProductRequestRow, 'requester_id' | 'title'>;
+        Update: Partial<ProductRequestRow>;
+        Relationships: [];
+      };
+      product_request_responses: {
+        Row: ProductRequestResponseRow;
+        Insert: Insertable<ProductRequestResponseRow, 'request_id' | 'supplier_id'>;
+        Update: Partial<ProductRequestResponseRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -442,6 +505,10 @@ export type Database = {
       };
       supplier_inquiries: {
         Row: SupplierInquiryRow;
+        Relationships: [];
+      };
+      public_product_requests: {
+        Row: PublicProductRequestRow;
         Relationships: [];
       };
       supplier_inquiry_messages: {
@@ -486,6 +553,8 @@ export type Database = {
       registration_status: RegistrationStatus;
       project_field: ProjectField;
       project_stage: ProjectStage;
+      request_status: RequestStatus;
+      request_response_status: RequestResponseStatus;
     };
     CompositeTypes: {
       [_ in never]: never;

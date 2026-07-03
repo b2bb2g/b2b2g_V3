@@ -8,6 +8,7 @@ export async function Footer() {
   const tc = await getTranslations('content');
   const te = await getTranslations('events');
   const tp = await getTranslations('epc');
+  const tr = await getTranslations('requests');
 
   return (
     <footer className="border-t border-neutral-200 px-6 py-6 text-sm text-neutral-500">
@@ -23,6 +24,9 @@ export async function Footer() {
         </Link>
         <Link href="/epc" className="underline">
           {tp('title')}
+        </Link>
+        <Link href="/requests" className="underline">
+          {tr('title')}
         </Link>
         <Link href="/legal/terms" className="underline">
           {t('terms')}
