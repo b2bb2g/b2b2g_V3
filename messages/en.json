@@ -387,5 +387,20 @@
     "respForwarded": "Forwarded to buyer",
     "respAccepted": "Accepted",
     "respDeclined": "Declined"
+  },
+  "attachments": {
+    "files": "Attachments",
+    "manage": "Attachments & media",
+    "uploadLabel": "Upload image, video, or file",
+    "videoLinkPlaceholder": "YouTube or Vimeo URL",
+    "addLink": "Add link",
+    "uploading": "Uploading…",
+    "uploadFailed": "Upload failed. Please try again.",
+    "sizeError": "File is too large (max 50MB).",
+    "delete": "Remove",
+    "kind_image": "image",
+    "kind_video_file": "video",
+    "kind_video_link": "video link",
+    "kind_file": "file"
   }
 }

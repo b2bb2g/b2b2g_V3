@@ -163,7 +163,13 @@
 - [x] 프로덕션 DB 적용(20260703330000) + 마스킹/RLS 검증(anon 원본 0행·뷰 접근 가능·insert 42501 차단)
 
 ### 슬라이스 4.5: 공통 리치 에디터 + 첨부/인라인 미디어(board_attachments)
-- [ ] 전 게시판 공용 에디터·첨부(이미지·동영상 인라인/임베드)
+- [x] board_attachments 테이블 + enum 2종 + board_owner_visible() 다형 가시성 함수 + RLS
+- [x] board-media Storage 버킷(공개읽기·소유자 업로드), 프로덕션 적용·RLS 검증
+- [x] 공통 표시 컴포넌트(인라인 이미지·영상·YouTube/Vimeo 임베드 화이트리스트·첨부목록)
+- [x] 관리자 공통 업로더(파일 업로드·영상링크·삭제), EPC 편집에 연결, EPC·RFQ 상세에 표시
+- [x] attachments i18n(en/ko), 빌드·tsc·eslint 통과
+- [ ] (후속) 나머지 보드(공지·FAQ·행사)에 표시/업로더 연결 — 동일 컴포넌트 재사용
+- [ ] (후속) WYSIWYG 리치텍스트 툴바(TipTap 등) — 라이브러리 도입 + 시각 QA 필요
 
 ### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
 - [ ] 관리자 메뉴 편집(라벨·링크·순서·노출·그룹), 서비스 카탈로그

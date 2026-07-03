@@ -387,5 +387,20 @@
     "respForwarded": "바이어에 전달",
     "respAccepted": "수락",
     "respDeclined": "거절"
+  },
+  "attachments": {
+    "files": "첨부파일",
+    "manage": "첨부·미디어",
+    "uploadLabel": "이미지·동영상·파일 업로드",
+    "videoLinkPlaceholder": "YouTube 또는 Vimeo URL",
+    "addLink": "링크 추가",
+    "uploading": "업로드 중…",
+    "uploadFailed": "업로드에 실패했습니다. 다시 시도해주세요.",
+    "sizeError": "파일이 너무 큽니다(최대 50MB).",
+    "delete": "삭제",
+    "kind_image": "이미지",
+    "kind_video_file": "동영상",
+    "kind_video_link": "동영상 링크",
+    "kind_file": "파일"
   }
 }

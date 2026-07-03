@@ -109,6 +109,31 @@ export type PublicProductRequestRow = {
   buyer_verified: boolean;
 };
 
+export type BoardOwnerType =
+  | 'notice'
+  | 'faq'
+  | 'event'
+  | 'project'
+  | 'product_request'
+  | 'product';
+export type AttachmentKind = 'image' | 'video_file' | 'video_link' | 'file';
+
+export type BoardAttachmentRow = {
+  id: string;
+  owner_type: BoardOwnerType;
+  owner_id: string;
+  kind: AttachmentKind;
+  storage_path: string | null;
+  external_url: string | null;
+  file_name: string | null;
+  mime_type: string | null;
+  size_bytes: number | null;
+  thumbnail_path: string | null;
+  inline: boolean;
+  sort_order: number;
+  created_at: string;
+};
+
 export type ProjectField = 'power_plant' | 'construction' | 'factory' | 'plant' | 'civil' | 'etc';
 export type ProjectStage = 'planning' | 'bidding' | 'in_progress' | 'completed';
 
@@ -492,6 +517,12 @@ export type Database = {
         Update: Partial<ProductRequestResponseRow>;
         Relationships: [];
       };
+      board_attachments: {
+        Row: BoardAttachmentRow;
+        Insert: Insertable<BoardAttachmentRow, 'owner_type' | 'owner_id' | 'kind'>;
+        Update: Partial<BoardAttachmentRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -531,6 +562,10 @@ export type Database = {
         Args: { target: string };
         Returns: boolean;
       };
+      board_owner_visible: {
+        Args: { ot: BoardOwnerType; oid: string };
+        Returns: boolean;
+      };
     };
     Enums: {
       user_role: UserRole;
@@ -555,6 +590,8 @@ export type Database = {
       project_stage: ProjectStage;
       request_status: RequestStatus;
       request_response_status: RequestResponseStatus;
+      board_owner_type: BoardOwnerType;
+      attachment_kind: AttachmentKind;
     };
     CompositeTypes: {
       [_ in never]: never;

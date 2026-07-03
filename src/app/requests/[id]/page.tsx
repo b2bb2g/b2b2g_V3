@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getPublicRequest, getMyResponse } from '@/lib/requests/queries';
 import { getMySupplier } from '@/lib/supplier/queries';
 import { formatBudget } from '@/lib/requests/labels';
+import { BoardAttachments } from '@/components/BoardAttachments';
 import { RespondForm } from './RespondForm';
 
 export default async function RequestDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -46,6 +47,8 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
       {request.body && (
         <div className="whitespace-pre-line leading-relaxed text-neutral-700">{request.body}</div>
       )}
+
+      <BoardAttachments ownerType="product_request" ownerId={request.id} />
 
       <section className="rounded-lg border border-neutral-200 p-4">
         {!user ? (

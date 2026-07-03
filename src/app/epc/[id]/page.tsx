@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getProject } from '@/lib/projects/queries';
 import { FIELD_KEY, STAGE_KEY, formatPeriod, formatScale } from '@/lib/projects/labels';
+import { BoardAttachments } from '@/components/BoardAttachments';
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('epc');
@@ -43,6 +44,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       {project.body && (
         <div className="whitespace-pre-line leading-relaxed text-neutral-700">{project.body}</div>
       )}
+
+      <BoardAttachments ownerType="project" ownerId={project.id} />
     </main>
   );
 }
