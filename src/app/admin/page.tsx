@@ -1,12 +1,14 @@
-// 관리자 콘솔. 승인 대기 큐 + 관리 메뉴 그룹. 접근은 proxy(admin) + RLS 이중.
+// 관리자 콘솔. 플랫폼 현황 + 처리 대기 큐(주의 강조) + 관리 메뉴 그룹. 접근은 proxy(admin) + RLS 이중.
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { approvalCounts } from '@/lib/admin/queries';
+import { getPlatformStats } from '@/lib/stats/queries';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
 
 export default async function AdminPage() {
   const t = await getTranslations('admin');
+  const th = await getTranslations('home');
   const tc = await getTranslations('content');
   const te = await getTranslations('events');
   const tp = await getTranslations('epc');
@@ -15,7 +17,20 @@ export default async function AdminPage() {
   const tsv = await getTranslations('services');
   const tmk = await getTranslations('marketing');
   const tcat = await getTranslations('categories');
-  const counts = await approvalCounts();
+  const [counts, stats] = await Promise.all([approvalCounts(), getPlatformStats()]);
+
+  const queue = [
+    { href: '/admin/products', label: t('pendingProducts'), count: counts.products },
+    { href: '/admin/suppliers', label: t('pendingSuppliers'), count: counts.suppliers },
+    { href: '/admin/inquiries', label: t('newInquiries'), count: counts.inquiries },
+  ];
+
+  const overview = [
+    { label: th('statSuppliers'), value: stats.verifiedSuppliers },
+    { label: th('statProducts'), value: stats.listedProducts },
+    { label: th('statRequests'), value: stats.openRequests },
+    { label: th('statInquiries'), value: stats.recentInquiries },
+  ];
 
   const groups: { heading: string; links: { href: string; label: string }[] }[] = [
     {
@@ -58,12 +73,48 @@ export default async function AdminPage() {
     <PageShell width="wide">
       <PageHeader title={t('title')} description={t('overview')} />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <QueueCard href="/admin/products" label={t('pendingProducts')} count={counts.products} />
-        <QueueCard href="/admin/suppliers" label={t('pendingSuppliers')} count={counts.suppliers} />
-        <QueueCard href="/admin/inquiries" label={t('newInquiries')} count={counts.inquiries} />
+      {/* 처리 대기 큐 — 건수가 있으면 주의 색으로 강조. */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold text-neutral-500">{t('pendingHeading')}</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {queue.map((c) => {
+            const active = c.count > 0;
+            return (
+              <Link
+                key={c.href}
+                href={c.href}
+                className={`flex items-center justify-between rounded-xl border p-5 transition hover:shadow-sm ${
+                  active
+                    ? 'border-amber-300 bg-amber-50 hover:border-amber-400'
+                    : 'border-neutral-200 hover:border-neutral-400'
+                }`}
+              >
+                <span className={`text-sm ${active ? 'text-amber-800' : 'text-neutral-500'}`}>
+                  {c.label}
+                </span>
+                <span className={`text-3xl font-bold ${active ? 'text-amber-700' : 'text-neutral-300'}`}>
+                  {c.count}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </section>
 
+      {/* 플랫폼 현황(집계). */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold text-neutral-500">{t('statsHeading')}</h2>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {overview.map((s) => (
+            <div key={s.label} className="rounded-xl border border-neutral-200 p-5">
+              <div className="text-2xl font-bold tabular-nums">{s.value.toLocaleString()}</div>
+              <div className="text-xs text-neutral-500">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 관리 메뉴. */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {groups.map((g) => (
           <section key={g.heading} className="flex flex-col gap-2 rounded-xl border border-neutral-200 p-5">
@@ -83,17 +134,5 @@ export default async function AdminPage() {
         ))}
       </div>
     </PageShell>
-  );
-}
-
-function QueueCard({ href, label, count }: { href: string; label: string; count: number }) {
-  return (
-    <Link
-      href={href}
-      className="flex flex-col gap-1 rounded-xl border border-neutral-200 p-5 hover:border-neutral-400 hover:shadow-sm"
-    >
-      <span className="text-sm text-neutral-500">{label}</span>
-      <span className="text-3xl font-bold">{count}</span>
-    </Link>
   );
 }
