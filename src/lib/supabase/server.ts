@@ -13,8 +13,16 @@ export async function createClient() {
         return cookieStore.getAll();
       },
       setAll(cookiesToSet) {
+        // '로그인 상태 유지' 해제(auth_remember=0) 시 인증 쿠키(sb-*)를 세션 쿠키로 강등.
+        const sessionOnly = cookieStore.get('auth_remember')?.value === '0';
         try {
-          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+          cookiesToSet.forEach(({ name, value, options }) => {
+            const opts =
+              sessionOnly && name.startsWith('sb-')
+                ? { ...options, maxAge: undefined, expires: undefined }
+                : options;
+            cookieStore.set(name, value, opts);
+          });
         } catch {
           // Server Component 렌더 중 호출되면 쓰기가 막힌다. 세션 갱신은 미들웨어가 담당하므로 무시.
         }

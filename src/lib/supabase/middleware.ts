@@ -13,11 +13,17 @@ export async function updateSession(request: NextRequest) {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet) {
+        // '로그인 상태 유지' 해제(auth_remember=0) 시 인증 쿠키(sb-*)를 세션 쿠키로 강등.
+        const sessionOnly = request.cookies.get('auth_remember')?.value === '0';
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options),
-        );
+        cookiesToSet.forEach(({ name, value, options }) => {
+          const opts =
+            sessionOnly && name.startsWith('sb-')
+              ? { ...options, maxAge: undefined, expires: undefined }
+              : options;
+          response.cookies.set(name, value, opts);
+        });
       },
     },
   });

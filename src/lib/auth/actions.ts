@@ -1,5 +1,6 @@
 'use server';
 // 이메일 가입·로그인·로그아웃 서버 액션. 결과는 폼(useActionState)으로 돌려준다.
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { publicEnv } from '@/lib/env';
@@ -16,10 +17,42 @@ export async function login(_prev: ActionResult | null, formData: FormData): Pro
     return { ok: false, error: 'invalid_input' };
   }
 
+  const remember = formData.get('remember') !== null;
+  const ipSecurity = formData.get('ipSecurity') !== null;
+
+  const secure = process.env.NODE_ENV === 'production';
+  const year = 60 * 60 * 24 * 365;
+  const cookieStore = await cookies();
+
+  // '로그인 상태 유지' 플래그. 해제 시 인증 쿠키를 세션 쿠키로 만든다(server/middleware setAll 이 참조).
+  cookieStore.set('auth_remember', remember ? '1' : '0', {
+    path: '/',
+    httpOnly: true,
+    sameSite: 'lax',
+    secure,
+    ...(remember ? { maxAge: year } : {}),
+  });
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) {
     return { ok: false, error: error.message };
+  }
+
+  // 'IP보안' 켜짐: 현재 IP 를 세션에 고정(proxy 가 요청마다 대조). 꺼짐: 기존 고정 해제.
+  if (ipSecurity) {
+    const ip = (await headers()).get('x-forwarded-for')?.split(',')[0]?.trim();
+    if (ip) {
+      cookieStore.set('auth_ip', ip, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure,
+        ...(remember ? { maxAge: year } : {}),
+      });
+    }
+  } else {
+    cookieStore.delete('auth_ip');
   }
 
   // 로그인 직후 환영 배너를 위한 플래그.
@@ -106,5 +139,8 @@ export async function updatePassword(
 export async function logout(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
+  const cookieStore = await cookies();
+  cookieStore.delete('auth_ip');
+  cookieStore.delete('auth_remember');
   redirect('/');
 }

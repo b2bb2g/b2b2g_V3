@@ -47,7 +47,10 @@
     "newPassword": "새 비밀번호",
     "passwordUpdatedNotice": "비밀번호가 변경되었습니다. 새 비밀번호로 로그인하세요.",
     "emailConfirmedNotice": "이메일이 확인되었습니다. 로그인하세요.",
-    "callbackError": "인증 링크가 만료되었거나 올바르지 않습니다. 다시 시도해주세요."
+    "callbackError": "인증 링크가 만료되었거나 올바르지 않습니다. 다시 시도해주세요.",
+    "keepSignedIn": "로그인 상태 유지",
+    "ipSecurity": "IP보안",
+    "ipChangedNotice": "IP 주소가 변경되어 보안을 위해 로그아웃되었습니다. 다시 로그인해주세요."
   },
   "dashboard": {
     "title": "대시보드",

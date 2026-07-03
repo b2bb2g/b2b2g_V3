@@ -13,6 +13,27 @@ export async function proxy(request: NextRequest) {
   const { response, user, supabase } = await updateSession(request);
   const path = request.nextUrl.pathname;
 
+  // IP보안: 로그인 시 고정한 IP(auth_ip)와 현재 IP 가 다르면 세션 탈취로 보고 로그아웃.
+  if (user) {
+    const boundIp = request.cookies.get('auth_ip')?.value;
+    const currentIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+    if (boundIp && currentIp && currentIp !== boundIp) {
+      await supabase.auth.signOut();
+      const url = request.nextUrl.clone();
+      url.pathname = '/auth/login';
+      url.search = '';
+      url.searchParams.set('status', 'ip_changed');
+      const res = NextResponse.redirect(url);
+      // 인증 쿠키(sb-*)와 보안 플래그를 모두 제거해 세션을 무효화.
+      request.cookies.getAll().forEach((c) => {
+        if (c.name.startsWith('sb-')) res.cookies.delete(c.name);
+      });
+      res.cookies.delete('auth_ip');
+      res.cookies.delete('auth_remember');
+      return res;
+    }
+  }
+
   if (matchesPrefix(path, AUTH_REQUIRED_PREFIXES) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = '/auth/login';

@@ -28,6 +28,26 @@ export function LoginForm() {
         <PasswordInput name="password" autoComplete="current-password" required />
       </label>
 
+      <div className="flex items-center justify-between">
+        <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-neutral-600">
+          <input
+            type="checkbox"
+            name="remember"
+            defaultChecked
+            className="h-4 w-4 rounded border-neutral-300"
+          />
+          <span>{t('keepSignedIn')}</span>
+        </label>
+        <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-neutral-600">
+          <span>{t('ipSecurity')}</span>
+          <input type="checkbox" name="ipSecurity" className="peer sr-only" />
+          <span
+            aria-hidden="true"
+            className="relative h-6 w-11 rounded-full bg-neutral-300 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-emerald-500 peer-checked:after:translate-x-5"
+          />
+        </label>
+      </div>
+
       {state && !state.ok && (
         <p role="alert" className="text-sm text-red-600">
           {t('loginFailed')}

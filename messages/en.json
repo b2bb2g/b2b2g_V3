@@ -47,7 +47,10 @@
     "newPassword": "New password",
     "passwordUpdatedNotice": "Your password has been updated. Sign in with your new password.",
     "emailConfirmedNotice": "Your email has been confirmed. Please sign in.",
-    "callbackError": "The verification link is invalid or has expired. Please try again."
+    "callbackError": "The verification link is invalid or has expired. Please try again.",
+    "keepSignedIn": "Keep me signed in",
+    "ipSecurity": "IP security",
+    "ipChangedNotice": "You were signed out because your IP address changed. Please sign in again."
   },
   "dashboard": {
     "title": "Dashboard",
