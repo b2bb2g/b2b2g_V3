@@ -97,7 +97,9 @@ export async function updatePassword(
     return { ok: false, error: error.message };
   }
 
-  redirect('/dashboard');
+  // 복구 세션을 종료하고, 새 비밀번호로 다시 로그인하도록 안내 배너와 함께 이동.
+  await supabase.auth.signOut();
+  redirect('/auth/login?status=password_updated');
 }
 
 export async function logout(): Promise<void> {

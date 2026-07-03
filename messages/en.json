@@ -44,7 +44,10 @@
     "resetTitle": "Set a new password",
     "resetCta": "Update password",
     "resetFailed": "Could not update the password. The link may have expired.",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "passwordUpdatedNotice": "Your password has been updated. Sign in with your new password.",
+    "emailConfirmedNotice": "Your email has been confirmed. Please sign in.",
+    "callbackError": "The verification link is invalid or has expired. Please try again."
   },
   "dashboard": {
     "title": "Dashboard",
