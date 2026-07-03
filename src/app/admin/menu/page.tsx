@@ -1,27 +1,35 @@
-// 관리자 메인 메뉴 편집(9장). 전 항목 라벨·링크·순서·노출·그룹 변경, 비시스템 추가/삭제.
+// 관리자 메인 메뉴 편집(9장). 메뉴 항목 + 그룹 관리(추가·수정·삭제).
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { listAllMenu } from '@/lib/menu/queries';
-import { deleteMenuItem } from '@/lib/menu/actions';
+import { listAllMenu, listMenuGroups } from '@/lib/menu/queries';
+import { deleteMenuItem, saveMenuGroup, deleteMenuGroup } from '@/lib/menu/actions';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
+
+const input = 'rounded-md border border-neutral-300 px-3 py-2 text-sm';
 
 export default async function AdminMenuPage() {
   const t = await getTranslations('menu');
-  const items = await listAllMenu();
+  const [items, groups] = await Promise.all([listAllMenu(), listMenuGroups()]);
+  const groupLabel = (id: string | null) => groups.find((g) => g.id === id)?.label_en ?? t('groupNone');
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t('manage')}</h1>
-        <Link
-          href="/admin/menu/new"
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
-        >
-          {t('new')}
-        </Link>
-      </div>
+    <PageShell>
+      <PageHeader
+        title={t('manage')}
+        action={
+          <Link
+            href="/admin/menu/new"
+            className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+          >
+            {t('new')}
+          </Link>
+        }
+      />
 
-      <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+      {/* 메뉴 항목 */}
+      <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
         {items.map((it) => (
           <li key={it.id} className="flex items-center justify-between gap-3 px-4 py-3">
             <div className="flex flex-col">
@@ -30,7 +38,7 @@ export default async function AdminMenuPage() {
                 {!it.is_active && <span className="ml-2 text-xs text-neutral-400">({t('hidden')})</span>}
               </span>
               <span className="text-xs text-neutral-500">
-                {t(`group_${it.group}`)} · {it.route}
+                {groupLabel(it.group_id)} · {it.route}
               </span>
             </div>
             <div className="flex items-center gap-3 text-sm">
@@ -51,6 +59,43 @@ export default async function AdminMenuPage() {
           </li>
         ))}
       </ul>
-    </main>
+
+      {/* 그룹 관리 */}
+      <section className="flex flex-col gap-3 rounded-xl border border-neutral-200 p-5">
+        <h2 className="text-sm font-semibold text-neutral-500">{t('groupsHeading')}</h2>
+        <div className="flex flex-col gap-2">
+          {groups.map((g) => (
+            <div key={g.id} className="flex flex-wrap items-center gap-2">
+              <form action={saveMenuGroup} className="flex flex-wrap items-center gap-2">
+                <input type="hidden" name="id" value={g.id} />
+                <input type="text" name="label_en" defaultValue={g.label_en} className={input} />
+                <input type="text" name="label_ko" defaultValue={g.label_ko} className={input} />
+                <input type="number" name="sort_order" defaultValue={g.sort_order} className={`${input} w-20`} />
+                <button type="submit" className="rounded-md border border-neutral-300 px-3 py-1.5 text-xs font-medium">
+                  {t('save')}
+                </button>
+              </form>
+              <ConfirmButton
+                action={deleteMenuGroup.bind(null, g.id)}
+                title={t('groupDeleteConfirm')}
+                confirmLabel={t('delete')}
+                variant="danger"
+              >
+                {t('delete')}
+              </ConfirmButton>
+            </div>
+          ))}
+        </div>
+
+        <form action={saveMenuGroup} className="mt-1 flex flex-wrap items-center gap-2 border-t border-neutral-100 pt-3">
+          <input type="text" name="label_en" required placeholder={t('labelEn')} className={input} />
+          <input type="text" name="label_ko" required placeholder={t('labelKo')} className={input} />
+          <input type="number" name="sort_order" defaultValue={0} className={`${input} w-20`} />
+          <button type="submit" className="rounded-md border border-neutral-300 px-3 py-2 text-sm font-medium">
+            {t('addGroup')}
+          </button>
+        </form>
+      </section>
+    </PageShell>
   );
 }

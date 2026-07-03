@@ -3,7 +3,6 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
-import type { MenuGroup } from '@/lib/supabase/database.types';
 
 export type MenuResult = { ok: true } | { ok: false; error: string };
 
@@ -33,7 +32,7 @@ export async function saveMenuItem(
   const row = {
     label_en: labelEn,
     label_ko: labelKo,
-    group: (formData.get('group') as MenuGroup) || 'info_service',
+    group_id: (formData.get('group_id') as string) || null,
     route,
     sort_order: Number(formData.get('sort_order') ?? 0) || 0,
     is_active: formData.get('is_active') === 'on',
@@ -54,4 +53,31 @@ export async function deleteMenuItem(id: string): Promise<void> {
   await supabase.from('menu_items').delete().eq('id', id).eq('is_system', false);
   revalidatePath('/admin/menu');
   redirect('/admin/menu');
+}
+
+// ── 메뉴 그룹 관리 ──────────────────────────────────────────────────────────
+export async function saveMenuGroup(formData: FormData): Promise<void> {
+  const supabase = await requireAdmin();
+  if (!supabase) return;
+  const labelEn = String(formData.get('label_en') ?? '').trim();
+  const labelKo = String(formData.get('label_ko') ?? '').trim();
+  if (!labelEn || !labelKo) return;
+  const id = (formData.get('id') as string) || null;
+  const row = { label_en: labelEn, label_ko: labelKo, sort_order: Number(formData.get('sort_order') ?? 0) || 0 };
+  if (id) await supabase.from('menu_groups').update(row).eq('id', id);
+  else await supabase.from('menu_groups').insert(row);
+  revalidatePath('/admin/menu');
+}
+
+export async function deleteMenuGroup(id: string): Promise<void> {
+  const supabase = await requireAdmin();
+  if (!supabase) return;
+  // 연결된 메뉴 항목이 있으면 삭제 차단(그룹 미지정으로 남기지 않도록). 없을 때만 삭제.
+  const { count } = await supabase
+    .from('menu_items')
+    .select('id', { count: 'exact', head: true })
+    .eq('group_id', id);
+  if ((count ?? 0) > 0) return;
+  await supabase.from('menu_groups').delete().eq('id', id);
+  revalidatePath('/admin/menu');
 }

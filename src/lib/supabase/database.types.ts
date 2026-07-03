@@ -178,13 +178,20 @@ export type ShortLinkRow = {
   created_at: string;
 };
 
-export type MenuGroup = 'product' | 'project_request' | 'info_service';
+export type MenuGroupRow = {
+  id: string;
+  label_en: string;
+  label_ko: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
 
 export type MenuItemRow = {
   id: string;
   label_en: string;
   label_ko: string;
-  group: MenuGroup;
+  group_id: string | null;
   route: string;
   sort_order: number;
   is_active: boolean;
@@ -636,6 +643,12 @@ export type Database = {
         Update: Partial<MenuItemRow>;
         Relationships: [];
       };
+      menu_groups: {
+        Row: MenuGroupRow;
+        Insert: Insertable<MenuGroupRow, 'label_en' | 'label_ko'>;
+        Update: Partial<MenuGroupRow>;
+        Relationships: [];
+      };
       services: {
         Row: ServiceRow;
         Insert: Insertable<ServiceRow, 'title'>;
@@ -750,7 +763,6 @@ export type Database = {
       request_response_status: RequestResponseStatus;
       board_owner_type: BoardOwnerType;
       attachment_kind: AttachmentKind;
-      menu_group: MenuGroup;
       short_link_target: ShortLinkTarget;
       banner_placement: BannerPlacement;
       popup_content_type: PopupContentType;

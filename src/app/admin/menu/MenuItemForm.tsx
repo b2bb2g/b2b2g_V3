@@ -3,13 +3,12 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { saveMenuItem, type MenuResult } from '@/lib/menu/actions';
-import type { MenuItemRow, MenuGroup } from '@/lib/supabase/database.types';
+import type { MenuGroupRow, MenuItemRow } from '@/lib/supabase/database.types';
 import { FormButton } from '@/components/ui/FormButton';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
-const GROUPS: MenuGroup[] = ['product', 'project_request', 'info_service'];
 
-export function MenuItemForm({ item }: { item?: MenuItemRow }) {
+export function MenuItemForm({ item, groups }: { item?: MenuItemRow; groups: MenuGroupRow[] }) {
   const t = useTranslations('menu');
   const [state, formAction] = useActionState<MenuResult | null, FormData>(saveMenuItem, null);
 
@@ -36,10 +35,11 @@ export function MenuItemForm({ item }: { item?: MenuItemRow }) {
       <div className="grid grid-cols-2 gap-4">
         <label className="flex flex-col gap-1 text-sm">
           <span>{t('group')}</span>
-          <select name="group" defaultValue={item?.group ?? 'info_service'} className={input}>
-            {GROUPS.map((g) => (
-              <option key={g} value={g}>
-                {t(`group_${g}`)}
+          <select name="group_id" defaultValue={item?.group_id ?? ''} className={input}>
+            <option value="">{t('groupNone')}</option>
+            {groups.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.label_en} / {g.label_ko}
               </option>
             ))}
           </select>

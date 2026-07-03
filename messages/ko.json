@@ -472,7 +472,11 @@
     "saveFailed": "저장하지 못했습니다. 다시 시도해주세요.",
     "group_product": "제품",
     "group_project_request": "프로젝트 & 요청",
-    "group_info_service": "정보 & 서비스"
+    "group_info_service": "정보 & 서비스",
+    "groupNone": "(그룹 없음)",
+    "groupsHeading": "메뉴 그룹",
+    "groupDeleteConfirm": "이 그룹을 삭제할까요? (사용 중인 메뉴가 있으면 삭제되지 않습니다)",
+    "addGroup": "그룹 추가"
   },
   "services": {
     "title": "서비스",

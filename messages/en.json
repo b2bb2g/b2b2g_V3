@@ -472,7 +472,11 @@
     "saveFailed": "Could not save. Please try again.",
     "group_product": "Products",
     "group_project_request": "Projects & Requests",
-    "group_info_service": "Info & Services"
+    "group_info_service": "Info & Services",
+    "groupNone": "(no group)",
+    "groupsHeading": "Menu groups",
+    "groupDeleteConfirm": "Delete this group? (blocked if menu items use it)",
+    "addGroup": "Add group"
   },
   "services": {
     "title": "Services",
