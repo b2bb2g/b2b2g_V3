@@ -68,9 +68,13 @@
 - [x] e2e·RLS 실검증 7종 PASS(소유 격리·draft 비공개·검토제출·listed 공개)
 - 사업자등록증 파일은 슬라이스 2.3(Storage)로
 
-### 슬라이스 2.3: 미디어 업로드 + 인증/수상
-- [ ] Supabase Storage 버킷·정책, product_media 업로드(이미지·대표이미지)
-- [ ] product_certifications 입력
+### 슬라이스 2.3: 미디어 업로드 + 공급사 미니홈 (완료)
+- [x] Storage 버킷(product-media)·정책(공개읽기, 소유자 경로 업로드/삭제)
+- [x] 제품 이미지 업로드·대표지정·삭제(브라우저→Storage + 메타 서버액션)
+- [x] 목록/상세/미니홈 이미지 표시, /suppliers/[id] 미니홈
+- [x] Storage e2e 4종 PASS(소유자 업로드·남의경로 차단·공개읽기·메타 RLS)
+- [ ] product_certifications 입력 UI — 후속(간단, 필요 시)
+- 참고: 버킷 용량·mime 제한은 후속 하드닝(현재 클라 검증 5MB·image/*)
 
 ### 슬라이스 2.4: 관리자 승인 + 공개 노출 (완료)
 - [x] 관리자 제품 노출 승인 큐(pending→listed/rejected), 승인/반려 액션
