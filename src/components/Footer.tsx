@@ -6,6 +6,7 @@ import { CookieSettingsButton } from './CookieSettingsButton';
 export async function Footer() {
   const t = await getTranslations('legal');
   const tc = await getTranslations('content');
+  const te = await getTranslations('events');
 
   return (
     <footer className="border-t border-neutral-200 px-6 py-6 text-sm text-neutral-500">
@@ -15,6 +16,9 @@ export async function Footer() {
         </Link>
         <Link href="/faq" className="underline">
           {tc('faq')}
+        </Link>
+        <Link href="/events" className="underline">
+          {te('title')}
         </Link>
         <Link href="/legal/terms" className="underline">
           {t('terms')}

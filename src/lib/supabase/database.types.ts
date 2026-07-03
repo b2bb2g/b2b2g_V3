@@ -23,6 +23,40 @@ export type EmailStatus = 'queued' | 'sent' | 'failed';
 export type LegalDocType = 'terms' | 'privacy' | 'cookie_policy';
 
 export type ContentStatus = 'draft' | 'published' | 'closed';
+export type EventCategory = 'trade_fair' | 'buyer_matching' | 'briefing' | 'corporate' | 'etc';
+export type EventParticipation = 'open' | 'closed' | 'ended';
+export type RegistrationStatus = 'applied' | 'confirmed' | 'cancelled';
+
+export type EventRow = {
+  id: string;
+  author_id: string | null;
+  category: EventCategory;
+  name: string;
+  body: string;
+  cover_image: string | null;
+  venue: string | null;
+  location: string | null;
+  country: string | null;
+  starts_at: string | null;
+  ends_at: string | null;
+  booth_info: string | null;
+  external_link: string | null;
+  participation_status: EventParticipation;
+  status: ContentStatus;
+  is_pinned: boolean;
+  registration_enabled: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type EventRegistrationRow = {
+  id: string;
+  event_id: string;
+  profile_id: string;
+  status: RegistrationStatus;
+  note: string | null;
+  created_at: string;
+};
 
 export type NoticeRow = {
   id: string;
@@ -353,6 +387,18 @@ export type Database = {
         Update: Partial<FaqRow>;
         Relationships: [];
       };
+      events: {
+        Row: EventRow;
+        Insert: Insertable<EventRow, 'name'>;
+        Update: Partial<EventRow>;
+        Relationships: [];
+      };
+      event_registrations: {
+        Row: EventRegistrationRow;
+        Insert: Insertable<EventRegistrationRow, 'event_id' | 'profile_id'>;
+        Update: Partial<EventRegistrationRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -405,6 +451,9 @@ export type Database = {
       message_visibility: MessageVisibility;
       audit_action: AuditAction;
       content_status: ContentStatus;
+      event_category: EventCategory;
+      event_participation: EventParticipation;
+      registration_status: RegistrationStatus;
     };
     CompositeTypes: {
       [_ in never]: never;
