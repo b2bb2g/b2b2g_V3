@@ -9,6 +9,8 @@ export default async function AdminPage() {
   const te = await getTranslations('events');
   const tp = await getTranslations('epc');
   const tr = await getTranslations('requests');
+  const tm = await getTranslations('menu');
+  const tsv = await getTranslations('services');
   const counts = await approvalCounts();
 
   return (
@@ -55,6 +57,12 @@ export default async function AdminPage() {
         </Link>
         <Link href="/admin/requests" className="underline">
           {tr('manage')}
+        </Link>
+        <Link href="/admin/services" className="underline">
+          {tsv('manage')}
+        </Link>
+        <Link href="/admin/menu" className="underline">
+          {tm('manage')}
         </Link>
       </div>
     </main>

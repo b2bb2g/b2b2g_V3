@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
+import { MainNav } from '@/components/MainNav';
 import { Footer } from '@/components/Footer';
 import { CookieConsent } from '@/components/CookieConsent';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <NextIntlClientProvider messages={messages}>
           <ToastProvider>
+            <MainNav />
             {children}
             <Footer />
             <CookieConsent />

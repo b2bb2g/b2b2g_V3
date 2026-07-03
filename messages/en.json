@@ -402,5 +402,43 @@
     "kind_video_file": "video",
     "kind_video_link": "video link",
     "kind_file": "file"
+  },
+  "menu": {
+    "manage": "Main menu",
+    "new": "Add menu item",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Remove this menu item?",
+    "hidden": "hidden",
+    "labelEn": "Label (English)",
+    "labelKo": "Label (Korean)",
+    "route": "Link (path)",
+    "group": "Group",
+    "sortOrder": "Order",
+    "isActive": "Show in menu",
+    "save": "Save",
+    "saveFailed": "Could not save. Please try again.",
+    "group_product": "Products",
+    "group_project_request": "Projects & Requests",
+    "group_info_service": "Info & Services"
+  },
+  "services": {
+    "title": "Services",
+    "empty": "No services yet.",
+    "manage": "Manage services",
+    "new": "New service",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this service?",
+    "back": "Back to list",
+    "fieldTitle": "Title",
+    "fieldSummary": "Summary",
+    "fieldBody": "Details",
+    "fieldStatus": "Status",
+    "fieldSortOrder": "Order",
+    "statusDraft": "Draft",
+    "statusPublished": "Published",
+    "save": "Save",
+    "saveFailed": "Could not save. Please try again."
   }
 }

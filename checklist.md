@@ -172,7 +172,10 @@
 - [ ] (후속) WYSIWYG 리치텍스트 툴바(TipTap 등) — 라이브러리 도입 + 시각 QA 필요
 
 ### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
-- [ ] 관리자 메뉴 편집(라벨·링크·순서·노출·그룹), 서비스 카탈로그
+- [x] menu_items + services + menu_group enum + RLS + 기본 메뉴 7종 시드
+- [x] 동적 MainNav(로케일별 라벨, 레이아웃 상단), 관리자 메뉴 편집(라벨/링크/순서/노출/그룹, 시스템 삭제방지)
+- [x] 서비스 공개 /services·/services/[id], 관리자 CRUD, 관리자 콘솔 링크
+- [x] menu·services i18n(en/ko), 프로덕션 적용·RLS 검증(시드 공개·insert 42501 차단), 빌드 통과
 
 ### 슬라이스 4.7: 공유 단축 URL + QR(short_links)
 - [ ] 제품 공유·추천가입 단축링크·QR, 클릭 추적

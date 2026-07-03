@@ -109,6 +109,34 @@ export type PublicProductRequestRow = {
   buyer_verified: boolean;
 };
 
+export type MenuGroup = 'product' | 'project_request' | 'info_service';
+
+export type MenuItemRow = {
+  id: string;
+  label_en: string;
+  label_ko: string;
+  group: MenuGroup;
+  route: string;
+  sort_order: number;
+  is_active: boolean;
+  is_system: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ServiceRow = {
+  id: string;
+  author_id: string | null;
+  title: string;
+  summary: string | null;
+  body: string;
+  cover_image: string | null;
+  status: ContentStatus;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type BoardOwnerType =
   | 'notice'
   | 'faq'
@@ -523,6 +551,18 @@ export type Database = {
         Update: Partial<BoardAttachmentRow>;
         Relationships: [];
       };
+      menu_items: {
+        Row: MenuItemRow;
+        Insert: Insertable<MenuItemRow, 'label_en' | 'label_ko' | 'route'>;
+        Update: Partial<MenuItemRow>;
+        Relationships: [];
+      };
+      services: {
+        Row: ServiceRow;
+        Insert: Insertable<ServiceRow, 'title'>;
+        Update: Partial<ServiceRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -592,6 +632,7 @@ export type Database = {
       request_response_status: RequestResponseStatus;
       board_owner_type: BoardOwnerType;
       attachment_kind: AttachmentKind;
+      menu_group: MenuGroup;
     };
     CompositeTypes: {
       [_ in never]: never;

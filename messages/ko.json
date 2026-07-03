@@ -402,5 +402,43 @@
     "kind_video_file": "동영상",
     "kind_video_link": "동영상 링크",
     "kind_file": "파일"
+  },
+  "menu": {
+    "manage": "메인 메뉴",
+    "new": "메뉴 추가",
+    "edit": "수정",
+    "delete": "삭제",
+    "deleteConfirm": "이 메뉴 항목을 삭제할까요?",
+    "hidden": "숨김",
+    "labelEn": "표시명(영어)",
+    "labelKo": "표시명(한국어)",
+    "route": "연결 링크(경로)",
+    "group": "그룹",
+    "sortOrder": "순서",
+    "isActive": "메뉴에 노출",
+    "save": "저장",
+    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요.",
+    "group_product": "제품",
+    "group_project_request": "프로젝트 & 요청",
+    "group_info_service": "정보 & 서비스"
+  },
+  "services": {
+    "title": "서비스",
+    "empty": "등록된 서비스가 없습니다.",
+    "manage": "서비스 관리",
+    "new": "새 서비스",
+    "edit": "수정",
+    "delete": "삭제",
+    "deleteConfirm": "이 서비스를 삭제할까요?",
+    "back": "목록으로",
+    "fieldTitle": "제목",
+    "fieldSummary": "요약",
+    "fieldBody": "상세 내용",
+    "fieldStatus": "상태",
+    "fieldSortOrder": "순서",
+    "statusDraft": "초안",
+    "statusPublished": "공개",
+    "save": "저장",
+    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요."
   }
 }
