@@ -45,6 +45,17 @@ export async function getMemberDetail(id: string): Promise<ProfileRow | null> {
   return data;
 }
 
+// 최근 관리자 활동(감사로그) — 대시보드 활동 피드용.
+export async function listRecentAuditLogs(limit = 8): Promise<AdminAuditLogRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('admin_audit_logs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  return data ?? [];
+}
+
 export async function listMemberAuditLogs(profileId: string): Promise<AdminAuditLogRow[]> {
   const supabase = await createClient();
   const { data } = await supabase

@@ -365,7 +365,10 @@
     "unlistConfirm": "Unlist this product from the public catalog?",
     "uncategorized": "Uncategorized",
     "edit": "Edit",
-    "editProduct": "Edit product"
+    "editProduct": "Edit product",
+    "dashboard": "Dashboard",
+    "recentActivity": "Recent activity",
+    "noActivity": "No recent activity."
   },
   "epc": {
     "title": "EPC Projects",
