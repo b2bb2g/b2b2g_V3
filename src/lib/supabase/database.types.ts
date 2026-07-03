@@ -689,6 +689,10 @@ export type Database = {
         Args: { ot: BoardOwnerType; oid: string };
         Returns: boolean;
       };
+      board_owner_editable: {
+        Args: { ot: BoardOwnerType; oid: string };
+        Returns: boolean;
+      };
       resolve_short_link: {
         Args: { p_slug: string };
         Returns: { target_type: ShortLinkTarget; target_id: string | null; ref_code: string | null }[];

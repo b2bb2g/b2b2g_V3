@@ -2,32 +2,11 @@
 // 공급사 회사정보 저장 + 제품 초안 CRUD·검토제출 서버 액션. 미디어는 슬라이스 2.3.
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import type { ProductInsert, ProductUpdate } from '@/lib/supabase/database.types';
-import { companyProfileSchema, productSchema, type ProductInput } from './schema';
+import type { ProductUpdate } from '@/lib/supabase/database.types';
+import { companyProfileSchema, productSchema } from './schema';
+import { toProductColumns } from './product-columns';
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
-
-// ProductInput → DB 컬럼 매핑(단일 지점).
-function toProductColumns(input: ProductInput): Omit<ProductInsert, 'supplier_id'> {
-  return {
-    title: input.title,
-    description: input.description ?? null,
-    detail_body: input.detailBody ?? null,
-    category_id: input.categoryId ?? null,
-    price: input.price ?? null,
-    price_visible: input.priceVisible,
-    moq: input.moq ?? null,
-    moq_unit: input.moqUnit ?? null,
-    lead_time_min: input.leadTimeMin ?? null,
-    lead_time_max: input.leadTimeMax ?? null,
-    freight_type: input.freightType ?? null,
-    transport_modes: input.transportModes ?? null,
-    ship_from: input.shipFrom ?? null,
-    payment_terms: input.paymentTerms ?? null,
-    hs_code: input.hsCode ?? null,
-    keywords: input.keywords ?? null,
-  };
-}
 
 async function currentSupplierId(): Promise<string | null> {
   const supabase = await createClient();

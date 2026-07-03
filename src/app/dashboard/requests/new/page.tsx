@@ -18,7 +18,8 @@ export default async function NewRequestPage() {
     .select('role')
     .eq('id', user.id)
     .single();
-  if (profile?.role !== 'buyer' && profile?.role !== 'agent') redirect('/dashboard');
+  if (profile?.role !== 'buyer' && profile?.role !== 'agent' && profile?.role !== 'admin')
+    redirect('/dashboard');
 
   const categories = await listActiveCategories();
 

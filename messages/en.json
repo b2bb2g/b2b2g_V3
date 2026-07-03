@@ -176,7 +176,9 @@
     "inquiryInboxEmpty": "No inquiries yet.",
     "reply": "Reply",
     "replyPlaceholder": "Write your reply",
-    "replyFailed": "Could not send reply."
+    "replyFailed": "Could not send reply.",
+    "fieldSupplier": "Supplier",
+    "selectSupplier": "Select a supplier"
   },
   "events": {
     "title": "Events",
@@ -301,7 +303,9 @@
     "auditLog": "Change history",
     "backToMembers": "Back to members",
     "allRoles": "All roles",
-    "allStatuses": "All statuses"
+    "allStatuses": "All statuses",
+    "createProduct": "Create product",
+    "createRequest": "Create sourcing request"
   },
   "epc": {
     "title": "EPC Projects",

@@ -6,6 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { getProductDetail } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { ShareWidget } from '@/components/ShareWidget';
+import { BoardAttachments } from '@/components/BoardAttachments';
 import { InquiryForm } from './InquiryForm';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -95,6 +96,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
         {isMember && full && <InquiryForm productId={base.id} />}
       </section>
+
+      <BoardAttachments ownerType="product" ownerId={base.id} />
 
       <ShareWidget targetType="product" targetId={base.id} />
     </main>

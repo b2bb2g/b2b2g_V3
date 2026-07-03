@@ -59,6 +59,12 @@ export default async function AdminPage() {
         <Link href="/admin/requests" className="underline">
           {tr('manage')}
         </Link>
+        <Link href="/admin/products/new" className="underline">
+          {t('createProduct')}
+        </Link>
+        <Link href="/dashboard/requests/new" className="underline">
+          {t('createRequest')}
+        </Link>
         <Link href="/admin/services" className="underline">
           {tsv('manage')}
         </Link>

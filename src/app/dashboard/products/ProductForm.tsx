@@ -15,10 +15,12 @@ export function ProductForm({
   categories,
   product,
   action,
+  suppliers,
 }: {
   categories: Category[];
   product?: ProductRow;
   action: ProductFormAction;
+  suppliers?: { id: string; company_name: string }[];
 }) {
   const t = useTranslations('supplier');
   const tu = useTranslations('ui');
@@ -26,6 +28,21 @@ export function ProductForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      {suppliers && (
+        <Field label={t('fieldSupplier')}>
+          <select name="supplier_id" required defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              {t('selectSupplier')}
+            </option>
+            {suppliers.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.company_name}
+              </option>
+            ))}
+          </select>
+        </Field>
+      )}
+
       <Field label={t('fieldTitle')}>
         <input
           type="text"

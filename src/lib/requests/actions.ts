@@ -30,7 +30,8 @@ export async function createRequest(
     .select('role')
     .eq('id', user.id)
     .single();
-  if (profile?.role !== 'buyer' && profile?.role !== 'agent') {
+  // 바이어·에이전트 + 관리자(모든 글 작성 가능).
+  if (profile?.role !== 'buyer' && profile?.role !== 'agent' && profile?.role !== 'admin') {
     return { ok: false, error: 'forbidden' };
   }
 

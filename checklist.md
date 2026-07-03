@@ -168,8 +168,11 @@
 - [x] 공통 표시 컴포넌트(인라인 이미지·영상·YouTube/Vimeo 임베드 화이트리스트·첨부목록)
 - [x] 관리자 공통 업로더(파일 업로드·영상링크·삭제), EPC 편집에 연결, EPC·RFQ 상세에 표시
 - [x] attachments i18n(en/ko), 빌드·tsc·eslint 통과
-- [ ] (후속) 나머지 보드(공지·FAQ·행사)에 표시/업로더 연결 — 동일 컴포넌트 재사용
+- [x] 나머지 보드(공지·FAQ·행사) 업로더/표시 연결, 제품·RFQ 작성자 본인 첨부(owner-write RLS)
+- [x] board_owner_editable() 함수 + board_attachments_write 정책(관리자 or 작성자 본인)
+- [x] 관리자 제품 작성(/admin/products/new, 공급사 선택) + 관리자 RFQ 작성 허용
 - [ ] (후속) WYSIWYG 리치텍스트 툴바(TipTap 등) — 라이브러리 도입 + 시각 QA 필요
+- [ ] (후속) 추천가입 QR — profiles.referral_code 필드 설계 필요(현재 미구현)
 
 ### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
 - [x] menu_items + services + menu_group enum + RLS + 기본 메뉴 7종 시드

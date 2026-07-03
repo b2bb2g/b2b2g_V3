@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
-import { getPublicRequest, getMyResponse } from '@/lib/requests/queries';
+import { getPublicRequest, getMyResponse, getRequest } from '@/lib/requests/queries';
 import { getMySupplier } from '@/lib/supplier/queries';
+import { getAttachments } from '@/lib/attachments/queries';
 import { formatBudget } from '@/lib/requests/labels';
 import { BoardAttachments } from '@/components/BoardAttachments';
+import { AttachmentManager } from '@/components/AttachmentManager';
 import { RespondForm } from './RespondForm';
 
 export default async function RequestDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -21,6 +23,10 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
   } = await supabase.auth.getUser();
   const supplier = user ? await getMySupplier() : null;
   const myResponse = supplier ? await getMyResponse(id) : null;
+  // 원본이 RLS 로 조회되면(작성자 본인 또는 관리자) 첨부 업로더 노출.
+  const ownRow = user ? await getRequest(id) : null;
+  const canEdit = !!ownRow;
+  const attachments = canEdit ? await getAttachments('product_request', id) : [];
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
@@ -49,6 +55,15 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
       )}
 
       <BoardAttachments ownerType="product_request" ownerId={request.id} />
+
+      {canEdit && user && (
+        <AttachmentManager
+          ownerType="product_request"
+          ownerId={id}
+          userId={user.id}
+          attachments={attachments}
+        />
+      )}
 
       <section className="rounded-lg border border-neutral-200 p-4">
         {!user ? (
