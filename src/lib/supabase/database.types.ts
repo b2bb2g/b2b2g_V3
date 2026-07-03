@@ -22,6 +22,11 @@ export type EmailStatus = 'queued' | 'sent' | 'failed';
 
 export type LegalDocType = 'terms' | 'privacy' | 'cookie_policy';
 
+export type SupplierTier = 'free' | 'paid';
+export type ProductStatus = 'draft' | 'pending' | 'listed' | 'rejected';
+export type ProductMediaType = 'image' | 'video_link' | 'catalog_pdf';
+export type ProductCertType = 'certification' | 'award';
+
 // interface 가 아닌 type 로 선언해야 Record<string, unknown>(GenericTable) 제약을 만족한다.
 export type ProfileRow = {
   id: string;
@@ -98,6 +103,75 @@ export type CookieConsentRow = {
 export type CookieConsentInsert = Omit<CookieConsentRow, 'id' | 'consented_at' | 'necessary'> &
   Partial<Pick<CookieConsentRow, 'id' | 'consented_at' | 'necessary'>>;
 
+export type SupplierRow = {
+  id: string;
+  profile_id: string;
+  company_name: string;
+  biz_reg_file: string | null;
+  tier: SupplierTier;
+  verified: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CategoryRow = {
+  id: string;
+  name: string;
+  parent_id: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductRow = {
+  id: string;
+  supplier_id: string;
+  title: string;
+  description: string | null;
+  detail_body: string | null;
+  category_id: string | null;
+  price: number | null;
+  price_visible: boolean;
+  moq: number | null;
+  moq_unit: string | null;
+  lead_time_min: number | null;
+  lead_time_max: number | null;
+  freight_type: string | null;
+  transport_modes: string | null;
+  ship_from: string | null;
+  payment_terms: string | null;
+  hs_code: string | null;
+  keywords: string | null;
+  status: ProductStatus;
+  is_featured: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductMediaRow = {
+  id: string;
+  product_id: string;
+  type: ProductMediaType;
+  url: string;
+  is_primary: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductCertificationRow = {
+  id: string;
+  product_id: string;
+  type: ProductCertType;
+  name: string;
+  file: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type Insertable<Row, Required extends keyof Row> = Partial<Row> & Pick<Row, Required>;
+
 export type Database = {
   public: {
     Tables: {
@@ -125,6 +199,36 @@ export type Database = {
         Update: Partial<CookieConsentRow>;
         Relationships: [];
       };
+      suppliers: {
+        Row: SupplierRow;
+        Insert: Insertable<SupplierRow, 'profile_id' | 'company_name'>;
+        Update: Partial<SupplierRow>;
+        Relationships: [];
+      };
+      categories: {
+        Row: CategoryRow;
+        Insert: Insertable<CategoryRow, 'name'>;
+        Update: Partial<CategoryRow>;
+        Relationships: [];
+      };
+      products: {
+        Row: ProductRow;
+        Insert: Insertable<ProductRow, 'supplier_id' | 'title'>;
+        Update: Partial<ProductRow>;
+        Relationships: [];
+      };
+      product_media: {
+        Row: ProductMediaRow;
+        Insert: Insertable<ProductMediaRow, 'product_id' | 'url'>;
+        Update: Partial<ProductMediaRow>;
+        Relationships: [];
+      };
+      product_certifications: {
+        Row: ProductCertificationRow;
+        Insert: Insertable<ProductCertificationRow, 'product_id' | 'type' | 'name'>;
+        Update: Partial<ProductCertificationRow>;
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -134,6 +238,10 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
       };
+      owns_supplier: {
+        Args: { target: string };
+        Returns: boolean;
+      };
     };
     Enums: {
       user_role: UserRole;
@@ -141,6 +249,10 @@ export type Database = {
       email_template: EmailTemplate;
       email_status: EmailStatus;
       legal_doc_type: LegalDocType;
+      supplier_tier: SupplierTier;
+      product_status: ProductStatus;
+      product_media_type: ProductMediaType;
+      product_cert_type: ProductCertType;
     };
     CompositeTypes: {
       [_ in never]: never;
