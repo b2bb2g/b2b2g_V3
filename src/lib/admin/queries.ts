@@ -1,11 +1,49 @@
 // 관리자 승인 큐 조회. RLS 로 admin 만 전체 접근 가능(is_admin). 임베딩 대신 분리조회+병합.
 import { createClient } from '@/lib/supabase/server';
 import type {
+  AdminAuditLogRow,
   InquiryMessageRow,
   InquiryRow,
   ProductRow,
   ProfileRow,
 } from '@/lib/supabase/database.types';
+
+export async function listMembers(filter?: {
+  role?: string;
+  status?: string;
+  q?: string;
+}): Promise<Pick<ProfileRow, 'id' | 'display_name' | 'email' | 'role' | 'status'>[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from('profiles')
+    .select('id, display_name, email, role, status')
+    .order('created_at', { ascending: false })
+    .limit(200);
+  if (filter?.role) query = query.eq('role', filter.role as ProfileRow['role']);
+  if (filter?.status) query = query.eq('status', filter.status as ProfileRow['status']);
+  const safe = filter?.q?.replace(/[,()%\\*]/g, ' ').trim();
+  if (safe) query = query.or(`display_name.ilike.%${safe}%,email.ilike.%${safe}%`);
+  const { data } = await query;
+  return data ?? [];
+}
+
+export async function getMemberDetail(id: string): Promise<ProfileRow | null> {
+  const supabase = await createClient();
+  const { data } = await supabase.from('profiles').select('*').eq('id', id).maybeSingle();
+  return data;
+}
+
+export async function listMemberAuditLogs(profileId: string): Promise<AdminAuditLogRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('admin_audit_logs')
+    .select('*')
+    .eq('target_table', 'profiles')
+    .eq('target_id', profileId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+  return data ?? [];
+}
 
 export type PendingProduct = Pick<ProductRow, 'id' | 'title' | 'created_at'> & {
   companyName: string | null;

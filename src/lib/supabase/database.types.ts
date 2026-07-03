@@ -207,6 +207,20 @@ export type SupplierInquiryRow = {
   updated_at: string;
 };
 
+export type AuditAction =
+  'create' | 'update' | 'approve' | 'reject' | 'suspend' | 'delete' | 'role_change';
+
+export type AdminAuditLogRow = {
+  id: string;
+  admin_id: string | null;
+  target_table: string;
+  target_id: string | null;
+  action: AuditAction;
+  before: Record<string, unknown> | null;
+  after: Record<string, unknown> | null;
+  created_at: string;
+};
+
 export type NotificationRow = {
   id: string;
   profile_id: string;
@@ -296,6 +310,12 @@ export type Database = {
         Update: Partial<NotificationRow>;
         Relationships: [];
       };
+      admin_audit_logs: {
+        Row: AdminAuditLogRow;
+        Insert: Insertable<AdminAuditLogRow, 'target_table' | 'action'>;
+        Update: Partial<AdminAuditLogRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -346,6 +366,7 @@ export type Database = {
       inquiry_status: InquiryStatus;
       message_author_role: MessageAuthorRole;
       message_visibility: MessageVisibility;
+      audit_action: AuditAction;
     };
     CompositeTypes: {
       [_ in never]: never;

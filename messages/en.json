@@ -214,6 +214,17 @@
     "visibleAll": "Shared (buyer & supplier relay)",
     "visibleAdminOnly": "Internal note (admin only)",
     "internalTag": "internal",
-    "backToInquiries": "Back to inquiries"
+    "backToInquiries": "Back to inquiries",
+    "members": "Members",
+    "manageMembers": "Manage members",
+    "searchMembers": "Search by name or email",
+    "role": "Role",
+    "status": "Status",
+    "memo": "Internal memo",
+    "save": "Save",
+    "auditLog": "Change history",
+    "backToMembers": "Back to members",
+    "allRoles": "All roles",
+    "allStatuses": "All statuses"
   }
 }

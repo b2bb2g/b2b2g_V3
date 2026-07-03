@@ -214,6 +214,17 @@
     "visibleAll": "공유(바이어·공급사 중계)",
     "visibleAdminOnly": "내부 메모(관리자만)",
     "internalTag": "내부",
-    "backToInquiries": "문의 목록으로"
+    "backToInquiries": "문의 목록으로",
+    "members": "회원",
+    "manageMembers": "회원 관리",
+    "searchMembers": "이름·이메일 검색",
+    "role": "역할",
+    "status": "상태",
+    "memo": "내부 메모",
+    "save": "저장",
+    "auditLog": "변경 이력",
+    "backToMembers": "회원 목록으로",
+    "allRoles": "전체 역할",
+    "allStatuses": "전체 상태"
   }
 }

@@ -33,6 +33,9 @@ export default async function AdminPage() {
           />
         </div>
       </section>
+      <Link href="/admin/members" className="w-fit text-sm underline">
+        {t('manageMembers')}
+      </Link>
     </main>
   );
 }
