@@ -299,8 +299,16 @@ export type ProfileRow = {
   last_login_at: string | null;
   created_by: string | null;
   referral_code: string;
+  referred_by: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type AgentBuyerRow = {
+  id: string;
+  display_name: string;
+  status: UserStatus;
+  created_at: string;
 };
 
 export type ProfileInsert = Omit<ProfileRow, 'created_at' | 'updated_at'> &
@@ -666,6 +674,10 @@ export type Database = {
       };
       public_product_requests: {
         Row: PublicProductRequestRow;
+        Relationships: [];
+      };
+      agent_buyers: {
+        Row: AgentBuyerRow;
         Relationships: [];
       };
       supplier_inquiry_messages: {

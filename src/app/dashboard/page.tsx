@@ -40,6 +40,9 @@ export default async function DashboardPage() {
       { href: '/dashboard/requests', title: tn('myRequests'), desc: t('cardRequests') },
     );
   }
+  if (profile.role === 'agent') {
+    cards.push({ href: '/dashboard/my-buyers', title: tn('myBuyers'), desc: t('cardBuyers') });
+  }
   if (profile.role === 'admin') {
     cards.push({ href: '/admin', title: tn('adminConsole'), desc: t('cardAdmin') });
   }

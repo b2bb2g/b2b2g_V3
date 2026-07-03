@@ -74,7 +74,8 @@
     "cardInquiries": "Track inquiries you've sent to suppliers.",
     "cardRequests": "Your sourcing requests and their status.",
     "cardAdmin": "Manage members, content, and marketing.",
-    "cardNotifications": "Approvals, replies, and updates."
+    "cardNotifications": "Approvals, replies, and updates.",
+    "cardBuyers": "Buyers who joined via your referral."
   },
   "legal": {
     "terms": "Terms of Service",
@@ -560,6 +561,18 @@
     "role_admin": "Administrator",
     "member": "Member",
     "language": "Language",
-    "menu": "Menu"
+    "menu": "Menu",
+    "myBuyers": "My buyers"
+  },
+  "buyers": {
+    "title": "My buyers",
+    "intro": "Buyers who signed up through your referral link.",
+    "empty": "No buyers yet. Share your referral link to invite buyers.",
+    "privacyNote": "Contact and deal amounts are handled by our team. This list shows basic status only.",
+    "status_pending": "Pending",
+    "status_approved": "Approved",
+    "status_rejected": "Rejected",
+    "status_suspended": "Suspended",
+    "status_withdrawn": "Withdrawn"
   }
 }

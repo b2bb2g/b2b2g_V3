@@ -74,7 +74,8 @@
     "cardInquiries": "공급사에 보낸 문의를 추적합니다.",
     "cardRequests": "내 소싱 요청과 상태를 확인합니다.",
     "cardAdmin": "회원·콘텐츠·마케팅을 관리합니다.",
-    "cardNotifications": "승인·회신·업데이트 알림입니다."
+    "cardNotifications": "승인·회신·업데이트 알림입니다.",
+    "cardBuyers": "내 추천으로 가입한 바이어입니다."
   },
   "legal": {
     "terms": "이용약관",
@@ -560,6 +561,18 @@
     "role_admin": "관리자",
     "member": "회원",
     "language": "언어",
-    "menu": "메뉴"
+    "menu": "메뉴",
+    "myBuyers": "산하 바이어"
+  },
+  "buyers": {
+    "title": "내 산하 바이어",
+    "intro": "내 추천 링크로 가입한 바이어입니다.",
+    "empty": "아직 바이어가 없습니다. 추천 링크를 공유해 바이어를 초대하세요.",
+    "privacyNote": "연락·거래 금액은 운영팀이 중개합니다. 이 목록은 기본 상태만 표시합니다.",
+    "status_pending": "승인 대기",
+    "status_approved": "승인됨",
+    "status_rejected": "반려",
+    "status_suspended": "정지",
+    "status_withdrawn": "탈퇴"
   }
 }

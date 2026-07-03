@@ -49,6 +49,9 @@ export async function MainNav() {
         { label: tn('myRequests'), href: '/dashboard/requests' },
       );
     }
+    if (role === 'agent') {
+      links.push({ label: tn('myBuyers'), href: '/dashboard/my-buyers' });
+    }
     if (role === 'admin') {
       links.push({ label: tn('adminConsole'), href: '/admin' });
     }
