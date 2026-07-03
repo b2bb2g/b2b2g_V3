@@ -145,7 +145,12 @@
     "paymentTerms": "Payment terms",
     "daysUnit": "days",
     "backToList": "Back to products",
-    "verifiedBadge": "Verified"
+    "verifiedBadge": "Verified",
+    "searchPlaceholder": "Search products, keywords, suppliers",
+    "clearSearch": "Clear",
+    "allCategories": "All",
+    "noResults": "No results found.",
+    "resetFilters": "Reset filters"
   },
   "admin": {
     "title": "Admin",

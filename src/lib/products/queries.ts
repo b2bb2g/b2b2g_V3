@@ -30,6 +30,7 @@ export type ProductListItem = {
 export async function listPublicProducts(opts?: {
   categoryId?: string;
   supplierId?: string;
+  q?: string;
 }): Promise<ProductListItem[]> {
   const supabase = await createClient();
   let query = supabase
@@ -40,6 +41,23 @@ export async function listPublicProducts(opts?: {
     .order('created_at', { ascending: false });
   if (opts?.categoryId) query = query.eq('category_id', opts.categoryId);
   if (opts?.supplierId) query = query.eq('supplier_id', opts.supplierId);
+
+  // 실시간 검색(8.5): 제품명·키워드·설명 + 공급사명. PostgREST or-필터 파싱 보호 위해 정규화.
+  const safe = opts?.q?.replace(/[,()%\\*]/g, ' ').trim();
+  if (safe) {
+    const { data: matchedSuppliers } = await supabase
+      .from('public_suppliers')
+      .select('id')
+      .ilike('company_name', `%${safe}%`);
+    const orParts = [
+      `title.ilike.%${safe}%`,
+      `keywords.ilike.%${safe}%`,
+      `description.ilike.%${safe}%`,
+    ];
+    const supIds = (matchedSuppliers ?? []).map((s) => s.id);
+    if (supIds.length) orParts.push(`supplier_id.in.(${supIds.join(',')})`);
+    query = query.or(orParts.join(','));
+  }
 
   const { data: products } = await query;
   if (!products || products.length === 0) return [];
@@ -127,6 +145,17 @@ export async function getProductDetail(id: string): Promise<ProductDetail | null
     isMember: !!user,
     full,
   };
+}
+
+export async function listTopCategories(): Promise<{ id: string; name: string }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('categories')
+    .select('id, name')
+    .is('parent_id', null)
+    .eq('is_active', true)
+    .order('sort_order');
+  return data ?? [];
 }
 
 export type PublicSupplier = { id: string; companyName: string; verified: boolean };

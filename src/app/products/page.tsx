@@ -2,25 +2,34 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { listPublicProducts } from '@/lib/products/queries';
+import { listPublicProducts, listTopCategories } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ProductSearch } from './ProductSearch';
 
 export default async function ProductsListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; q?: string }>;
 }) {
   const t = await getTranslations('products');
-  const { category } = await searchParams;
-  const products = await listPublicProducts({ categoryId: category });
+  const { category, q } = await searchParams;
+  const [products, categories] = await Promise.all([
+    listPublicProducts({ categoryId: category, q }),
+    listTopCategories(),
+  ]);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-16">
       <h1 className="text-3xl font-bold">{t('listTitle')}</h1>
 
+      <ProductSearch categories={categories} currentQ={q ?? ''} currentCategory={category ?? ''} />
+
       {products.length === 0 ? (
-        <EmptyState message={t('empty')} />
+        <EmptyState
+          message={q || category ? t('noResults') : t('empty')}
+          action={q || category ? { label: t('resetFilters'), href: '/products' } : undefined}
+        />
       ) : (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (

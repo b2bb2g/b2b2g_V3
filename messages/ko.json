@@ -145,7 +145,12 @@
     "paymentTerms": "결제조건",
     "daysUnit": "일",
     "backToList": "제품 목록으로",
-    "verifiedBadge": "인증"
+    "verifiedBadge": "인증",
+    "searchPlaceholder": "제품명·키워드·공급사 검색",
+    "clearSearch": "지우기",
+    "allCategories": "전체",
+    "noResults": "검색 결과가 없습니다.",
+    "resetFilters": "필터 초기화"
   },
   "admin": {
     "title": "관리자",
