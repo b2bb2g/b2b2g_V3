@@ -3,11 +3,13 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { login, type ActionResult } from '@/lib/auth/actions';
+import { PasswordInput } from '@/components/ui/PasswordInput';
+import { FormButton } from '@/components/ui/FormButton';
 
 export function LoginForm() {
   const t = useTranslations('auth');
   const tc = useTranslations('common');
-  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(login, null);
+  const [state, formAction] = useActionState<ActionResult | null, FormData>(login, null);
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
@@ -23,13 +25,7 @@ export function LoginForm() {
       </label>
       <label className="flex flex-col gap-1 text-sm">
         <span>{tc('password')}</span>
-        <input
-          type="password"
-          name="password"
-          required
-          autoComplete="current-password"
-          className="rounded-md border border-neutral-300 px-3 py-2"
-        />
+        <PasswordInput name="password" autoComplete="current-password" required />
       </label>
 
       {state && !state.ok && (
@@ -38,13 +34,7 @@ export function LoginForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60"
-      >
-        {pending ? tc('loading') : t('loginCta')}
-      </button>
+      <FormButton>{t('loginCta')}</FormButton>
     </form>
   );
 }

@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { Footer } from '@/components/Footer';
 import { CookieConsent } from '@/components/CookieConsent';
+import { ToastProvider } from '@/components/ui/Toast';
 import './globals.css';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,9 +23,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          {children}
-          <Footer />
-          <CookieConsent />
+          <ToastProvider>
+            {children}
+            <Footer />
+            <CookieConsent />
+          </ToastProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -46,8 +46,13 @@
   - 렌더 검증: forgot 200, 세션 없는 reset→forgot 리다이렉트, 로그인에 링크 노출
 - [ ] (별도) 가입 인증 메일을 Supabase 기본 대신 우리 발송으로 대체 — Auth 훅 설정 필요(후속)
 
-### 슬라이스 6: 공통 UX 컴포넌트 (8장)
-- [ ] 확인 다이얼로그·토스트·스켈레톤·비밀번호 토글·빈/오류 상태
+### 슬라이스 6: 공통 UX 컴포넌트 (8장) (완료)
+- [x] PasswordInput(표시/숨김 토글, a11y) — login·signup·reset 폼에 연결
+- [x] FormButton(useFormStatus 처리중·스피너) — 전 폼 버튼 대체
+- [x] Toast(Provider+useToast) — 쿠키 저장 성공 피드백에 연결
+- [x] ConfirmButton(확인 다이얼로그) — 로그아웃 재확인에 연결
+- [x] Skeleton·EmptyState(표현 컴포넌트, Phase 2 목록/대시보드용)
+- [x] 빌드·렌더 검증(비밀번호 토글 a11y 라벨 노출 확인)
 
 ## Phase 2~4
 - 이후 세부화. 기획설계서 13장 참조.

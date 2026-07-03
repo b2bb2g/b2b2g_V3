@@ -3,11 +3,12 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { requestPasswordReset, type ActionResult } from '@/lib/auth/actions';
+import { FormButton } from '@/components/ui/FormButton';
 
 export function ForgotPasswordForm() {
   const t = useTranslations('auth');
   const tc = useTranslations('common');
-  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
+  const [state, formAction] = useActionState<ActionResult | null, FormData>(
     requestPasswordReset,
     null,
   );
@@ -32,13 +33,7 @@ export function ForgotPasswordForm() {
           className="rounded-md border border-neutral-300 px-3 py-2"
         />
       </label>
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60"
-      >
-        {pending ? tc('loading') : t('forgotCta')}
-      </button>
+      <FormButton>{t('forgotCta')}</FormButton>
     </form>
   );
 }

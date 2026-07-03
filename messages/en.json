@@ -34,6 +34,8 @@
     "pendingTitle": "Awaiting approval",
     "pendingBody": "Your account is under admin review. You'll be notified once it's approved.",
     "logout": "Sign out",
+    "logoutConfirmTitle": "Sign out?",
+    "logoutConfirmBody": "You'll need to sign in again to access your dashboard.",
     "forgotPassword": "Forgot password?",
     "forgotTitle": "Reset your password",
     "forgotBody": "Enter your email and we'll send a reset link.",
@@ -68,6 +70,14 @@
     "acceptAll": "Accept all",
     "rejectAll": "Reject all",
     "saveSelection": "Save selection",
-    "settings": "Cookie settings"
+    "settings": "Cookie settings",
+    "saved": "Your cookie preferences have been saved."
+  },
+  "ui": {
+    "show": "Show",
+    "hide": "Hide",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "cancel": "Cancel"
   }
 }

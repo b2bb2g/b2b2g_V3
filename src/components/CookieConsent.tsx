@@ -17,6 +17,7 @@ import {
   type ConsentChoice,
   type OptionalCategory,
 } from '@/lib/cookies/consent';
+import { useToast } from '@/components/ui/Toast';
 
 function readConsentCookie(): string | undefined {
   return document.cookie
@@ -35,6 +36,7 @@ const serverHasConsent = () => true; // 서버 렌더에서는 배너를 숨긴�
 
 export function CookieConsent() {
   const t = useTranslations('cookies');
+  const toast = useToast();
   const consented = useSyncExternalStore(subscribeConsent, hasStoredConsent, serverHasConsent);
   const [forceOpen, setForceOpen] = useState(false);
   const [choice, setChoice] = useState<ConsentChoice>(REJECT_ALL);
@@ -45,21 +47,25 @@ export function CookieConsent() {
     return () => window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, reopen);
   }, []);
 
-  const persist = useCallback(async (decision: ConsentChoice) => {
-    // 결정 기록 쿠키(필수 쿠키 = 법적 선택 저장) + 서버 감사 기록.
-    document.cookie = `${CONSENT_COOKIE_NAME}=${serializeConsent(decision)}; path=/; max-age=${CONSENT_MAX_AGE_DAYS * 24 * 60 * 60}; samesite=lax`;
-    setForceOpen(false);
-    window.dispatchEvent(new Event(CONSENT_CHANGED_EVENT));
-    try {
-      await fetch('/api/cookie-consent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(decision),
-      });
-    } catch {
-      // 감사 기록 실패는 사용자 흐름을 막지 않는다(결정은 쿠키에 이미 저장됨).
-    }
-  }, []);
+  const persist = useCallback(
+    async (decision: ConsentChoice) => {
+      // 결정 기록 쿠키(필수 쿠키 = 법적 선택 저장) + 서버 감사 기록.
+      document.cookie = `${CONSENT_COOKIE_NAME}=${serializeConsent(decision)}; path=/; max-age=${CONSENT_MAX_AGE_DAYS * 24 * 60 * 60}; samesite=lax`;
+      setForceOpen(false);
+      window.dispatchEvent(new Event(CONSENT_CHANGED_EVENT));
+      toast.show(t('saved'));
+      try {
+        await fetch('/api/cookie-consent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(decision),
+        });
+      } catch {
+        // 감사 기록 실패는 사용자 흐름을 막지 않는다(결정은 쿠키에 이미 저장됨).
+      }
+    },
+    [toast, t],
+  );
 
   const open = forceOpen || !consented;
   if (!open) return null;
