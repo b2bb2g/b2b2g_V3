@@ -12,6 +12,10 @@ out/
 dist/
 build/
 
+# Next.js·TS 생성 파일
+next-env.d.ts
+*.tsbuildinfo
+
 # 로그·캐시
 *.log
 .DS_Store

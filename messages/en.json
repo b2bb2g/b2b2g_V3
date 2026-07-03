@@ -1,0 +1,12 @@
+{
+  "common": {
+    "appName": "B2B Sourcing Platform",
+    "tagline": "Connecting verified Korean suppliers with overseas buyers"
+  },
+  "home": {
+    "heroTitle": "Discover verified Korean suppliers",
+    "heroSubtitle": "Browse products freely. Sign in to see prices and send inquiries.",
+    "browseProducts": "Browse products",
+    "signIn": "Sign in"
+  }
+}

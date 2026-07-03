@@ -1,0 +1,12 @@
+{
+  "common": {
+    "appName": "B2B 소싱 플랫폼",
+    "tagline": "검증된 한국 공급사와 해외 바이어를 연결합니다"
+  },
+  "home": {
+    "heroTitle": "검증된 한국 공급사를 만나보세요",
+    "heroSubtitle": "제품은 자유롭게 둘러보고, 가격과 문의는 로그인 후 이용하세요.",
+    "browseProducts": "제품 둘러보기",
+    "signIn": "로그인"
+  }
+}
