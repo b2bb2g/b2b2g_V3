@@ -22,6 +22,11 @@ export type EmailStatus = 'queued' | 'sent' | 'failed';
 
 export type LegalDocType = 'terms' | 'privacy' | 'cookie_policy';
 
+export type InquiryType = 'inquiry' | 'quote';
+export type InquiryStatus = 'submitted' | 'admin_review' | 'forwarded' | 'replied' | 'closed';
+export type MessageAuthorRole = 'buyer' | 'admin' | 'supplier';
+export type MessageVisibility = 'all' | 'admin_only';
+
 export type SupplierTier = 'free' | 'paid';
 export type ProductStatus = 'draft' | 'pending' | 'listed' | 'rejected';
 export type ProductMediaType = 'image' | 'video_link' | 'catalog_pdf';
@@ -170,6 +175,38 @@ export type ProductCertificationRow = {
   updated_at: string;
 };
 
+export type InquiryRow = {
+  id: string;
+  product_id: string;
+  requester_id: string;
+  type: InquiryType;
+  content: string;
+  status: InquiryStatus;
+  created_at: string;
+  updated_at: string;
+};
+
+export type InquiryMessageRow = {
+  id: string;
+  inquiry_id: string;
+  author_id: string | null;
+  author_role: MessageAuthorRole;
+  body: string;
+  visible_to: MessageVisibility;
+  created_at: string;
+};
+
+export type SupplierInquiryRow = {
+  id: string;
+  product_id: string;
+  product_title: string;
+  type: InquiryType;
+  content: string;
+  status: InquiryStatus;
+  created_at: string;
+  updated_at: string;
+};
+
 type Insertable<Row, Required extends keyof Row> = Partial<Row> & Pick<Row, Required>;
 
 export type ProductInsert = Insertable<ProductRow, 'supplier_id' | 'title'>;
@@ -232,6 +269,18 @@ export type Database = {
         Update: Partial<ProductCertificationRow>;
         Relationships: [];
       };
+      inquiries: {
+        Row: InquiryRow;
+        Insert: Insertable<InquiryRow, 'product_id' | 'requester_id' | 'content'>;
+        Update: Partial<InquiryRow>;
+        Relationships: [];
+      };
+      inquiry_messages: {
+        Row: InquiryMessageRow;
+        Insert: Insertable<InquiryMessageRow, 'inquiry_id' | 'author_role' | 'body'>;
+        Update: Partial<InquiryMessageRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -241,6 +290,10 @@ export type Database = {
           verified: boolean;
           tier: SupplierTier;
         };
+        Relationships: [];
+      };
+      supplier_inquiries: {
+        Row: SupplierInquiryRow;
         Relationships: [];
       };
     };
@@ -264,6 +317,10 @@ export type Database = {
       product_status: ProductStatus;
       product_media_type: ProductMediaType;
       product_cert_type: ProductCertType;
+      inquiry_type: InquiryType;
+      inquiry_status: InquiryStatus;
+      message_author_role: MessageAuthorRole;
+      message_visibility: MessageVisibility;
     };
     CompositeTypes: {
       [_ in never]: never;
