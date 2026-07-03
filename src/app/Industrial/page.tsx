@@ -7,5 +7,5 @@ export default async function IndustrialPage({
   searchParams: Promise<{ category?: string; q?: string }>;
 }) {
   const { category, q } = await searchParams;
-  return <SectionProducts name="Industrial" basePath="/Industrial" selectedChild={category} q={q} />;
+  return <SectionProducts name="Industrial" basePath="/industrial" selectedChild={category} q={q} />;
 }
