@@ -171,8 +171,10 @@
 - [x] 나머지 보드(공지·FAQ·행사) 업로더/표시 연결, 제품·RFQ 작성자 본인 첨부(owner-write RLS)
 - [x] board_owner_editable() 함수 + board_attachments_write 정책(관리자 or 작성자 본인)
 - [x] 관리자 제품 작성(/admin/products/new, 공급사 선택) + 관리자 RFQ 작성 허용
-- [ ] (후속) WYSIWYG 리치텍스트 툴바(TipTap 등) — 라이브러리 도입 + 시각 QA 필요
-- [ ] (후속) 추천가입 QR — profiles.referral_code 필드 설계 필요(현재 미구현)
+- [x] WYSIWYG 리치텍스트 에디터(TipTap) — 공지·FAQ·행사·EPC·서비스 폼에 연결
+- [x] SafeHtml 출력 새니타이즈(isomorphic-dompurify) — XSS 검증(script·onerror·javascript:·핸들러 제거)
+- [x] 추천가입 QR — profiles.referral_code + 대시보드 ShareWidget(signup_referral)
+- [ ] (후속) 제품·RFQ 본문도 리치 에디터로(현재 textarea) — 필요 시 동일 컴포넌트 재사용
 
 ### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
 - [x] menu_items + services + menu_group enum + RLS + 기본 메뉴 7종 시드

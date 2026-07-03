@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getService } from '@/lib/services/queries';
+import { SafeHtml } from '@/components/SafeHtml';
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('services');
@@ -19,9 +20,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <h1 className="text-3xl font-bold">{service.title}</h1>
         {service.summary && <p className="text-neutral-500">{service.summary}</p>}
       </div>
-      {service.body && (
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">{service.body}</div>
-      )}
+      <SafeHtml html={service.body} />
     </main>
   );
 }

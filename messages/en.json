@@ -505,5 +505,19 @@
     "close": "Close",
     "dismissToday": "Don't show today",
     "dismissWeek": "Don't show this week"
+  },
+  "editor": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "h2": "H2",
+    "h3": "H3",
+    "bullet": "• List",
+    "ordered": "1. List",
+    "quote": "Quote",
+    "hr": "Divider",
+    "link": "Link",
+    "undo": "Undo",
+    "redo": "Redo",
+    "linkPrompt": "Enter URL"
   }
 }

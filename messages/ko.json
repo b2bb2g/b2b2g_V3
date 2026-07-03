@@ -505,5 +505,19 @@
     "close": "닫기",
     "dismissToday": "오늘 하루 보지 않기",
     "dismissWeek": "이번 주 보지 않기"
+  },
+  "editor": {
+    "bold": "굵게",
+    "italic": "기울임",
+    "h2": "제목",
+    "h3": "소제목",
+    "bullet": "• 목록",
+    "ordered": "1. 목록",
+    "quote": "인용",
+    "hr": "구분선",
+    "link": "링크",
+    "undo": "실행취소",
+    "redo": "다시실행",
+    "linkPrompt": "URL 입력"
   }
 }

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getNotice } from '@/lib/content/queries';
 import { BoardAttachments } from '@/components/BoardAttachments';
+import { SafeHtml } from '@/components/SafeHtml';
 
 export default async function NoticeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('content');
@@ -20,7 +21,7 @@ export default async function NoticeDetailPage({ params }: { params: Promise<{ i
         <h1 className="text-3xl font-bold">{notice.title}</h1>
         <p className="text-xs text-neutral-400">{notice.created_at.slice(0, 10)}</p>
       </div>
-      <div className="whitespace-pre-line leading-relaxed text-neutral-700">{notice.body}</div>
+      <SafeHtml html={notice.body} />
       <BoardAttachments ownerType="notice" ownerId={notice.id} />
     </main>
   );

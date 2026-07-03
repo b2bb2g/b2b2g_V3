@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { saveNotice, type ContentResult } from '@/lib/content/actions';
 import type { NoticeRow } from '@/lib/supabase/database.types';
 import { FormButton } from '@/components/ui/FormButton';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
 
@@ -19,10 +20,10 @@ export function NoticeForm({ notice }: { notice?: NoticeRow }) {
         <span>{t('fieldTitle')}</span>
         <input type="text" name="title" required defaultValue={notice?.title} className={input} />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
+      <div className="flex flex-col gap-1 text-sm">
         <span>{t('fieldBody')}</span>
-        <textarea name="body" rows={10} defaultValue={notice?.body} className={input} />
-      </label>
+        <RichTextEditor name="body" defaultValue={notice?.body ?? ''} />
+      </div>
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" name="is_pinned" defaultChecked={notice?.is_pinned} />
         {t('pin')}

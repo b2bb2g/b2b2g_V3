@@ -6,6 +6,7 @@ import { saveProject, type ProjectResult } from '@/lib/projects/actions';
 import type { ProjectRow } from '@/lib/supabase/database.types';
 import { FIELD_KEY, STAGE_KEY } from '@/lib/projects/labels';
 import { FormButton } from '@/components/ui/FormButton';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
 const FIELDS = ['power_plant', 'construction', 'factory', 'plant', 'civil', 'etc'] as const;
@@ -48,10 +49,10 @@ export function ProjectForm({ project }: { project?: ProjectRow }) {
         </label>
       </div>
 
-      <label className="flex flex-col gap-1 text-sm">
+      <div className="flex flex-col gap-1 text-sm">
         <span>{t('fieldBody')}</span>
-        <textarea name="body" rows={6} defaultValue={project?.body} className={input} />
-      </label>
+        <RichTextEditor name="body" defaultValue={project?.body ?? ''} />
+      </div>
 
       <div className="grid grid-cols-3 gap-4">
         <label className="flex flex-col gap-1 text-sm">

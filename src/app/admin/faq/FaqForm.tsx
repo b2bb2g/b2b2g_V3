@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { saveFaq, type ContentResult } from '@/lib/content/actions';
 import type { FaqRow } from '@/lib/supabase/database.types';
 import { FormButton } from '@/components/ui/FormButton';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
 
@@ -25,10 +26,10 @@ export function FaqForm({ faq }: { faq?: FaqRow }) {
           className={input}
         />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
+      <div className="flex flex-col gap-1 text-sm">
         <span>{t('fieldAnswer')}</span>
-        <textarea name="answer" rows={6} defaultValue={faq?.answer} className={input} />
-      </label>
+        <RichTextEditor name="answer" defaultValue={faq?.answer ?? ''} />
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <label className="flex flex-col gap-1 text-sm">
           <span>{t('fieldCategory')}</span>

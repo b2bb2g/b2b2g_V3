@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import { getProject } from '@/lib/projects/queries';
 import { FIELD_KEY, STAGE_KEY, formatPeriod, formatScale } from '@/lib/projects/labels';
 import { BoardAttachments } from '@/components/BoardAttachments';
+import { SafeHtml } from '@/components/SafeHtml';
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('epc');
@@ -41,9 +42,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {scale && <Row label={t('scale')} value={scale} />}
       </dl>
 
-      {project.body && (
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">{project.body}</div>
-      )}
+      <SafeHtml html={project.body} />
 
       <BoardAttachments ownerType="project" ownerId={project.id} />
     </main>

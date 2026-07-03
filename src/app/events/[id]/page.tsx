@@ -7,6 +7,7 @@ import { getEvent, getMyRegistration } from '@/lib/events/queries';
 import { registerForEvent, cancelRegistration } from '@/lib/events/actions';
 import { CATEGORY_KEY, formatPeriod } from '@/lib/events/labels';
 import { BoardAttachments } from '@/components/BoardAttachments';
+import { SafeHtml } from '@/components/SafeHtml';
 
 export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('events');
@@ -46,9 +47,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
         {event.booth_info && <Row label={t('boothInfo')} value={event.booth_info} />}
       </dl>
 
-      {event.body && (
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">{event.body}</div>
-      )}
+      <SafeHtml html={event.body} />
 
       <BoardAttachments ownerType="event" ownerId={event.id} />
 

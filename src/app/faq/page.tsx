@@ -2,6 +2,7 @@
 import { getTranslations } from 'next-intl/server';
 import { listPublishedFaqs } from '@/lib/content/queries';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { SafeHtml } from '@/components/SafeHtml';
 
 export default async function FaqPage() {
   const t = await getTranslations('content');
@@ -22,7 +23,9 @@ export default async function FaqPage() {
                 )}
                 {f.question}
               </p>
-              <p className="mt-2 whitespace-pre-line text-sm text-neutral-600">{f.answer}</p>
+              <div className="mt-2 text-sm text-neutral-600">
+                <SafeHtml html={f.answer} />
+              </div>
             </li>
           ))}
         </ul>
