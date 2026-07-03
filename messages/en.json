@@ -440,5 +440,13 @@
     "statusPublished": "Published",
     "save": "Save",
     "saveFailed": "Could not save. Please try again."
+  },
+  "share": {
+    "share": "Share",
+    "title": "Share link",
+    "loading": "Generating…",
+    "copy": "Copy",
+    "qrAlt": "QR code",
+    "loginRequired": "Sign in to create a share link."
   }
 }

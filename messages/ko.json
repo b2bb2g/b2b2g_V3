@@ -440,5 +440,13 @@
     "statusPublished": "공개",
     "save": "저장",
     "saveFailed": "저장하지 못했습니다. 다시 시도해주세요."
+  },
+  "share": {
+    "share": "공유",
+    "title": "공유 링크",
+    "loading": "생성 중…",
+    "copy": "복사",
+    "qrAlt": "QR 코드",
+    "loginRequired": "공유 링크를 만들려면 로그인하세요."
   }
 }

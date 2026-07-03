@@ -109,6 +109,27 @@ export type PublicProductRequestRow = {
   buyer_verified: boolean;
 };
 
+export type ShortLinkTarget =
+  | 'product'
+  | 'signup_referral'
+  | 'supplier_page'
+  | 'event'
+  | 'project'
+  | 'request'
+  | 'service';
+
+export type ShortLinkRow = {
+  id: string;
+  slug: string;
+  target_type: ShortLinkTarget;
+  target_id: string | null;
+  ref_code: string | null;
+  created_by: string | null;
+  click_count: number;
+  is_active: boolean;
+  created_at: string;
+};
+
 export type MenuGroup = 'product' | 'project_request' | 'info_service';
 
 export type MenuItemRow = {
@@ -563,6 +584,12 @@ export type Database = {
         Update: Partial<ServiceRow>;
         Relationships: [];
       };
+      short_links: {
+        Row: ShortLinkRow;
+        Insert: Insertable<ShortLinkRow, 'slug' | 'target_type'>;
+        Update: Partial<ShortLinkRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -606,6 +633,10 @@ export type Database = {
         Args: { ot: BoardOwnerType; oid: string };
         Returns: boolean;
       };
+      resolve_short_link: {
+        Args: { p_slug: string };
+        Returns: { target_type: ShortLinkTarget; target_id: string | null; ref_code: string | null }[];
+      };
     };
     Enums: {
       user_role: UserRole;
@@ -633,6 +664,7 @@ export type Database = {
       board_owner_type: BoardOwnerType;
       attachment_kind: AttachmentKind;
       menu_group: MenuGroup;
+      short_link_target: ShortLinkTarget;
     };
     CompositeTypes: {
       [_ in never]: never;

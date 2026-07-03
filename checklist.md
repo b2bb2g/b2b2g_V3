@@ -178,7 +178,11 @@
 - [x] menu·services i18n(en/ko), 프로덕션 적용·RLS 검증(시드 공개·insert 42501 차단), 빌드 통과
 
 ### 슬라이스 4.7: 공유 단축 URL + QR(short_links)
-- [ ] 제품 공유·추천가입 단축링크·QR, 클릭 추적
+- [x] short_links + short_link_target enum + RLS + resolve_short_link() definer RPC(클릭 추적)
+- [x] /s/[slug] 리다이렉트 라우트, targetPath 매핑, qrcode 로 QR 데이터URL 생성
+- [x] ShareWidget(단축링크 생성+QR 표시, 중복 재사용) 제품 상세에 연결
+- [x] share i18n(en/ko), 프로덕션 적용·RLS 검증(insert 42501·RPC 호출가능), 빌드 통과
+- [ ] (후속) 추천가입 QR(에이전트 referral_code) — 동일 ShareWidget 재사용
 
 ### 슬라이스 4.8: 노출 차등·마케팅(등급·배너·팝업)
 - [ ] 등급/인증마크/추천편성, ad_banners, popups

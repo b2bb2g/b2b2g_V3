@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getProductDetail } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
+import { ShareWidget } from '@/components/ShareWidget';
 import { InquiryForm } from './InquiryForm';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -94,6 +95,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
         {isMember && full && <InquiryForm productId={base.id} />}
       </section>
+
+      <ShareWidget targetType="product" targetId={base.id} />
     </main>
   );
 }
