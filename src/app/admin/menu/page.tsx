@@ -3,8 +3,6 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { listAllMenu, listMenuGroups } from '@/lib/menu/queries';
 import { deleteMenuItem, saveMenuGroup, deleteMenuGroup } from '@/lib/menu/actions';
-import { PageShell } from '@/components/ui/PageShell';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2 text-sm';
@@ -15,18 +13,16 @@ export default async function AdminMenuPage() {
   const groupLabel = (id: string | null) => groups.find((g) => g.id === id)?.label_en ?? t('groupNone');
 
   return (
-    <PageShell>
-      <PageHeader
-        title={t('manage')}
-        action={
-          <Link
-            href="/admin/menu/new"
-            className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
-          >
-            {t('new')}
-          </Link>
-        }
-      />
+    <>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{t('manage')}</h1>
+        <Link
+          href="/admin/menu/new"
+          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+        >
+          {t('new')}
+        </Link>
+      </div>
 
       {/* 메뉴 항목 */}
       <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
@@ -96,6 +92,6 @@ export default async function AdminMenuPage() {
           </button>
         </form>
       </section>
-    </PageShell>
+    </>
   );
 }

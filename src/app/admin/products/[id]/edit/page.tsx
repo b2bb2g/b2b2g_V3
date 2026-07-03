@@ -6,8 +6,6 @@ import { getAdminProduct, adminUpdateProduct } from '@/lib/admin/product-actions
 import { listActiveCategories, getProductMedia } from '@/lib/supplier/queries';
 import { getProductCertifications } from '@/lib/products/queries';
 import { getAttachments } from '@/lib/attachments/queries';
-import { PageShell } from '@/components/ui/PageShell';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { AttachmentManager } from '@/components/AttachmentManager';
 import { ProductForm } from '@/app/dashboard/products/ProductForm';
 import { ProductImages } from '@/app/dashboard/products/[id]/edit/ProductImages';
@@ -36,8 +34,8 @@ export default async function AdminEditProductPage({
   const boundUpdate = adminUpdateProduct.bind(null, id);
 
   return (
-    <PageShell width="base">
-      <PageHeader title={t('editProduct')} description={product.title} />
+    <>
+      <h1 className="text-2xl font-bold">{t('editProduct')}</h1>
 
       {user && <ProductImages productId={id} userId={user.id} images={media} />}
       <ProductForm categories={categories} product={product} action={boundUpdate} />
@@ -50,6 +48,6 @@ export default async function AdminEditProductPage({
           attachments={attachments}
         />
       )}
-    </PageShell>
+    </>
   );
 }

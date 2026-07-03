@@ -33,7 +33,7 @@ export default async function AdminRequestDetailPage({
   const responses = await listResponses(id);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
+    <>
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold">{request.title}</h1>
         <p className="text-sm text-neutral-500">
@@ -99,6 +99,6 @@ export default async function AdminRequestDetailPage({
           </ul>
         )}
       </section>
-    </main>
+    </>
   );
 }

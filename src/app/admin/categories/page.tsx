@@ -2,8 +2,6 @@
 import { getTranslations } from 'next-intl/server';
 import { listCategoryTree, type CategoryGroup } from '@/lib/admin/category-queries';
 import { createCategory, updateCategory, deleteCategory } from '@/lib/admin/category-actions';
-import { PageShell } from '@/components/ui/PageShell';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2 text-sm';
@@ -13,8 +11,8 @@ export default async function AdminCategoriesPage() {
   const tree = await listCategoryTree();
 
   return (
-    <PageShell>
-      <PageHeader title={t('manage')} description={t('intro')} />
+    <>
+      <h1 className="text-2xl font-bold">{t('manage')}</h1>
 
       <div className="flex flex-col gap-6">
         {tree.map((g) => (
@@ -34,7 +32,7 @@ export default async function AdminCategoriesPage() {
           {t('addGroup')}
         </button>
       </form>
-    </PageShell>
+    </>
   );
 }
 

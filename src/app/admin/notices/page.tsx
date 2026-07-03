@@ -11,7 +11,7 @@ export default async function AdminNoticesPage() {
   const notices = await listAllNotices();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
+    <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('manageNotices')}</h1>
         <Link
@@ -52,6 +52,6 @@ export default async function AdminNoticesPage() {
           ))}
         </ul>
       )}
-    </main>
+    </>
   );
 }

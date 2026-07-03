@@ -20,7 +20,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
   const attachments = await getAttachments('project', id);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-6 py-16">
+    <>
       <h1 className="text-2xl font-bold">{t('edit')}</h1>
       <ProjectForm project={project} />
       {user && (
@@ -31,6 +31,6 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
           attachments={attachments}
         />
       )}
-    </main>
+    </>
   );
 }

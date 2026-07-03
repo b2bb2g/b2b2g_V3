@@ -30,7 +30,7 @@ export default async function AdminInquiryDetailPage({
   const canForward = inquiry.status === 'submitted' || inquiry.status === 'admin_review';
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-6 py-16">
+    <>
       <Link href="/admin/inquiries" className="text-sm text-neutral-500 underline">
         {t('backToInquiries')}
       </Link>
@@ -96,6 +96,6 @@ export default async function AdminInquiryDetailPage({
         )}
         <AdminMessageForm inquiryId={id} />
       </section>
-    </main>
+    </>
   );
 }

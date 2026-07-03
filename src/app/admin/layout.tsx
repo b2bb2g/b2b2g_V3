@@ -65,7 +65,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         groups={groups}
         menuLabel={tn('menu')}
       />
-      <div className="min-w-0 flex-1">{children}</div>
+      <main className="flex min-w-0 flex-1 flex-col gap-6">{children}</main>
     </div>
   );
 }

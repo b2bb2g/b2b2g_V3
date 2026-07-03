@@ -5,8 +5,6 @@ import { listAdminProducts, type AdminProduct } from '@/lib/admin/queries';
 import { listTopCategories } from '@/lib/products/queries';
 import { approveProduct, rejectProduct, unlistProduct } from '@/lib/admin/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageShell } from '@/components/ui/PageShell';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
 
 const STATUS_KEY = {
@@ -39,8 +37,8 @@ export default async function AdminProductsPage() {
   ].filter((b) => b.items.length > 0);
 
   return (
-    <PageShell width="wide">
-      <PageHeader title={t('manageProducts')} description={t('manageProductsIntro')} />
+    <>
+      <h1 className="text-2xl font-bold">{t('manageProducts')}</h1>
 
       {products.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
@@ -105,6 +103,6 @@ export default async function AdminProductsPage() {
           </section>
         ))
       )}
-    </PageShell>
+    </>
   );
 }

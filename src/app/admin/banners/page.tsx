@@ -11,7 +11,7 @@ export default async function AdminBannersPage() {
   const banners = await listAllBanners();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
+    <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('banners')}</h1>
         <Link href="/admin/banners/new" className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white">
@@ -49,6 +49,6 @@ export default async function AdminBannersPage() {
           ))}
         </ul>
       )}
-    </main>
+    </>
   );
 }

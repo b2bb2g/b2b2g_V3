@@ -4,8 +4,6 @@ import { getTranslations } from 'next-intl/server';
 import { listMembers } from '@/lib/admin/queries';
 import { USER_ROLES, USER_STATUSES } from '@/lib/constants';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageShell } from '@/components/ui/PageShell';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { MemberSearch } from './MemberSearch';
 
 export default async function AdminMembersPage({
@@ -18,8 +16,8 @@ export default async function AdminMembersPage({
   const members = await listMembers({ role, status, q });
 
   return (
-    <PageShell>
-      <PageHeader title={t('members')} />
+    <>
+      <h1 className="text-2xl font-bold">{t('members')}</h1>
 
       <MemberSearch
         currentQ={q ?? ''}
@@ -56,6 +54,6 @@ export default async function AdminMembersPage({
           ))}
         </ul>
       )}
-    </PageShell>
+    </>
   );
 }

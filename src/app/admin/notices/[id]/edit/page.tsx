@@ -20,12 +20,12 @@ export default async function EditNoticePage({ params }: { params: Promise<{ id:
   const attachments = await getAttachments('notice', id);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-6 py-16">
+    <>
       <h1 className="text-2xl font-bold">{t('edit')}</h1>
       <NoticeForm notice={notice} />
       {user && (
         <AttachmentManager ownerType="notice" ownerId={id} userId={user.id} attachments={attachments} />
       )}
-    </main>
+    </>
   );
 }
