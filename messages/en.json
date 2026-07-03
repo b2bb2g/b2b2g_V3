@@ -363,7 +363,9 @@
     "publish": "Publish",
     "unlist": "Unlist",
     "unlistConfirm": "Unlist this product from the public catalog?",
-    "uncategorized": "Uncategorized"
+    "uncategorized": "Uncategorized",
+    "edit": "Edit",
+    "editProduct": "Edit product"
   },
   "epc": {
     "title": "EPC Projects",

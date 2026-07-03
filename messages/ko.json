@@ -363,7 +363,9 @@
     "publish": "공개",
     "unlist": "비공개",
     "unlistConfirm": "이 제품을 공개 목록에서 내릴까요?",
-    "uncategorized": "미분류"
+    "uncategorized": "미분류",
+    "edit": "수정",
+    "editProduct": "제품 수정"
   },
   "epc": {
     "title": "EPC 프로젝트",

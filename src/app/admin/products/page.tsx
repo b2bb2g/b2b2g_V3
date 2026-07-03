@@ -1,4 +1,5 @@
 // 관리자 제품 관리. 섹션(대분류)별로 나눠 전 상태(대기·공개·초안·반려) 제품을 승인/반려/비공개 처리.
+import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { listAdminProducts, type AdminProduct } from '@/lib/admin/queries';
 import { listTopCategories } from '@/lib/products/queries';
@@ -64,6 +65,9 @@ export default async function AdminProductsPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-3 text-sm">
+                    <Link href={`/admin/products/${p.id}/edit`} className="underline">
+                      {t('edit')}
+                    </Link>
                     {(p.status === 'pending' ||
                       p.status === 'draft' ||
                       p.status === 'rejected') && (
