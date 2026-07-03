@@ -204,6 +204,6 @@
 - [x] 행사 리마인더 메일: events.reminder_sent_at + sendEventReminders(신청자 앱알림+이메일, 행사당 1회) + /api/cron/event-reminders(CRON_SECRET) + vercel.json 매일 크론. event_reminder 템플릿
 - [x] 랜딩 익명 활동 신호: platform_stats() definer 집계 함수(PII 없음, anon) + 랜딩 신호 밴드(검증공급사·등록제품·소싱요청·이번달 문의, 0 항목 숨김)
 - [x] product_certifications 입력 UI: 제품 편집에 인증/수상 추가·삭제(RLS 소유자 쓰기), 공개 상세에 배지 표시
-- [ ] 업로드 용량/mime 서버측 하드닝
+- [x] 업로드 용량/mime 서버측 하드닝: 버킷 file_size_limit·allowed_mime_types 강제(product-media 5MB·이미지, board-media 50MB·이미지/영상/문서). svg·html·js 차단(XSS 방지)
 
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)
