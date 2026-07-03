@@ -30,9 +30,13 @@
 - [x] RLS 행 기반 검증 6종 PASS(격리·가드 트리거·트리거 생성, 테스트 유저 자동 정리)
 - [ ] (이후) 역할별 부가정보 테이블(suppliers/buyers/agents) — 후속 슬라이스
 
-### 슬라이스 4: 법적 페이지 + 쿠키 동의
-- [ ] `legal_documents` + /legal/{terms,privacy,cookies} placeholder
-- [ ] 쿠키 동의 배너(opt-in, 수락=거부 동등)
+### 슬라이스 4: 법적 페이지 + 쿠키 동의 (완료)
+- [x] `legal_documents` + /legal/[type] (약관·개인정보·쿠키, placeholder 시드 en/ko)
+- [x] 쿠키 동의 배너(opt-in, 수락=거부 동등, 카테고리 선택, 정책 링크, 재오픈)
+- [x] `cookie_consents` 감사 기록 + 공통 Footer
+- [x] DB 검증(시드 6종, anon 열람 가능, 동의 삽입 허용·조회 관리자만)
+- [x] 렌더 검증(법적 3종 200+본문, 잘못된 타입 404, 푸터 링크)
+- 참고: 실제 약관·개인정보·쿠키 본문은 placeholder — 출시 전 변호사 검토 필수(5.10)
 
 ### 슬라이스 5: 이메일 발송 기반 (완료)
 - [x] `email_outbox` 마이그레이션(프로덕션 적용) + 관리자 열람 RLS
