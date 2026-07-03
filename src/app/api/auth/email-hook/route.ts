@@ -35,7 +35,7 @@ function mapAction(type: string): { template: EmailTemplate; otpType: string; ne
 }
 
 export async function POST(request: NextRequest) {
-  const secret = process.env.SEND_EMAIL_HOOK_SECRET;
+  const secret = process.env.AUTH_EMAIL_HOOK_SECRET;
   if (!secret) {
     return NextResponse.json({ error: 'hook secret not configured' }, { status: 500 });
   }
