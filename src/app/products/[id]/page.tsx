@@ -7,6 +7,7 @@ import { getProductDetail } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { ShareWidget } from '@/components/ShareWidget';
 import { BoardAttachments } from '@/components/BoardAttachments';
+import { SafeHtml } from '@/components/SafeHtml';
 import { InquiryForm } from './InquiryForm';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -53,11 +54,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       )}
 
       {base.description && <p className="text-neutral-700">{base.description}</p>}
-      {base.detail_body && (
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">
-          {base.detail_body}
-        </div>
-      )}
+      <SafeHtml html={base.detail_body ?? ''} />
 
       <section className="rounded-lg border border-neutral-200 p-5">
         <h2 className="mb-3 text-sm font-semibold text-neutral-500">{t('gatedTitle')}</h2>

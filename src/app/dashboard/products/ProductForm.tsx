@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import type { ActionResult } from '@/lib/supplier/actions';
 import type { ProductRow } from '@/lib/supabase/database.types';
 import { FormButton } from '@/components/ui/FormButton';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 type Category = { id: string; name: string };
 type ProductFormAction = (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>;
@@ -64,12 +65,7 @@ export function ProductForm({
       </Field>
 
       <Field label={t('fieldDetail')}>
-        <textarea
-          name="detailBody"
-          rows={5}
-          defaultValue={product?.detail_body ?? ''}
-          className={inputClass}
-        />
+        <RichTextEditor name="detailBody" defaultValue={product?.detail_body ?? ''} />
       </Field>
 
       <Field label={t('fieldCategory')}>

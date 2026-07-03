@@ -9,6 +9,7 @@ import { getAttachments } from '@/lib/attachments/queries';
 import { formatBudget } from '@/lib/requests/labels';
 import { BoardAttachments } from '@/components/BoardAttachments';
 import { AttachmentManager } from '@/components/AttachmentManager';
+import { SafeHtml } from '@/components/SafeHtml';
 import { RespondForm } from './RespondForm';
 
 export default async function RequestDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -50,9 +51,7 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
         </p>
       </div>
 
-      {request.body && (
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">{request.body}</div>
-      )}
+      <SafeHtml html={request.body} />
 
       <BoardAttachments ownerType="product_request" ownerId={request.id} />
 

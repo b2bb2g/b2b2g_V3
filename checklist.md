@@ -174,7 +174,7 @@
 - [x] WYSIWYG 리치텍스트 에디터(TipTap) — 공지·FAQ·행사·EPC·서비스 폼에 연결
 - [x] SafeHtml 출력 새니타이즈(isomorphic-dompurify) — XSS 검증(script·onerror·javascript:·핸들러 제거)
 - [x] 추천가입 QR — profiles.referral_code + 대시보드 ShareWidget(signup_referral)
-- [ ] (후속) 제품·RFQ 본문도 리치 에디터로(현재 textarea) — 필요 시 동일 컴포넌트 재사용
+- [x] 제품(detail_body)·RFQ(body) 본문도 리치 에디터 + SafeHtml 렌더로 전환
 
 ### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
 - [x] menu_items + services + menu_group enum + RLS + 기본 메뉴 7종 시드

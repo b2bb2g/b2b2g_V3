@@ -3,8 +3,8 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createRequest, type RequestResult } from '@/lib/requests/actions';
-
 import { FormButton } from '@/components/ui/FormButton';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
 
@@ -19,10 +19,10 @@ export function RequestForm({ categories }: { categories: { id: string; name: st
         <input type="text" name="title" required className={input} />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
+      <div className="flex flex-col gap-1 text-sm">
         <span>{t('fieldBody')}</span>
-        <textarea name="body" rows={6} className={input} />
-      </label>
+        <RichTextEditor name="body" />
+      </div>
 
       <label className="flex flex-col gap-1 text-sm">
         <span>{t('fieldCategory')}</span>
