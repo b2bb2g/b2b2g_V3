@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
+import { unreadNotificationCount } from '@/lib/notify/queries';
 import { LogoutButton } from '@/components/LogoutButton';
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
   const ts = await getTranslations('supplier');
   const ti = await getTranslations('inquiry');
+  const tn = await getTranslations('notifications');
   const supabase = await createClient();
 
   const {
@@ -26,6 +28,7 @@ export default async function DashboardPage() {
   const isSupplier = profile.role === 'supplier';
   const isBuyerOrAgent = profile.role === 'buyer' || profile.role === 'agent';
   const notApproved = profile.role !== 'admin' && profile.status !== 'approved';
+  const unread = await unreadNotificationCount();
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8 px-6 py-16">
@@ -49,6 +52,15 @@ export default async function DashboardPage() {
           {ts('pendingBanner')}
         </p>
       )}
+
+      <Link href="/dashboard/notifications" className="w-fit text-sm underline">
+        {tn('title')}
+        {unread > 0 && (
+          <span className="ml-2 rounded-full bg-neutral-900 px-2 py-0.5 text-xs text-white">
+            {unread}
+          </span>
+        )}
+      </Link>
 
       {isSupplier && (
         <section className="flex flex-col gap-3">

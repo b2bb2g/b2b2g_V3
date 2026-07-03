@@ -65,6 +65,34 @@ const TEMPLATES: Partial<Record<EmailTemplate, LocaleTemplates>> = {
       ),
     }),
   },
+  inquiry_received: {
+    en: (p) => ({
+      subject: 'New inquiry received',
+      html: wrap(
+        `<h2>New inquiry</h2><p>You received a new inquiry for <strong>${esc(p.productTitle)}</strong>. Sign in to review and reply.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '새 문의가 도착했습니다',
+      html: wrap(
+        `<h2>새 문의</h2><p><strong>${esc(p.productTitle)}</strong> 에 새 문의가 도착했습니다. 로그인해 확인·회신하세요.</p>`,
+      ),
+    }),
+  },
+  inquiry_replied: {
+    en: (p) => ({
+      subject: 'You have a reply',
+      html: wrap(
+        `<h2>Reply received</h2><p>Your inquiry about <strong>${esc(p.productTitle)}</strong> has a reply. Sign in to view it.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '회신이 도착했습니다',
+      html: wrap(
+        `<h2>회신 도착</h2><p><strong>${esc(p.productTitle)}</strong> 문의에 회신이 도착했습니다. 로그인해 확인하세요.</p>`,
+      ),
+    }),
+  },
   generic: {
     en: (p) => ({
       subject: esc(p.subject) || 'Notification',

@@ -73,6 +73,16 @@
     "settings": "Cookie settings",
     "saved": "Your cookie preferences have been saved."
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications.",
+    "markAllRead": "Mark all as read",
+    "unread": "unread",
+    "inquiry_received": "New inquiry received",
+    "inquiry_replied": "You have a reply",
+    "generic": "Notification",
+    "view": "View"
+  },
   "ui": {
     "show": "Show",
     "hide": "Hide",

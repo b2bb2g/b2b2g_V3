@@ -2,6 +2,7 @@
 // 관리자 승인/반려 액션. RLS(is_admin)가 최종 방어. 감사로그는 Phase 3에서 추가.
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { notifyInquiryForwarded } from '@/lib/notify';
 
 async function requireAdmin() {
   const supabase = await createClient();
@@ -46,6 +47,7 @@ export async function forwardInquiry(inquiryId: string): Promise<void> {
   const supabase = await requireAdmin();
   if (!supabase) return;
   await supabase.from('inquiries').update({ status: 'forwarded' }).eq('id', inquiryId);
+  await notifyInquiryForwarded(inquiryId);
   revalidatePath(`/admin/inquiries/${inquiryId}`);
   revalidatePath('/admin/inquiries');
 }

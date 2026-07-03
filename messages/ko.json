@@ -73,6 +73,16 @@
     "settings": "쿠키 설정",
     "saved": "쿠키 설정이 저장되었습니다."
   },
+  "notifications": {
+    "title": "알림",
+    "empty": "알림이 없습니다.",
+    "markAllRead": "모두 읽음",
+    "unread": "안읽음",
+    "inquiry_received": "새 문의가 도착했습니다",
+    "inquiry_replied": "회신이 도착했습니다",
+    "generic": "알림",
+    "view": "보기"
+  },
   "ui": {
     "show": "표시",
     "hide": "숨김",

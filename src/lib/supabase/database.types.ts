@@ -207,6 +207,15 @@ export type SupplierInquiryRow = {
   updated_at: string;
 };
 
+export type NotificationRow = {
+  id: string;
+  profile_id: string;
+  type: string;
+  payload: Record<string, unknown>;
+  read: boolean;
+  created_at: string;
+};
+
 type Insertable<Row, Required extends keyof Row> = Partial<Row> & Pick<Row, Required>;
 
 export type ProductInsert = Insertable<ProductRow, 'supplier_id' | 'title'>;
@@ -279,6 +288,12 @@ export type Database = {
         Row: InquiryMessageRow;
         Insert: Insertable<InquiryMessageRow, 'inquiry_id' | 'author_role' | 'body'>;
         Update: Partial<InquiryMessageRow>;
+        Relationships: [];
+      };
+      notifications: {
+        Row: NotificationRow;
+        Insert: Insertable<NotificationRow, 'profile_id' | 'type'>;
+        Update: Partial<NotificationRow>;
         Relationships: [];
       };
     };

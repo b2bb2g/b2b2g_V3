@@ -2,6 +2,7 @@
 // 공급사 회신 액션. RLS(공급사 insert 정책)가 소유·상태 검증, 트리거가 status→replied.
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { notifyInquiryReplied } from '@/lib/notify';
 
 export type ReplyResult = { ok: true } | { ok: false; error: string };
 
@@ -28,5 +29,6 @@ export async function replyToInquiry(
   });
   if (error) return { ok: false, error: error.message };
 
+  await notifyInquiryReplied(inquiryId);
   redirect(`/dashboard/supplier-inquiries/${inquiryId}`);
 }
