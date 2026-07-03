@@ -12,7 +12,10 @@
     "heroTitle": "Discover verified Korean suppliers",
     "heroSubtitle": "Browse products freely. Sign in to see prices and send inquiries.",
     "browseProducts": "Browse products",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "featured": "Featured products",
+    "viewAll": "View all",
+    "tagline": "A B2B sourcing platform connecting verified Korean suppliers with overseas buyers."
   },
   "auth": {
     "loginTitle": "Sign in",
@@ -552,6 +555,7 @@
     "role_agent": "Agent",
     "role_admin": "Administrator",
     "member": "Member",
-    "language": "Language"
+    "language": "Language",
+    "menu": "Menu"
   }
 }

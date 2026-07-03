@@ -8,6 +8,7 @@ import { unreadNotificationCount } from '@/lib/notify/queries';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
 import { UserMenu, type MenuLink } from '@/components/UserMenu';
 import { WelcomeModal } from '@/components/WelcomeModal';
+import { MobileMenu } from '@/components/MobileMenu';
 
 export async function MainNav() {
   const [locale, tn, tc, items] = await Promise.all([
@@ -63,7 +64,8 @@ export async function MainNav() {
     <>
       {showWelcome && menu && <WelcomeModal name={menu.name} />}
       <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center gap-x-6 gap-y-2 px-6 py-3">
+      <nav className="relative mx-auto flex max-w-6xl items-center gap-x-6 gap-y-2 px-6 py-3">
+        <MobileMenu items={items.map((it) => ({ label: label(it), href: it.route }))} />
         <Link href="/" className="text-lg font-bold tracking-tight">
           {tc('brand')}
         </Link>

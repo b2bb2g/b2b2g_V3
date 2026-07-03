@@ -12,7 +12,10 @@
     "heroTitle": "검증된 한국 공급사를 만나보세요",
     "heroSubtitle": "제품은 자유롭게 둘러보고, 가격과 문의는 로그인 후 이용하세요.",
     "browseProducts": "제품 둘러보기",
-    "signIn": "로그인"
+    "signIn": "로그인",
+    "featured": "추천 제품",
+    "viewAll": "전체 보기",
+    "tagline": "검증된 한국 공급사와 해외 바이어를 잇는 B2B 소싱 플랫폼입니다."
   },
   "auth": {
     "loginTitle": "로그인",
@@ -552,6 +555,7 @@
     "role_agent": "에이전트",
     "role_admin": "관리자",
     "member": "회원",
-    "language": "언어"
+    "language": "언어",
+    "menu": "메뉴"
   }
 }
