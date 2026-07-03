@@ -210,7 +210,8 @@
     "certDelete": "삭제",
     "certNamePlaceholder": "이름(예: ISO 9001)",
     "certType_certification": "인증",
-    "certType_award": "수상"
+    "certType_award": "수상",
+    "newProductIn": "{category} 제품 등록"
   },
   "events": {
     "title": "행사",

@@ -210,7 +210,8 @@
     "certDelete": "Remove",
     "certNamePlaceholder": "Name (e.g. ISO 9001)",
     "certType_certification": "Certification",
-    "certType_award": "Award"
+    "certType_award": "Award",
+    "newProductIn": "New {category} product"
   },
   "events": {
     "title": "Events",

@@ -17,11 +17,13 @@ export function ProductForm({
   product,
   action,
   suppliers,
+  lockedCategory,
 }: {
   categories: Category[];
   product?: ProductRow;
   action: ProductFormAction;
   suppliers?: { id: string; company_name: string }[];
+  lockedCategory?: Category;
 }) {
   const t = useTranslations('supplier');
   const tu = useTranslations('ui');
@@ -69,14 +71,21 @@ export function ProductForm({
       </Field>
 
       <Field label={t('fieldCategory')}>
-        <select name="categoryId" defaultValue={product?.category_id ?? ''} className={inputClass}>
-          <option value="">{t('selectCategory')}</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+        {lockedCategory ? (
+          <>
+            <input type="hidden" name="categoryId" value={lockedCategory.id} />
+            <div className={`${inputClass} bg-neutral-50 text-neutral-600`}>{lockedCategory.name}</div>
+          </>
+        ) : (
+          <select name="categoryId" defaultValue={product?.category_id ?? ''} className={inputClass}>
+            <option value="">{t('selectCategory')}</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        )}
       </Field>
 
       <div className="grid grid-cols-2 gap-4">

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getMySupplier, listMyProducts } from '@/lib/supplier/queries';
+import { listTopCategories } from '@/lib/products/queries';
 import { submitProductForReview } from '@/lib/supplier/actions';
 import type { ProductStatus } from '@/lib/supabase/database.types';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -23,24 +24,36 @@ export default async function ProductsPage() {
     redirect('/dashboard/company');
   }
 
-  const products = await listMyProducts();
+  const [products, groups] = await Promise.all([listMyProducts(), listTopCategories()]);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-bold">{t('productsTitle')}</h1>
-        <Link
-          href="/dashboard/products/new"
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
-        >
-          {t('newProduct')}
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          {groups.map((g) => (
+            <Link
+              key={g.id}
+              href={`/dashboard/products/new?group=${g.id}`}
+              className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+            >
+              {t('newProductIn', { category: g.name })}
+            </Link>
+          ))}
+        </div>
       </div>
 
       {products.length === 0 ? (
         <EmptyState
           message={t('productsEmpty')}
-          action={{ label: t('newProduct'), href: '/dashboard/products/new' }}
+          action={
+            groups[0]
+              ? {
+                  label: t('newProductIn', { category: groups[0].name }),
+                  href: `/dashboard/products/new?group=${groups[0].id}`,
+                }
+              : { label: t('newProduct'), href: '/dashboard/products/new' }
+          }
         />
       ) : (
         <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
