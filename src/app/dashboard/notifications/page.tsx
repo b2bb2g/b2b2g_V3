@@ -13,6 +13,7 @@ const TYPE_KEYS = new Set([
   'product_rejected',
   'member_approved',
   'member_rejected',
+  'event_reminder',
 ]);
 
 function linkFor(type: string, inquiryId: unknown): string {
@@ -21,6 +22,7 @@ function linkFor(type: string, inquiryId: unknown): string {
   }
   if (type === 'inquiry_replied') return '/dashboard/inquiries';
   if (type === 'product_approved' || type === 'product_rejected') return '/dashboard/products';
+  if (type === 'event_reminder') return '/events';
   return '/dashboard';
 }
 

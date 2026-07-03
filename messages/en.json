@@ -136,7 +136,8 @@
     "product_approved": "Your product is now listed",
     "product_rejected": "Your product was not approved",
     "member_approved": "Your account is approved",
-    "member_rejected": "Your account review update"
+    "member_rejected": "Your account review update",
+    "event_reminder": "Event reminder"
   },
   "ui": {
     "show": "Show",

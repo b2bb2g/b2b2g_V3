@@ -136,7 +136,8 @@
     "product_approved": "제품이 공개되었습니다",
     "product_rejected": "제품이 반려되었습니다",
     "member_approved": "계정이 승인되었습니다",
-    "member_rejected": "계정 검토 결과 안내"
+    "member_rejected": "계정 검토 결과 안내",
+    "event_reminder": "행사 리마인더"
   },
   "ui": {
     "show": "표시",

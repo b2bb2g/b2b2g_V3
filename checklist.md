@@ -201,6 +201,7 @@
 - [x] #2 에이전트 산하 바이어 관리: profiles.referred_by(추천인 링크) + 가입 트리거 ref 해석 + 에이전트용 마스킹 뷰(agent_buyers) + /dashboard/my-buyers. 가드에 referred_by·referral_code 보호 추가
 - [x] #3 관리자 등급·인증마크 부여 UI: 회원 상세(공급사)에 등급(무료↔유료)·인증마크 폼, 변경 감사로그(update). 인증마크는 공급사 미니홈에 즉시 노출
 - [x] 가입 인증 메일 우리 발송 일원화: Supabase Send Email Hook → /api/auth/email-hook(서명검증 standardwebhooks) → sendEmail→email_outbox. 라이브 검증(가입 메일 도착) 완료. env: AUTH_EMAIL_HOOK_SECRET
-- [ ] 행사 리마인더 메일, 랜딩 익명 활동 신호, product_certifications 입력 UI, 업로드 용량/mime 하드닝
+- [x] 행사 리마인더 메일: events.reminder_sent_at + sendEventReminders(신청자 앱알림+이메일, 행사당 1회) + /api/cron/event-reminders(CRON_SECRET) + vercel.json 매일 크론. event_reminder 템플릿
+- [ ] 랜딩 익명 활동 신호, product_certifications 입력 UI, 업로드 용량/mime 하드닝
 
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)

@@ -135,6 +135,20 @@ const TEMPLATES: Partial<Record<EmailTemplate, LocaleTemplates>> = {
       ),
     }),
   },
+  event_reminder: {
+    en: (p) => ({
+      subject: 'Event reminder',
+      html: wrap(
+        `<h2>Upcoming event</h2><p>Your registered event <strong>${esc(p.eventName)}</strong> starts on ${esc(p.when)}. We look forward to seeing you.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '행사 리마인더',
+      html: wrap(
+        `<h2>다가오는 행사</h2><p>신청하신 <strong>${esc(p.eventName)}</strong> 행사가 ${esc(p.when)}에 시작됩니다. 참여를 기다립니다.</p>`,
+      ),
+    }),
+  },
   generic: {
     en: (p) => ({
       subject: esc(p.subject) || 'Notification',
