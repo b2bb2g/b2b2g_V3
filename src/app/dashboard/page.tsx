@@ -1,11 +1,14 @@
-// 대시보드. 역할별 진입점. 공급사는 승인 전에도 온보딩(회사정보·제품 준비) 가능.
+// 역할별 대시보드(#5). 환영 헤더 + 승인상태 + 역할별 빠른작업 카드 + 추천 초대.
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { unreadNotificationCount } from '@/lib/notify/queries';
-import { LogoutButton } from '@/components/LogoutButton';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ShareWidget } from '@/components/ShareWidget';
+
+type Card = { href: string; title: string; desc: string; badge?: number };
 
 export default async function DashboardPage({
   searchParams,
@@ -14,128 +17,97 @@ export default async function DashboardPage({
 }) {
   const { welcome } = await searchParams;
   const t = await getTranslations('dashboard');
-  const ts = await getTranslations('supplier');
-  const ti = await getTranslations('inquiry');
-  const tn = await getTranslations('notifications');
-  const tr = await getTranslations('requests');
+  const tn = await getTranslations('nav');
   const supabase = await createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/auth/login');
-  }
+  if (!user) redirect('/auth/login');
 
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-  if (!profile) {
-    redirect('/auth/login');
-  }
+  if (!profile) redirect('/auth/login');
 
-  const isSupplier = profile.role === 'supplier';
-  const isBuyerOrAgent = profile.role === 'buyer' || profile.role === 'agent';
   const notApproved = profile.role !== 'admin' && profile.status !== 'approved';
   const unread = await unreadNotificationCount();
 
+  const cards: Card[] = [];
+  if (profile.role === 'supplier') {
+    cards.push(
+      { href: '/dashboard/company', title: tn('myCompany'), desc: t('cardCompany') },
+      { href: '/dashboard/products', title: tn('myProducts'), desc: t('cardProducts') },
+      { href: '/dashboard/supplier-inquiries', title: tn('receivedInquiries'), desc: t('cardReceived') },
+    );
+  }
+  if (profile.role === 'buyer' || profile.role === 'agent') {
+    cards.push(
+      { href: '/dashboard/inquiries', title: tn('myInquiries'), desc: t('cardInquiries') },
+      { href: '/dashboard/requests', title: tn('myRequests'), desc: t('cardRequests') },
+    );
+  }
+  if (profile.role === 'admin') {
+    cards.push({ href: '/admin', title: tn('adminConsole'), desc: t('cardAdmin') });
+  }
+  cards.push({
+    href: '/dashboard/notifications',
+    title: tn('notifications'),
+    desc: t('cardNotifications'),
+    badge: unread,
+  });
+
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8 px-6 py-16">
+    <PageShell>
+      <PageHeader
+        title={t('greeting', { name: profile.display_name })}
+        description={t('greetingSub')}
+        action={
+          <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">
+            {tn(`role_${profile.role}`)}
+          </span>
+        }
+      />
+
       {welcome && (
-        <p className="rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <p className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           {t('loginWelcome', { name: profile.display_name })}
         </p>
       )}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">{t('title')}</h1>
-        <p className="text-lg">{t('welcome', { name: profile.display_name })}</p>
-        <dl className="flex gap-8 text-sm">
-          <div className="flex flex-col gap-1">
-            <dt className="text-neutral-500">{t('roleLabel')}</dt>
-            <dd className="font-medium">{profile.role}</dd>
-          </div>
-          <div className="flex flex-col gap-1">
-            <dt className="text-neutral-500">{t('statusLabel')}</dt>
-            <dd className="font-medium">{profile.status}</dd>
-          </div>
-        </dl>
-      </div>
 
       {notApproved && (
-        <p className="rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {ts('pendingBanner')}
+        <p className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {t('pendingBanner')}
         </p>
       )}
 
-      {profile.role === 'admin' && (
-        <Link
-          href="/admin"
-          className="w-fit rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
-        >
-          {t('adminConsole')}
-        </Link>
-      )}
-
-      <Link href="/dashboard/notifications" className="w-fit text-sm underline">
-        {tn('title')}
-        {unread > 0 && (
-          <span className="ml-2 rounded-full bg-neutral-900 px-2 py-0.5 text-xs text-white">
-            {unread}
-          </span>
-        )}
-      </Link>
-
-      {isSupplier && (
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-neutral-500">{ts('panelTitle')}</h2>
-          <div className="flex gap-3">
-            <Link
-              href="/dashboard/company"
-              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-            >
-              {ts('goCompany')}
-            </Link>
-            <Link
-              href="/dashboard/products"
-              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-            >
-              {ts('goProducts')}
-            </Link>
-            <Link
-              href="/dashboard/supplier-inquiries"
-              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-            >
-              {ts('goInquiries')}
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {isBuyerOrAgent && (
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-neutral-500">{ti('myTitle')}</h2>
-          <div className="flex gap-3">
-            <Link
-              href="/dashboard/inquiries"
-              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-            >
-              {ti('myTitle')}
-            </Link>
-            <Link
-              href="/dashboard/requests"
-              className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
-            >
-              {tr('myTitle')}
-            </Link>
-          </div>
-        </section>
-      )}
-
-      <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold text-neutral-500">{t('referralTitle')}</h2>
-        <p className="text-sm text-neutral-500">{t('referralDesc')}</p>
-        <ShareWidget targetType="signup_referral" targetId={null} refCode={profile.referral_code} />
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {cards.map((c) => (
+          <Link
+            key={c.href}
+            href={c.href}
+            className="group flex flex-col gap-1 rounded-xl border border-neutral-200 p-5 transition hover:border-neutral-400 hover:shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">{c.title}</span>
+              {c.badge ? (
+                <span className="rounded-full bg-neutral-900 px-2 py-0.5 text-xs text-white">
+                  {c.badge}
+                </span>
+              ) : (
+                <span className="text-neutral-300 transition group-hover:text-neutral-500">→</span>
+              )}
+            </div>
+            <span className="text-sm text-neutral-500">{c.desc}</span>
+          </Link>
+        ))}
       </section>
 
-      <LogoutButton />
-    </main>
+      <section className="flex flex-col gap-3 rounded-xl border border-neutral-200 p-5">
+        <div className="flex flex-col gap-1">
+          <h2 className="font-semibold">{t('referralTitle')}</h2>
+          <p className="text-sm text-neutral-500">{t('referralDesc')}</p>
+        </div>
+        <ShareWidget targetType="signup_referral" targetId={null} refCode={profile.referral_code} />
+      </section>
+    </PageShell>
   );
 }

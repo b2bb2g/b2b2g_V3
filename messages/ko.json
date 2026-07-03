@@ -60,7 +60,17 @@
     "adminConsole": "관리자 콘솔",
     "loginWelcome": "{name} 님, 환영합니다! 다시 만나 반갑습니다.",
     "referralTitle": "추천 초대",
-    "referralDesc": "추천 링크 또는 QR을 공유하세요. 이 링크로 가입하면 회원님의 추천으로 기록됩니다."
+    "referralDesc": "추천 링크 또는 QR을 공유하세요. 이 링크로 가입하면 회원님의 추천으로 기록됩니다.",
+    "greeting": "{name} 님, 안녕하세요",
+    "greetingSub": "내 작업 공간 요약입니다.",
+    "pendingBanner": "계정이 검토 중입니다. 승인 후 일부 기능이 활성화됩니다.",
+    "cardCompany": "회사정보와 미니홈페이지를 관리합니다.",
+    "cardProducts": "제품·이미지·첨부를 관리합니다.",
+    "cardReceived": "운영팀이 전달한 문의를 확인합니다.",
+    "cardInquiries": "공급사에 보낸 문의를 추적합니다.",
+    "cardRequests": "내 소싱 요청과 상태를 확인합니다.",
+    "cardAdmin": "회원·콘텐츠·마케팅을 관리합니다.",
+    "cardNotifications": "승인·회신·업데이트 알림입니다."
   },
   "legal": {
     "terms": "이용약관",
@@ -307,7 +317,11 @@
     "allRoles": "전체 역할",
     "allStatuses": "전체 상태",
     "createProduct": "제품 작성",
-    "createRequest": "소싱 요청 작성"
+    "createRequest": "소싱 요청 작성",
+    "groupMembers": "회원",
+    "groupContent": "콘텐츠 게시판",
+    "groupCreate": "작성",
+    "groupSite": "사이트·마케팅"
   },
   "epc": {
     "title": "EPC 프로젝트",
@@ -519,5 +533,22 @@
     "undo": "실행취소",
     "redo": "다시실행",
     "linkPrompt": "URL 입력"
+  },
+  "nav": {
+    "signIn": "로그인",
+    "signUp": "회원가입",
+    "logout": "로그아웃",
+    "dashboard": "대시보드",
+    "notifications": "알림",
+    "adminConsole": "관리자 콘솔",
+    "myCompany": "회사정보",
+    "myProducts": "제품관리",
+    "receivedInquiries": "받은 문의",
+    "myInquiries": "내 문의",
+    "myRequests": "내 요청",
+    "role_supplier": "공급사",
+    "role_buyer": "바이어",
+    "role_agent": "에이전트",
+    "role_admin": "관리자"
   }
 }

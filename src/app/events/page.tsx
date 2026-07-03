@@ -4,14 +4,16 @@ import { getTranslations } from 'next-intl/server';
 import { listPublishedEvents } from '@/lib/events/queries';
 import { CATEGORY_KEY, formatPeriod } from '@/lib/events/labels';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default async function EventsPage() {
   const t = await getTranslations('events');
   const events = await listPublishedEvents();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-bold">{t('title')}</h1>
+    <PageShell>
+      <PageHeader title={t('title')} />
       {events.length === 0 ? (
         <EmptyState message={t('empty')} />
       ) : (
@@ -37,6 +39,6 @@ export default async function EventsPage() {
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }

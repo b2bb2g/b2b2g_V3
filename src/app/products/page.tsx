@@ -5,6 +5,8 @@ import { getTranslations } from 'next-intl/server';
 import { listPublicProducts, listTopCategories } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ProductSearch } from './ProductSearch';
 
 export default async function ProductsListPage({
@@ -20,8 +22,8 @@ export default async function ProductsListPage({
   ]);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-bold">{t('listTitle')}</h1>
+    <PageShell width="wide">
+      <PageHeader title={t('listTitle')} />
 
       <ProductSearch categories={categories} currentQ={q ?? ''} currentCategory={category ?? ''} />
 
@@ -59,6 +61,6 @@ export default async function ProductsListPage({
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }

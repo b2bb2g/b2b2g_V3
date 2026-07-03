@@ -4,15 +4,16 @@ import { getTranslations } from 'next-intl/server';
 import { listPublishedProjects } from '@/lib/projects/queries';
 import { FIELD_KEY, STAGE_KEY, formatPeriod } from '@/lib/projects/labels';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default async function EpcPage() {
   const t = await getTranslations('epc');
   const projects = await listPublishedProjects();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-bold">{t('title')}</h1>
-      <p className="text-sm text-neutral-500">{t('intro')}</p>
+    <PageShell>
+      <PageHeader title={t('title')} description={t('intro')} />
 
       {projects.length === 0 ? (
         <EmptyState message={t('empty')} />
@@ -36,6 +37,6 @@ export default async function EpcPage() {
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }

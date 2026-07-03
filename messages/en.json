@@ -60,7 +60,17 @@
     "adminConsole": "Admin console",
     "loginWelcome": "Welcome, {name}! Great to see you again.",
     "referralTitle": "Invite & referral",
-    "referralDesc": "Share your referral link or QR. New sign-ups via this link are tagged to you."
+    "referralDesc": "Share your referral link or QR. New sign-ups via this link are tagged to you.",
+    "greeting": "Hello, {name}",
+    "greetingSub": "Here's your workspace overview.",
+    "pendingBanner": "Your account is under review. Some features unlock after approval.",
+    "cardCompany": "Edit your company profile and mini-site.",
+    "cardProducts": "Manage products, images, and attachments.",
+    "cardReceived": "Inquiries forwarded to you by our team.",
+    "cardInquiries": "Track inquiries you've sent to suppliers.",
+    "cardRequests": "Your sourcing requests and their status.",
+    "cardAdmin": "Manage members, content, and marketing.",
+    "cardNotifications": "Approvals, replies, and updates."
   },
   "legal": {
     "terms": "Terms of Service",
@@ -307,7 +317,11 @@
     "allRoles": "All roles",
     "allStatuses": "All statuses",
     "createProduct": "Create product",
-    "createRequest": "Create sourcing request"
+    "createRequest": "Create sourcing request",
+    "groupMembers": "Members",
+    "groupContent": "Content boards",
+    "groupCreate": "Create",
+    "groupSite": "Site & marketing"
   },
   "epc": {
     "title": "EPC Projects",
@@ -519,5 +533,22 @@
     "undo": "Undo",
     "redo": "Redo",
     "linkPrompt": "Enter URL"
+  },
+  "nav": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "logout": "Sign out",
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "adminConsole": "Admin console",
+    "myCompany": "Company profile",
+    "myProducts": "My products",
+    "receivedInquiries": "Received inquiries",
+    "myInquiries": "My inquiries",
+    "myRequests": "My requests",
+    "role_supplier": "Supplier",
+    "role_buyer": "Buyer",
+    "role_agent": "Agent",
+    "role_admin": "Administrator"
   }
 }

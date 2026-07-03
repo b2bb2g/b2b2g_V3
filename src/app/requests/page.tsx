@@ -4,17 +4,16 @@ import { getTranslations } from 'next-intl/server';
 import { listListedRequests } from '@/lib/requests/queries';
 import { formatBudget } from '@/lib/requests/labels';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default async function RequestsPage() {
   const t = await getTranslations('requests');
   const requests = await listListedRequests();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">{t('title')}</h1>
-        <p className="text-sm text-neutral-500">{t('intro')}</p>
-      </div>
+    <PageShell>
+      <PageHeader title={t('title')} description={t('intro')} />
 
       {requests.length === 0 ? (
         <EmptyState message={t('empty')} />
@@ -43,6 +42,6 @@ export default async function RequestsPage() {
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }

@@ -3,14 +3,16 @@ import { getTranslations } from 'next-intl/server';
 import { listPublishedFaqs } from '@/lib/content/queries';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { SafeHtml } from '@/components/SafeHtml';
+import { PageShell } from '@/components/ui/PageShell';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default async function FaqPage() {
   const t = await getTranslations('content');
   const faqs = await listPublishedFaqs();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-bold">{t('faq')}</h1>
+    <PageShell>
+      <PageHeader title={t('faq')} />
       {faqs.length === 0 ? (
         <EmptyState message={t('faqEmpty')} />
       ) : (
@@ -30,6 +32,6 @@ export default async function FaqPage() {
           ))}
         </ul>
       )}
-    </main>
+    </PageShell>
   );
 }
