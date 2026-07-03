@@ -119,6 +119,24 @@
     "statusListed": "Listed",
     "statusRejected": "Rejected"
   },
+  "products": {
+    "listTitle": "Products",
+    "empty": "No products are listed yet.",
+    "category": "Category",
+    "supplier": "Supplier",
+    "description": "Description",
+    "priceContact": "Contact for price",
+    "gatedTitle": "Price & trade terms",
+    "gatedPrompt": "Sign in to view the price and trade terms.",
+    "signIn": "Sign in",
+    "tradeTerms": "Trade terms",
+    "moq": "Minimum order",
+    "leadTime": "Lead time",
+    "shipFrom": "Ship from",
+    "paymentTerms": "Payment terms",
+    "daysUnit": "days",
+    "backToList": "Back to products"
+  },
   "admin": {
     "title": "Admin",
     "overview": "Approval queues",

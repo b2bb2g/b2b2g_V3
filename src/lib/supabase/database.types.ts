@@ -234,7 +234,15 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      public_suppliers: {
+        Row: {
+          id: string;
+          company_name: string;
+          verified: boolean;
+          tier: SupplierTier;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       is_admin: {

@@ -119,6 +119,24 @@
     "statusListed": "노출 중",
     "statusRejected": "반려됨"
   },
+  "products": {
+    "listTitle": "제품",
+    "empty": "아직 노출된 제품이 없습니다.",
+    "category": "카테고리",
+    "supplier": "공급사",
+    "description": "설명",
+    "priceContact": "가격 문의",
+    "gatedTitle": "가격 · 거래조건",
+    "gatedPrompt": "가격과 거래조건은 로그인 후 볼 수 있습니다.",
+    "signIn": "로그인",
+    "tradeTerms": "거래조건",
+    "moq": "최소주문",
+    "leadTime": "리드타임",
+    "shipFrom": "출고지",
+    "paymentTerms": "결제조건",
+    "daysUnit": "일",
+    "backToList": "제품 목록으로"
+  },
   "admin": {
     "title": "관리자",
     "overview": "승인 대기함",

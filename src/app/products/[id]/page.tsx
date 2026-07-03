@@ -1,0 +1,86 @@
+// 공개 제품 상세(6.4). 비회원은 기본 정보만, 가격·거래조건은 로그인 벽. 문의는 Phase 3.
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { getProductDetail } from '@/lib/products/queries';
+
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const t = await getTranslations('products');
+  const { id } = await params;
+  const detail = await getProductDetail(id);
+  if (!detail) notFound();
+
+  const { base, categoryName, companyName, isMember, full } = detail;
+
+  return (
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
+      <div className="flex flex-col gap-2">
+        <Link href="/products" className="text-sm text-neutral-500 underline">
+          {t('backToList')}
+        </Link>
+        <h1 className="text-3xl font-bold">{base.title}</h1>
+        <p className="text-sm text-neutral-500">
+          {categoryName ? `${categoryName} · ` : ''}
+          {companyName}
+        </p>
+      </div>
+
+      {base.description && <p className="text-neutral-700">{base.description}</p>}
+      {base.detail_body && (
+        <div className="whitespace-pre-line leading-relaxed text-neutral-700">
+          {base.detail_body}
+        </div>
+      )}
+
+      <section className="rounded-lg border border-neutral-200 p-5">
+        <h2 className="mb-3 text-sm font-semibold text-neutral-500">{t('gatedTitle')}</h2>
+
+        {!isMember || !full ? (
+          <div className="flex flex-col items-start gap-3">
+            <p className="text-sm text-neutral-600">{t('gatedPrompt')}</p>
+            <Link
+              href={`/auth/login?next=/products/${base.id}`}
+              className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+            >
+              {t('signIn')}
+            </Link>
+          </div>
+        ) : (
+          <dl className="flex flex-col gap-2 text-sm">
+            <Row
+              label={t('gatedTitle')}
+              value={priceText(full.price_visible, full.price, t('priceContact'))}
+            />
+            {(full.moq != null || full.moq_unit) && (
+              <Row label={t('moq')} value={`${full.moq ?? ''} ${full.moq_unit ?? ''}`.trim()} />
+            )}
+            {(full.lead_time_min != null || full.lead_time_max != null) && (
+              <Row
+                label={t('leadTime')}
+                value={`${full.lead_time_min ?? ''}${
+                  full.lead_time_max != null ? `–${full.lead_time_max}` : ''
+                } ${t('daysUnit')}`.trim()}
+              />
+            )}
+            {full.ship_from && <Row label={t('shipFrom')} value={full.ship_from} />}
+            {full.payment_terms && <Row label={t('paymentTerms')} value={full.payment_terms} />}
+          </dl>
+        )}
+      </section>
+    </main>
+  );
+}
+
+function priceText(visible: boolean, price: number | null, contactLabel: string): string {
+  if (visible && price != null) return String(price);
+  return contactLabel;
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex gap-3">
+      <dt className="w-28 shrink-0 text-neutral-500">{label}</dt>
+      <dd className="font-medium">{value}</dd>
+    </div>
+  );
+}
