@@ -23,3 +23,6 @@ next-env.d.ts
 # 에디터
 .vscode/
 .idea/
+
+# Supabase CLI 임시 파일
+supabase/.temp/
