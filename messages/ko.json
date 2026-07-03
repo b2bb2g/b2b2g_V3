@@ -58,7 +58,9 @@
     "roleLabel": "역할",
     "statusLabel": "상태",
     "adminConsole": "관리자 콘솔",
-    "loginWelcome": "{name} 님, 환영합니다! 다시 만나 반갑습니다."
+    "loginWelcome": "{name} 님, 환영합니다! 다시 만나 반갑습니다.",
+    "referralTitle": "추천 초대",
+    "referralDesc": "추천 링크 또는 QR을 공유하세요. 이 링크로 가입하면 회원님의 추천으로 기록됩니다."
   },
   "legal": {
     "terms": "이용약관",

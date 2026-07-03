@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { unreadNotificationCount } from '@/lib/notify/queries';
 import { LogoutButton } from '@/components/LogoutButton';
+import { ShareWidget } from '@/components/ShareWidget';
 
 export default async function DashboardPage({
   searchParams,
@@ -127,6 +128,12 @@ export default async function DashboardPage({
           </div>
         </section>
       )}
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold text-neutral-500">{t('referralTitle')}</h2>
+        <p className="text-sm text-neutral-500">{t('referralDesc')}</p>
+        <ShareWidget targetType="signup_referral" targetId={null} refCode={profile.referral_code} />
+      </section>
 
       <LogoutButton />
     </main>

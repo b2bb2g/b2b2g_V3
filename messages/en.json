@@ -58,7 +58,9 @@
     "roleLabel": "Role",
     "statusLabel": "Status",
     "adminConsole": "Admin console",
-    "loginWelcome": "Welcome, {name}! Great to see you again."
+    "loginWelcome": "Welcome, {name}! Great to see you again.",
+    "referralTitle": "Invite & referral",
+    "referralDesc": "Share your referral link or QR. New sign-ups via this link are tagged to you."
   },
   "legal": {
     "terms": "Terms of Service",

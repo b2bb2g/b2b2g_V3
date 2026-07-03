@@ -296,6 +296,7 @@ export type ProfileRow = {
   memo: string | null;
   last_login_at: string | null;
   created_by: string | null;
+  referral_code: string;
   created_at: string;
   updated_at: string;
 };
