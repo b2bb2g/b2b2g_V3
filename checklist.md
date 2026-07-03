@@ -79,9 +79,13 @@
 - [x] e2e·RLS 실검증 6종 PASS(관리자 승인·격리·자가승격 차단 유지)
 - 인증배지·등급 부여는 후속(2.3/관리자 회원관리)
 
-### 슬라이스 2.5: 공개 목록/상세 + 회원제 게이트
-- [ ] /products 목록, /products/[id] 상세, /suppliers/[id] 미니홈
-- [ ] 비회원 가격·거래조건 마스킹(6.4, 열단위 뷰/쿼리), biz_reg_file 보호
+### 슬라이스 2.5: 공개 목록/상세 + 회원제 게이트 (완료, /suppliers 제외)
+- [x] /products 목록, /products/[id] 상세(비회원 기본정보 / 가격·거래조건 로그인 벽)
+- [x] 비회원 가격·거래조건 마스킹(6.4) — anon 테이블 SELECT 회수 + 안전컬럼만 GRANT
+  - [정정] 컬럼 REVOKE 는 테이블 GRANT 를 못 이김 → revoke table + grant columns 로 수정
+- [x] public_suppliers 뷰(사업자등록증 제외), biz_reg_file 보호
+- [x] 마스킹 e2e 5종 PASS(비회원 price/moq 42501 거부, 회원 조회 가능)
+- [ ] /suppliers/[id] 미니홈 — 후속(2.3 미디어와 함께)
 
 ### 슬라이스 2.6: 실시간 검색·필터 (8.5)
 - [ ] as-you-type 검색(디바운스), 카테고리·국가 필터
