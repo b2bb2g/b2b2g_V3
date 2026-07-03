@@ -15,7 +15,11 @@
     "signIn": "Sign in",
     "featured": "Featured products",
     "viewAll": "View all",
-    "tagline": "A B2B sourcing platform connecting verified Korean suppliers with overseas buyers."
+    "tagline": "A B2B sourcing platform connecting verified Korean suppliers with overseas buyers.",
+    "statSuppliers": "Verified suppliers",
+    "statProducts": "Listed products",
+    "statRequests": "Open sourcing requests",
+    "statInquiries": "Inquiries this month"
   },
   "auth": {
     "loginTitle": "Sign in",

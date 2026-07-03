@@ -713,6 +713,15 @@ export type Database = {
         Args: { p_slug: string };
         Returns: { target_type: ShortLinkTarget; target_id: string | null; ref_code: string | null }[];
       };
+      platform_stats: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          verified_suppliers: number;
+          listed_products: number;
+          open_requests: number;
+          recent_inquiries: number;
+        }[];
+      };
     };
     Enums: {
       user_role: UserRole;

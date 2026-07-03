@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { listPublicProducts } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { getTopPopup } from '@/lib/marketing/queries';
+import { getPlatformStats } from '@/lib/stats/queries';
 import { BannerSlot } from '@/components/BannerSlot';
 import { Popup } from '@/components/Popup';
 import type { PopupTarget } from '@/lib/supabase/database.types';
@@ -30,8 +31,20 @@ export default async function HomePage() {
     target = role === 'buyer' || role === 'supplier' || role === 'agent' ? role : 'all';
   }
 
-  const [popup, products] = await Promise.all([getTopPopup(target), listPublicProducts()]);
+  const [popup, products, stats] = await Promise.all([
+    getTopPopup(target),
+    listPublicProducts(),
+    getPlatformStats(),
+  ]);
   const featured = products.slice(0, 8);
+
+  // 개인정보 없는 집계 신호. 0 인 항목은 숨겨 초기 단계에도 자연스럽게.
+  const signals = [
+    { value: stats.verifiedSuppliers, label: t('statSuppliers') },
+    { value: stats.listedProducts, label: t('statProducts') },
+    { value: stats.openRequests, label: t('statRequests') },
+    { value: stats.recentInquiries, label: t('statInquiries') },
+  ].filter((s) => s.value > 0);
 
   return (
     <>
@@ -57,6 +70,17 @@ export default async function HomePage() {
               </Link>
             )}
           </div>
+
+          {signals.length > 0 && (
+            <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+              {signals.map((s) => (
+                <div key={s.label} className="flex flex-col">
+                  <dt className="text-2xl font-bold tabular-nums">{s.value.toLocaleString()}</dt>
+                  <dd className="text-xs text-neutral-500">{s.label}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
       </section>
 

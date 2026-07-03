@@ -15,7 +15,11 @@
     "signIn": "로그인",
     "featured": "추천 제품",
     "viewAll": "전체 보기",
-    "tagline": "검증된 한국 공급사와 해외 바이어를 잇는 B2B 소싱 플랫폼입니다."
+    "tagline": "검증된 한국 공급사와 해외 바이어를 잇는 B2B 소싱 플랫폼입니다.",
+    "statSuppliers": "검증 공급사",
+    "statProducts": "등록 제품",
+    "statRequests": "진행 중 소싱 요청",
+    "statInquiries": "이번 달 문의"
   },
   "auth": {
     "loginTitle": "로그인",
