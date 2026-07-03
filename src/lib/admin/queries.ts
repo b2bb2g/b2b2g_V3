@@ -62,6 +62,53 @@ export type PendingProduct = Pick<ProductRow, 'id' | 'title' | 'created_at'> & {
   sectionName: string | null;
 };
 
+export type AdminProduct = Pick<ProductRow, 'id' | 'title' | 'status' | 'created_at'> & {
+  companyName: string | null;
+  sectionId: string | null;
+  sectionName: string | null;
+};
+
+// 전 상태 제품(대기·공개·초안·반려) + 섹션 정보. 관리자 제품 관리 화면용.
+export async function listAdminProducts(): Promise<AdminProduct[]> {
+  const supabase = await createClient();
+  const { data: products } = await supabase
+    .from('products')
+    .select('id, title, status, created_at, supplier_id, category_id')
+    .order('created_at', { ascending: false });
+  if (!products || products.length === 0) return [];
+
+  const supplierIds = [...new Set(products.map((p) => p.supplier_id))];
+  const [{ data: suppliers }, { data: cats }] = await Promise.all([
+    supabase.from('suppliers').select('id, company_name').in('id', supplierIds),
+    supabase.from('categories').select('id, name, parent_id'),
+  ]);
+  const nameById = new Map((suppliers ?? []).map((s) => [s.id, s.company_name]));
+  const catById = new Map((cats ?? []).map((c) => [c.id, c]));
+
+  const sectionOf = (categoryId: string | null): { id: string | null; name: string | null } => {
+    const c = categoryId ? catById.get(categoryId) : null;
+    if (!c) return { id: null, name: null };
+    if (c.parent_id) {
+      const parent = catById.get(c.parent_id);
+      return { id: c.parent_id, name: parent?.name ?? c.name };
+    }
+    return { id: c.id, name: c.name };
+  };
+
+  return products.map((p) => {
+    const sec = sectionOf(p.category_id);
+    return {
+      id: p.id,
+      title: p.title,
+      status: p.status,
+      created_at: p.created_at,
+      companyName: nameById.get(p.supplier_id) ?? null,
+      sectionId: sec.id,
+      sectionName: sec.name,
+    };
+  });
+}
+
 export async function listPendingProducts(): Promise<PendingProduct[]> {
   const supabase = await createClient();
   const { data: products } = await supabase

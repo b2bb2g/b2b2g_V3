@@ -356,9 +356,14 @@
     "statsHeading": "Platform overview",
     "groupCatalog": "Catalog",
     "groupSourcing": "Sourcing & inquiries",
-    "manageProducts": "Product approvals",
+    "manageProducts": "Products",
     "manageInquiries": "Inquiries",
-    "createProductIn": "Add {section} product"
+    "createProductIn": "Add {section} product",
+    "manageProductsIntro": "All products by section. Approve, reject, publish, or unlist.",
+    "publish": "Publish",
+    "unlist": "Unlist",
+    "unlistConfirm": "Unlist this product from the public catalog?",
+    "uncategorized": "Uncategorized"
   },
   "epc": {
     "title": "EPC Projects",

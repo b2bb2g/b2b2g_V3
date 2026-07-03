@@ -54,6 +54,21 @@ export async function rejectProduct(productId: string): Promise<void> {
   revalidatePath('/admin/products');
 }
 
+// 공개된 제품을 비공개(초안)로 내림. 공급사가 다시 수정·재제출 가능. 감사로그 기록.
+export async function unlistProduct(productId: string): Promise<void> {
+  const ctx = await requireAdmin();
+  if (!ctx) return;
+  await ctx.supabase.from('products').update({ status: 'draft' }).eq('id', productId);
+  await logAudit({
+    adminId: ctx.adminId,
+    targetTable: 'products',
+    targetId: productId,
+    action: 'update',
+    after: { status: 'draft' },
+  });
+  revalidatePath('/admin/products');
+}
+
 export async function approveSupplier(profileId: string): Promise<void> {
   const ctx = await requireAdmin();
   if (!ctx) return;

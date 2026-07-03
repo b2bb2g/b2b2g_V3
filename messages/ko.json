@@ -356,9 +356,14 @@
     "statsHeading": "플랫폼 현황",
     "groupCatalog": "카탈로그",
     "groupSourcing": "소싱·문의",
-    "manageProducts": "제품 승인",
+    "manageProducts": "제품 관리",
     "manageInquiries": "문의함",
-    "createProductIn": "{section} 등록"
+    "createProductIn": "{section} 등록",
+    "manageProductsIntro": "섹션별 전체 제품. 승인·반려·공개·비공개 처리.",
+    "publish": "공개",
+    "unlist": "비공개",
+    "unlistConfirm": "이 제품을 공개 목록에서 내릴까요?",
+    "uncategorized": "미분류"
   },
   "epc": {
     "title": "EPC 프로젝트",
