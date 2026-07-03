@@ -136,13 +136,15 @@
 
 ## Phase 4 — 게시판 · 성장 기능
 
-### 슬라이스 4.1: 관리자 공지형 게시판(공지·FAQ) (진행 중)
-- [ ] notices/faqs + content_status enum, RLS(관리자 작성·공개 열람)
-- [ ] 관리자 CRUD(/admin/notices, /admin/faq), 공개 페이지(/notices, /faq)
-- [ ] 본문은 우선 텍스트(공통 리치 에디터·첨부는 별도 슬라이스)
+### 슬라이스 4.1: 관리자 공지형 게시판(공지·FAQ) (완료)
+- [x] notices/faqs + content_status enum, RLS(관리자 작성·published 공개)
+- [x] 관리자 CRUD(/admin/notices, /admin/faq), 공개(/notices, /faq), 푸터 링크
+- [x] 본문 텍스트(공통 리치 에디터·첨부는 4.5)
 
-### 슬라이스 4.2: 이벤트/행사 게시판(events)
-- [ ] events(참여신청 event_registrations), 공개 목록·상세, 관리자 CRUD
+### 슬라이스 4.2: 이벤트/행사 게시판(events) (완료)
+- [x] events/event_registrations + enum, RLS(작성·열람·신청 격리)
+- [x] 공개 /events·/events/[id](참가신청/취소), 관리자 CRUD(전 필드 폼)
+- [x] 배포됨(라이브 반영). cover_image 업로드는 미디어 슬라이스(4.5)
 
 ### 슬라이스 4.3: EPC 프로젝트 게시판(projects)
 - [ ] projects, 공개 목록·상세, 관리자 CRUD
