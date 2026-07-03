@@ -32,10 +32,13 @@
 ## [보안] DB 비밀번호 노출 — 조치 필요
 - 슬라이스 2 작업 중 `supabase gen types` 실패 에러 로그에 **DB 비밀번호가 평문으로 출력됨**(CLI가 연결 문자열을 에러에 그대로 실음). 세션 로그에 남았으므로 **Supabase 대시보드에서 DB 비밀번호를 로테이션 권장**. 로테이션 후 `.env.local`의 `SUPABASE_DB_PASSWORD` 갱신.
 
-## 배포 (진행 중) — [DEPLOY.md](DEPLOY.md) 참조
-- **훅 엔드포인트 코드 완료** — `src/app/api/auth/email-hook/route.ts`(Standard Webhooks 서명검증, email_action_type별 템플릿, `/auth/callback` 연결). `AUTH_EMAIL_HOOK_SECRET` env 필요.
-- **남은 것(사용자 직접)** — Vercel 프로젝트 생성·GitHub 연결, 환경변수 등록, Supabase Auth redirect URL + Send Email Hook URI/시크릿 설정. 절차는 DEPLOY.md.
-- 최초 관리자: 배포 후 Supabase SQL Editor에서 `profiles.role='admin'`,`status='approved'` 직접 지정(가드는 백엔드/SQL 허용).
+## 배포 (완료) — [DEPLOY.md](DEPLOY.md)
+- **라이브**: https://b2bb2g.com (Vercel, 커스텀 도메인). Supabase 프로젝트 ap-southeast-1.
+- **인증 메일**: Supabase **Custom SMTP = Resend SMTP**(smtp.resend.com:465, user `resend`, pass=Resend키, sender `B2BB2G <noreply@b2bb2g.com>`). Confirm email ON. 이메일 rate limit 100/h.
+  - **[결정] Send Email Hook 방식은 폐기** — 시크릿 매칭이 계속 어긋나 SMTP로 전환. 훅 라우트/`standardwebhooks` 의존성 제거함. SMTP와 훅 동시 활성 시 훅 우선이라 훅은 비활성.
+  - 인증 메일 문구는 Supabase Email Templates에서 관리(우리 email_outbox엔 안 남음).
+- **앱 알림 메일**(문의·회신): 우리 코드가 Resend API로 직접 발송(`src/lib/email/`, `email_outbox` 기록) — SMTP와 무관하게 동작.
+- 최초 관리자: Supabase SQL Editor에서 `update public.profiles set role='admin',status='approved' where email='...'` (가드는 백엔드/SQL 허용).
 
 ## i18n 방침
 - 영어 기본 + 한국어. 사용자별 언어는 추후 `profiles.locale`. 슬라이스 1에서는 next-intl "without i18n routing" 구성으로 기본 en, 확장 가능 구조만 마련.
