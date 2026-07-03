@@ -369,7 +369,15 @@
     "dashboard": "대시보드",
     "recentActivity": "최근 활동",
     "noActivity": "최근 활동이 없습니다.",
-    "welcomeBack": "{name} 님, 환영합니다"
+    "welcomeBack": "{name} 님, 환영합니다",
+    "legal": "법적 문서",
+    "audit": "감사 로그",
+    "emails": "이메일 로그",
+    "links": "단축 링크",
+    "groupSystem": "시스템",
+    "activate": "활성화",
+    "deactivate": "비활성화",
+    "recipient": "수신"
   },
   "epc": {
     "title": "EPC 프로젝트",

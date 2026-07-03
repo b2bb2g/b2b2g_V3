@@ -73,7 +73,7 @@ export default async function AdminRequestDetailPage({
         ) : (
           <ul className="flex flex-col gap-3">
             {responses.map((resp) => (
-              <li key={resp.id} className="rounded-lg border border-neutral-200 p-4">
+              <li key={resp.id} className="rounded-2xl border border-neutral-200 bg-white shadow-sm p-4">
                 <p className="whitespace-pre-line text-sm text-neutral-700">{resp.message}</p>
                 <form
                   action={updateResponseStatus.bind(null, resp.id)}

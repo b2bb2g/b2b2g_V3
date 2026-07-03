@@ -369,7 +369,15 @@
     "dashboard": "Dashboard",
     "recentActivity": "Recent activity",
     "noActivity": "No recent activity.",
-    "welcomeBack": "Welcome back, {name}"
+    "welcomeBack": "Welcome back, {name}",
+    "legal": "Legal documents",
+    "audit": "Audit log",
+    "emails": "Email log",
+    "links": "Short links",
+    "groupSystem": "System",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "recipient": "To"
   },
   "epc": {
     "title": "EPC Projects",

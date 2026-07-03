@@ -48,7 +48,7 @@ export default async function AdminProductsPage() {
             <h2 className="text-sm font-semibold text-neutral-500">
               {b.name} <span className="text-neutral-400">({b.items.length})</span>
             </h2>
-            <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
+            <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
               {b.items.map((p) => (
                 <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
                   <div className="flex flex-col">

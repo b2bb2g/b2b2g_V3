@@ -47,7 +47,7 @@ export default async function AdminInquiryDetailPage({
         </p>
       </div>
 
-      <section className="rounded-lg border border-neutral-200 p-4">
+      <section className="rounded-2xl border border-neutral-200 bg-white shadow-sm p-4">
         <h2 className="mb-2 text-sm font-semibold text-neutral-500">{t('content')}</h2>
         <p className="whitespace-pre-line text-neutral-700">{inquiry.content}</p>
       </section>

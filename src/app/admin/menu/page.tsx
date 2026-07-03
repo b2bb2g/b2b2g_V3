@@ -25,7 +25,7 @@ export default async function AdminMenuPage() {
       </div>
 
       {/* 메뉴 항목 */}
-      <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
+      <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
         {items.map((it) => (
           <li key={it.id} className="flex items-center justify-between gap-3 px-4 py-3">
             <div className="flex flex-col">
@@ -59,7 +59,7 @@ export default async function AdminMenuPage() {
       {/* 그룹 관리 — 메뉴 항목 리스트와 동일한 스타일로 통일 */}
       <div className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-neutral-500">{t('groupsHeading')}</h2>
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
+        <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {groups.map((g) => (
             <li key={g.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
               <form action={saveMenuGroup} className="flex flex-wrap items-center gap-2">

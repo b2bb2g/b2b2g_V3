@@ -38,6 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         { href: '/admin/events', label: te('manage') },
         { href: '/admin/epc', label: tp('manage') },
         { href: '/admin/services', label: tsv('manage') },
+        { href: '/admin/legal', label: t('legal') },
       ],
     },
     {
@@ -53,6 +54,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         { href: '/admin/menu', label: tm('manage') },
         { href: '/admin/banners', label: tmk('banners') },
         { href: '/admin/popups', label: tmk('popups') },
+        { href: '/admin/links', label: t('links') },
+      ],
+    },
+    {
+      heading: t('groupSystem'),
+      links: [
+        { href: '/admin/audit', label: t('audit') },
+        { href: '/admin/emails', label: t('emails') },
       ],
     },
   ];

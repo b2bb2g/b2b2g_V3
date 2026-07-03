@@ -16,7 +16,7 @@ export default async function AdminSuppliersPage() {
       {suppliers.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
       ) : (
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+        <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {suppliers.map((s) => (
             <li key={s.id} className="flex items-center justify-between gap-4 px-4 py-3">
               <div className="flex flex-col">

@@ -30,7 +30,7 @@ export default async function AdminMembersPage({
       {members.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
       ) : (
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-xl border border-neutral-200">
+        <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {members.map((m) => (
             <li key={m.id}>
               <Link

@@ -16,7 +16,7 @@ export default async function AdminRequestsPage() {
       {requests.length === 0 ? (
         <EmptyState message={t('myEmpty')} />
       ) : (
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+        <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {requests.map((r) => (
             <li key={r.id} className="flex items-center justify-between gap-3 px-4 py-3">
               <div className="flex flex-col">
