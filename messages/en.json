@@ -1,12 +1,44 @@
 {
   "common": {
     "appName": "B2B Sourcing Platform",
-    "tagline": "Connecting verified Korean suppliers with overseas buyers"
+    "tagline": "Connecting verified Korean suppliers with overseas buyers",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "loading": "Processing..."
   },
   "home": {
     "heroTitle": "Discover verified Korean suppliers",
     "heroSubtitle": "Browse products freely. Sign in to see prices and send inquiries.",
     "browseProducts": "Browse products",
     "signIn": "Sign in"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "signupTitle": "Create an account",
+    "displayName": "Display name",
+    "memberType": "Account type",
+    "roleSupplier": "Supplier",
+    "roleBuyer": "Buyer",
+    "passwordHint": "At least 8 characters.",
+    "loginCta": "Sign in",
+    "signupCta": "Create account",
+    "toSignup": "Don't have an account? Sign up",
+    "toLogin": "Already have an account? Sign in",
+    "invalidInput": "Please check your input.",
+    "loginFailed": "Sign in failed. Check your email and password.",
+    "signupFailed": "Sign up failed. Please try again.",
+    "referredBadge": "You were invited by a referral link.",
+    "verifyEmailTitle": "Check your email",
+    "verifyEmailBody": "We sent a confirmation link to your email. Click it to activate your account.",
+    "pendingTitle": "Awaiting approval",
+    "pendingBody": "Your account is under admin review. You'll be notified once it's approved.",
+    "logout": "Sign out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Signed in as {name}",
+    "roleLabel": "Role",
+    "statusLabel": "Status"
   }
 }
