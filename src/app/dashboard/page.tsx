@@ -8,6 +8,7 @@ import { LogoutButton } from '@/components/LogoutButton';
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
   const ts = await getTranslations('supplier');
+  const ti = await getTranslations('inquiry');
   const supabase = await createClient();
 
   const {
@@ -23,6 +24,7 @@ export default async function DashboardPage() {
   }
 
   const isSupplier = profile.role === 'supplier';
+  const isBuyerOrAgent = profile.role === 'buyer' || profile.role === 'agent';
   const notApproved = profile.role !== 'admin' && profile.status !== 'approved';
 
   return (
@@ -65,6 +67,18 @@ export default async function DashboardPage() {
               {ts('goProducts')}
             </Link>
           </div>
+        </section>
+      )}
+
+      {isBuyerOrAgent && (
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold text-neutral-500">{ti('myTitle')}</h2>
+          <Link
+            href="/dashboard/inquiries"
+            className="w-fit rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium"
+          >
+            {ti('myTitle')}
+          </Link>
         </section>
       )}
 

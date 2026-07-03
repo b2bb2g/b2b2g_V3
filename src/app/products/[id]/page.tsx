@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getProductDetail } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
+import { InquiryForm } from './InquiryForm';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('products');
@@ -90,6 +91,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             {full.payment_terms && <Row label={t('paymentTerms')} value={full.payment_terms} />}
           </dl>
         )}
+
+        {isMember && full && <InquiryForm productId={base.id} />}
       </section>
     </main>
   );

@@ -128,6 +128,22 @@
     "uploadFailed": "Upload failed. Please try again.",
     "noImages": "No images yet."
   },
+  "inquiry": {
+    "title": "Contact this supplier",
+    "typeInquiry": "Inquiry",
+    "typeQuote": "Quote request",
+    "contentLabel": "Message",
+    "contentPlaceholder": "Describe your requirement (quantity, target price, ...)",
+    "send": "Send",
+    "sendFailed": "Could not send. Please try again.",
+    "myTitle": "My inquiries",
+    "empty": "No inquiries yet.",
+    "statusSubmitted": "Submitted",
+    "statusAdminReview": "Under review",
+    "statusForwarded": "Forwarded",
+    "statusReplied": "Replied",
+    "statusClosed": "Closed"
+  },
   "products": {
     "listTitle": "Products",
     "empty": "No products are listed yet.",
