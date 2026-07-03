@@ -61,10 +61,12 @@
 - [x] owns_supplier() 헬퍼, Commercial/Industrial 대분류 시드
 - [x] 프로덕션 적용·스키마/카테고리/RLS 검증
 
-### 슬라이스 2.2: 공급사 온보딩 + 제품 등록(초안)
-- [ ] 공급사 회사정보 입력(suppliers 행 생성: company_name·사업자등록)
-- [ ] 제품 초안 CRUD(제목·설명·카테고리·가격·price_visible·MOQ·리드타임 등 텍스트 필드)
-- [ ] 공급사 대시보드에 내 제품 목록·상태
+### 슬라이스 2.2: 공급사 온보딩 + 제품 등록(초안) (완료)
+- [x] 공급사 회사정보 입력(suppliers upsert), 대시보드 공급사 패널
+- [x] 제품 초안 CRUD(전 buyKOREA 텍스트/숫자 필드) + 검토 요청(draft→pending)
+- [x] 내 제품 목록·상태, 등록/수정 공용 폼
+- [x] e2e·RLS 실검증 7종 PASS(소유 격리·draft 비공개·검토제출·listed 공개)
+- 사업자등록증 파일은 슬라이스 2.3(Storage)로
 
 ### 슬라이스 2.3: 미디어 업로드 + 인증/수상
 - [ ] Supabase Storage 버킷·정책, product_media 업로드(이미지·대표이미지)
