@@ -47,6 +47,7 @@ export type EventRow = {
   status: ContentStatus;
   is_pinned: boolean;
   registration_enabled: boolean;
+  reminder_enabled: boolean;
   reminder_sent_at: string | null;
   created_at: string;
   updated_at: string;

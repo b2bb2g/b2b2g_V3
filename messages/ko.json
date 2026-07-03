@@ -246,7 +246,8 @@
     "pin": "상단 고정",
     "enableRegistration": "플랫폼 내 참가신청 사용",
     "save": "저장",
-    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요."
+    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요.",
+    "enableReminder": "행사 리마인더 자동 발송"
   },
   "inquiry": {
     "title": "이 공급사에 문의",

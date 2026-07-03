@@ -53,6 +53,7 @@ export async function saveEvent(
     status: (formData.get('status') === 'published' ? 'published' : 'draft') as ContentStatus,
     is_pinned: formData.get('is_pinned') === 'on',
     registration_enabled: formData.get('registration_enabled') === 'on',
+    reminder_enabled: formData.get('reminder_enabled') === 'on',
   };
 
   const { error } = id

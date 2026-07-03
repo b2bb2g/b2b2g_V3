@@ -15,6 +15,7 @@ export async function sendEventReminders(): Promise<{ events: number; emailed: n
     .select('id, name, starts_at')
     .eq('status', 'published')
     .eq('registration_enabled', true)
+    .eq('reminder_enabled', true)
     .is('reminder_sent_at', null)
     .not('starts_at', 'is', null)
     .gte('starts_at', now.toISOString())

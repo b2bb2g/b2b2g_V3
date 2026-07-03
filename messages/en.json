@@ -246,7 +246,8 @@
     "pin": "Pin to top",
     "enableRegistration": "Enable in-platform applications",
     "save": "Save",
-    "saveFailed": "Could not save. Please try again."
+    "saveFailed": "Could not save. Please try again.",
+    "enableReminder": "Send event reminder automatically"
   },
   "inquiry": {
     "title": "Contact this supplier",

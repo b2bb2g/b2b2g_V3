@@ -136,6 +136,10 @@ export function EventForm({ event }: { event?: EventRow }) {
         />
         {t('enableRegistration')}
       </label>
+      <label className="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="reminder_enabled" defaultChecked={event?.reminder_enabled} />
+        {t('enableReminder')}
+      </label>
 
       {state && !state.ok && (
         <p role="alert" className="text-sm text-red-600">
