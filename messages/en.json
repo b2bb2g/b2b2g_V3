@@ -357,7 +357,8 @@
     "groupCatalog": "Catalog",
     "groupSourcing": "Sourcing & inquiries",
     "manageProducts": "Product approvals",
-    "manageInquiries": "Inquiries"
+    "manageInquiries": "Inquiries",
+    "createProductIn": "Add {section} product"
   },
   "epc": {
     "title": "EPC Projects",

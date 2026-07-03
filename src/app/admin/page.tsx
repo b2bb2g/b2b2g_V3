@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { approvalCounts } from '@/lib/admin/queries';
 import { getPlatformStats } from '@/lib/stats/queries';
+import { listTopCategories } from '@/lib/products/queries';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
 
@@ -17,7 +18,11 @@ export default async function AdminPage() {
   const tsv = await getTranslations('services');
   const tmk = await getTranslations('marketing');
   const tcat = await getTranslations('categories');
-  const [counts, stats] = await Promise.all([approvalCounts(), getPlatformStats()]);
+  const [counts, stats, sections] = await Promise.all([
+    approvalCounts(),
+    getPlatformStats(),
+    listTopCategories(),
+  ]);
 
   const queue = [
     { href: '/admin/products', label: t('pendingProducts'), count: counts.products },
@@ -44,7 +49,11 @@ export default async function AdminPage() {
       heading: t('groupCatalog'),
       links: [
         { href: '/admin/products', label: t('manageProducts') },
-        { href: '/admin/products/new', label: t('createProduct') },
+        // 섹션(Commercial/Industrial 등)별 등록 링크.
+        ...sections.map((s) => ({
+          href: `/admin/products/new?group=${s.id}`,
+          label: t('createProductIn', { section: s.name }),
+        })),
         { href: '/admin/categories', label: tcat('manage') },
       ],
     },

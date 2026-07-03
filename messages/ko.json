@@ -357,7 +357,8 @@
     "groupCatalog": "카탈로그",
     "groupSourcing": "소싱·문의",
     "manageProducts": "제품 승인",
-    "manageInquiries": "문의함"
+    "manageInquiries": "문의함",
+    "createProductIn": "{section} 등록"
   },
   "epc": {
     "title": "EPC 프로젝트",
