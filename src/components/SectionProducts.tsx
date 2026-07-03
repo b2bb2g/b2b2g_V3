@@ -1,53 +1,54 @@
-// 대분류(Commercial/Industrial 등) 섹션 제품 목록. 상위 섹션별 독립 페이지. 하위 카테고리는 필터칩(향후).
+// 대분류 섹션(Commercial/Industrial) 제품 목록. EPC/Events 처럼 개별 페이지에서 재사용.
+// 하위 카테고리는 향후용 — 있으면 필터칩으로 자동 노출.
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 import {
-  getCategory,
+  getTopCategoryByName,
   listChildCategories,
   listPublicProducts,
 } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
-import { getTranslations } from 'next-intl/server';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ProductSearch } from '@/app/products/ProductSearch';
 
-export default async function ProductGroupPage({
-  params,
-  searchParams,
+export async function SectionProducts({
+  name,
+  basePath,
+  selectedChild,
+  q,
 }: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ category?: string; q?: string }>;
+  name: string;
+  basePath: string;
+  selectedChild?: string;
+  q?: string;
 }) {
   const t = await getTranslations('products');
-  const { id } = await params;
-  const { category, q } = await searchParams;
+  const section = await getTopCategoryByName(name);
+  if (!section) notFound();
 
-  const group = await getCategory(id);
-  if (!group) notFound();
-
-  const children = await listChildCategories(id);
-  // 선택된 하위 카테고리가 있으면 그것만, 없으면 그룹 전체(그룹 + 하위).
-  const groupIds = [id, ...children.map((c) => c.id)];
+  const children = await listChildCategories(section.id);
+  const groupIds = [section.id, ...children.map((c) => c.id)];
   const products = await listPublicProducts(
-    category ? { categoryId: category, q } : { categoryIds: groupIds, q },
+    selectedChild ? { categoryId: selectedChild, q } : { categoryIds: groupIds, q },
   );
 
   return (
     <PageShell width="wide">
-      <PageHeader title={group.name} />
+      <PageHeader title={section.name} />
 
       <ProductSearch
         categories={children}
         currentQ={q ?? ''}
-        currentCategory={category ?? ''}
-        basePath={`/products/group/${id}`}
+        currentCategory={selectedChild ?? ''}
+        basePath={basePath}
       />
 
       {products.length === 0 ? (
-        <EmptyState message={q || category ? t('noResults') : t('empty')} />
+        <EmptyState message={q || selectedChild ? t('noResults') : t('empty')} />
       ) : (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
