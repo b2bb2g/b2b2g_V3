@@ -1,34 +1,53 @@
-// 공개 제품 목록(6.2/6.4). 비회원도 열람 — 제품명·카테고리·공급사명까지. 가격은 노출 안 함.
+// 대분류(Commercial/Industrial 등) 섹션 제품 목록. 상위 섹션별 독립 페이지. 하위 카테고리는 필터칩(향후).
 import Link from 'next/link';
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import { listPublicProducts } from '@/lib/products/queries';
+import { notFound } from 'next/navigation';
+import {
+  getCategory,
+  listChildCategories,
+  listPublicProducts,
+} from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
+import { getTranslations } from 'next-intl/server';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { ProductSearch } from './ProductSearch';
+import { ProductSearch } from '@/app/products/ProductSearch';
 
-export default async function ProductsListPage({
+export default async function ProductGroupPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ id: string }>;
   searchParams: Promise<{ category?: string; q?: string }>;
 }) {
   const t = await getTranslations('products');
+  const { id } = await params;
   const { category, q } = await searchParams;
-  const products = await listPublicProducts({ categoryId: category, q });
+
+  const group = await getCategory(id);
+  if (!group) notFound();
+
+  const children = await listChildCategories(id);
+  // 선택된 하위 카테고리가 있으면 그것만, 없으면 그룹 전체(그룹 + 하위).
+  const groupIds = [id, ...children.map((c) => c.id)];
+  const products = await listPublicProducts(
+    category ? { categoryId: category, q } : { categoryIds: groupIds, q },
+  );
 
   return (
     <PageShell width="wide">
-      <PageHeader title={t('listTitle')} />
+      <PageHeader title={group.name} />
 
-      <ProductSearch categories={[]} currentQ={q ?? ''} currentCategory={category ?? ''} />
+      <ProductSearch
+        categories={children}
+        currentQ={q ?? ''}
+        currentCategory={category ?? ''}
+        basePath={`/products/group/${id}`}
+      />
 
       {products.length === 0 ? (
-        <EmptyState
-          message={q || category ? t('noResults') : t('empty')}
-          action={q || category ? { label: t('resetFilters'), href: '/products' } : undefined}
-        />
+        <EmptyState message={q || category ? t('noResults') : t('empty')} />
       ) : (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (

@@ -11,10 +11,12 @@ export function ProductSearch({
   categories,
   currentQ,
   currentCategory,
+  basePath = '/products',
 }: {
   categories: Category[];
   currentQ: string;
   currentCategory: string;
+  basePath?: string;
 }) {
   const t = useTranslations('products');
   const router = useRouter();
@@ -34,7 +36,7 @@ export function ProductSearch({
     if (q) params.set('q', q);
     if (category) params.set('category', category);
     const qs = params.toString();
-    startTransition(() => router.replace(qs ? `/products?${qs}` : '/products'));
+    startTransition(() => router.replace(qs ? `${basePath}?${qs}` : basePath));
   }
 
   function onChange(next: string) {
@@ -63,21 +65,23 @@ export function ProductSearch({
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2 text-sm">
-        <FilterChip
-          label={t('allCategories')}
-          active={!currentCategory}
-          onClick={() => pushUrl(value.trim(), '')}
-        />
-        {categories.map((c) => (
+      {categories.length > 0 && (
+        <div className="flex flex-wrap gap-2 text-sm">
           <FilterChip
-            key={c.id}
-            label={c.name}
-            active={currentCategory === c.id}
-            onClick={() => pushUrl(value.trim(), c.id)}
+            label={t('allCategories')}
+            active={!currentCategory}
+            onClick={() => pushUrl(value.trim(), '')}
           />
-        ))}
-      </div>
+          {categories.map((c) => (
+            <FilterChip
+              key={c.id}
+              label={c.name}
+              active={currentCategory === c.id}
+              onClick={() => pushUrl(value.trim(), c.id)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

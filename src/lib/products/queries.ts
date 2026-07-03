@@ -29,6 +29,7 @@ export type ProductListItem = {
 
 export async function listPublicProducts(opts?: {
   categoryId?: string;
+  categoryIds?: string[];
   supplierId?: string;
   q?: string;
 }): Promise<ProductListItem[]> {
@@ -40,6 +41,7 @@ export async function listPublicProducts(opts?: {
     .order('is_featured', { ascending: false })
     .order('created_at', { ascending: false });
   if (opts?.categoryId) query = query.eq('category_id', opts.categoryId);
+  if (opts?.categoryIds?.length) query = query.in('category_id', opts.categoryIds);
   if (opts?.supplierId) query = query.eq('supplier_id', opts.supplierId);
 
   // 실시간 검색(8.5): 제품명·키워드·설명 + 공급사명. PostgREST or-필터 파싱 보호 위해 정규화.
@@ -153,6 +155,31 @@ export async function listTopCategories(): Promise<{ id: string; name: string }[
     .from('categories')
     .select('id, name')
     .is('parent_id', null)
+    .eq('is_active', true)
+    .order('sort_order');
+  return data ?? [];
+}
+
+// 상위 섹션(그룹) 이름 조회. 그룹 페이지 제목용.
+export async function getCategory(id: string): Promise<{ id: string; name: string } | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('categories')
+    .select('id, name')
+    .eq('id', id)
+    .maybeSingle();
+  return data;
+}
+
+// 그룹의 하위 카테고리(향후 필터칩용). 지금은 없음.
+export async function listChildCategories(
+  parentId: string,
+): Promise<{ id: string; name: string }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('categories')
+    .select('id, name')
+    .eq('parent_id', parentId)
     .eq('is_active', true)
     .order('sort_order');
   return data ?? [];
