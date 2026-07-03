@@ -49,5 +49,25 @@
     "welcome": "{name} 님으로 로그인됨",
     "roleLabel": "역할",
     "statusLabel": "상태"
+  },
+  "legal": {
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침",
+    "cookies": "쿠키 정책",
+    "effectiveDate": "시행일",
+    "unavailable": "아직 제공되지 않는 문서입니다."
+  },
+  "cookies": {
+    "title": "개인정보를 소중히 다룹니다",
+    "body": "필수 쿠키만 기본으로 사용합니다. 선택 쿠키는 동의하신 경우에만 사용합니다.",
+    "policyLink": "쿠키 정책",
+    "necessary": "필수",
+    "functional": "기능",
+    "analytics": "분석",
+    "marketing": "마케팅",
+    "acceptAll": "모두 수락",
+    "rejectAll": "모두 거부",
+    "saveSelection": "선택 저장",
+    "settings": "쿠키 설정"
   }
 }

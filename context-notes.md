@@ -32,6 +32,15 @@
 ## [보안] DB 비밀번호 노출 — 조치 필요
 - 슬라이스 2 작업 중 `supabase gen types` 실패 에러 로그에 **DB 비밀번호가 평문으로 출력됨**(CLI가 연결 문자열을 에러에 그대로 실음). 세션 로그에 남았으므로 **Supabase 대시보드에서 DB 비밀번호를 로테이션 권장**. 로테이션 후 `.env.local`의 `SUPABASE_DB_PASSWORD` 갱신.
 
+## 배포 시 처리할 후속 (잊지 말 것)
+- **가입 인증 메일을 우리 Resend 발송으로 대체** — Supabase Auth "Send Email Hook" 사용. 배포가 전제(공개 URL 필요)라 배포 작업과 한 묶음으로 처리.
+  1. `POST /api/auth/email-hook` 엔드포인트(Standard Webhooks 서명 검증 `standardwebhooks`, email_action_type별 템플릿, `/auth/callback` 연결)
+  2. Vercel 배포(배포 파이프라인 셋업 포함)
+  3. 대시보드 Authentication → Hooks → Send Email Hook 활성화 + URI/시크릿(`AUTH_EMAIL_HOOK_SECRET`) 등록
+  4. 실가입으로 검증
+  - 훅 켜면 비밀번호 재설정을 `resetPasswordForEmail`로 단순화 가능(선택). 현재 generateLink 방식과 공존 가능.
+- 배포 파이프라인(Vercel) 자체가 아직 없음 — 배포 시 함께 구성.
+
 ## i18n 방침
 - 영어 기본 + 한국어. 사용자별 언어는 추후 `profiles.locale`. 슬라이스 1에서는 next-intl "without i18n routing" 구성으로 기본 en, 확장 가능 구조만 마련.
 - 모든 UI 문구는 `messages/en.json`·`messages/ko.json` 언어팩 키로 관리. JSX에 문자열 직접 삽입 금지(0.1 규칙).

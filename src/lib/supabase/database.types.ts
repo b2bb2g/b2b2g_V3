@@ -20,6 +20,8 @@ export type EmailTemplate =
   | 'generic';
 export type EmailStatus = 'queued' | 'sent' | 'failed';
 
+export type LegalDocType = 'terms' | 'privacy' | 'cookie_policy';
+
 // interface 가 아닌 type 로 선언해야 Record<string, unknown>(GenericTable) 제약을 만족한다.
 export type ProfileRow = {
   id: string;
@@ -69,6 +71,33 @@ export type EmailOutboxInsert = Omit<
 
 export type EmailOutboxUpdate = Partial<EmailOutboxRow>;
 
+export type LegalDocumentRow = {
+  id: string;
+  type: LegalDocType;
+  locale: string;
+  body: string;
+  version: number;
+  effective_date: string;
+  is_current: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CookieConsentRow = {
+  id: string;
+  visitor_id: string | null;
+  profile_id: string | null;
+  necessary: boolean;
+  functional: boolean;
+  analytics: boolean;
+  marketing: boolean;
+  policy_version: string | null;
+  consented_at: string;
+};
+
+export type CookieConsentInsert = Omit<CookieConsentRow, 'id' | 'consented_at' | 'necessary'> &
+  Partial<Pick<CookieConsentRow, 'id' | 'consented_at' | 'necessary'>>;
+
 export type Database = {
   public: {
     Tables: {
@@ -82,6 +111,18 @@ export type Database = {
         Row: EmailOutboxRow;
         Insert: EmailOutboxInsert;
         Update: EmailOutboxUpdate;
+        Relationships: [];
+      };
+      legal_documents: {
+        Row: LegalDocumentRow;
+        Insert: Partial<LegalDocumentRow> & Pick<LegalDocumentRow, 'type' | 'locale' | 'body'>;
+        Update: Partial<LegalDocumentRow>;
+        Relationships: [];
+      };
+      cookie_consents: {
+        Row: CookieConsentRow;
+        Insert: CookieConsentInsert;
+        Update: Partial<CookieConsentRow>;
         Relationships: [];
       };
     };
@@ -99,6 +140,7 @@ export type Database = {
       user_status: UserStatus;
       email_template: EmailTemplate;
       email_status: EmailStatus;
+      legal_doc_type: LegalDocType;
     };
     CompositeTypes: {
       [_ in never]: never;

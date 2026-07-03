@@ -2,6 +2,8 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
+import { Footer } from '@/components/Footer';
+import { CookieConsent } from '@/components/CookieConsent';
 import './globals.css';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,7 +21,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+          <Footer />
+          <CookieConsent />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
