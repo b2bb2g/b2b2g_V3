@@ -72,9 +72,12 @@
 - [ ] Supabase Storage 버킷·정책, product_media 업로드(이미지·대표이미지)
 - [ ] product_certifications 입력
 
-### 슬라이스 2.4: 관리자 승인 + 공개 노출
-- [ ] 관리자 제품 노출 승인 큐(draft/pending→listed/rejected)
-- [ ] 공급사 승인(profiles.status), 인증배지·등급
+### 슬라이스 2.4: 관리자 승인 + 공개 노출 (완료)
+- [x] 관리자 제품 노출 승인 큐(pending→listed/rejected), 승인/반려 액션
+- [x] 공급사 승인(profiles.status), /admin 대시보드·검토 페이지
+- [x] 가드 트리거 수정(백엔드/service_role 허용 → 최초 관리자 부트스트랩 가능)
+- [x] e2e·RLS 실검증 6종 PASS(관리자 승인·격리·자가승격 차단 유지)
+- 인증배지·등급 부여는 후속(2.3/관리자 회원관리)
 
 ### 슬라이스 2.5: 공개 목록/상세 + 회원제 게이트
 - [ ] /products 목록, /products/[id] 상세, /suppliers/[id] 미니홈
