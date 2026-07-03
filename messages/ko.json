@@ -54,7 +54,8 @@
     "welcome": "{name} 님으로 로그인됨",
     "roleLabel": "역할",
     "statusLabel": "상태",
-    "adminConsole": "관리자 콘솔"
+    "adminConsole": "관리자 콘솔",
+    "loginWelcome": "{name} 님, 환영합니다! 다시 만나 반갑습니다."
   },
   "legal": {
     "terms": "이용약관",

@@ -54,7 +54,8 @@
     "welcome": "Signed in as {name}",
     "roleLabel": "Role",
     "statusLabel": "Status",
-    "adminConsole": "Admin console"
+    "adminConsole": "Admin console",
+    "loginWelcome": "Welcome, {name}! Great to see you again."
   },
   "legal": {
     "terms": "Terms of Service",

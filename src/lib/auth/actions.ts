@@ -22,7 +22,8 @@ export async function login(_prev: ActionResult | null, formData: FormData): Pro
     return { ok: false, error: error.message };
   }
 
-  redirect('/dashboard');
+  // 로그인 직후 환영 배너를 위한 플래그.
+  redirect('/dashboard?welcome=1');
 }
 
 export async function signup(

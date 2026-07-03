@@ -6,7 +6,12 @@ import { createClient } from '@/lib/supabase/server';
 import { unreadNotificationCount } from '@/lib/notify/queries';
 import { LogoutButton } from '@/components/LogoutButton';
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ welcome?: string }>;
+}) {
+  const { welcome } = await searchParams;
   const t = await getTranslations('dashboard');
   const ts = await getTranslations('supplier');
   const ti = await getTranslations('inquiry');
@@ -32,6 +37,11 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8 px-6 py-16">
+      {welcome && (
+        <p className="rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+          {t('loginWelcome', { name: profile.display_name })}
+        </p>
+      )}
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">{t('title')}</h1>
         <p className="text-lg">{t('welcome', { name: profile.display_name })}</p>
