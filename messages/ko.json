@@ -353,7 +353,11 @@
     "tierPaid": "유료",
     "verifiedBadge": "인증마크",
     "pendingHeading": "처리 대기",
-    "statsHeading": "플랫폼 현황"
+    "statsHeading": "플랫폼 현황",
+    "groupCatalog": "카탈로그",
+    "groupSourcing": "소싱·문의",
+    "manageProducts": "제품 승인",
+    "manageInquiries": "문의함"
   },
   "epc": {
     "title": "EPC 프로젝트",

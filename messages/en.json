@@ -353,7 +353,11 @@
     "tierPaid": "Paid",
     "verifiedBadge": "Verified badge",
     "pendingHeading": "Needs attention",
-    "statsHeading": "Platform overview"
+    "statsHeading": "Platform overview",
+    "groupCatalog": "Catalog",
+    "groupSourcing": "Sourcing & inquiries",
+    "manageProducts": "Product approvals",
+    "manageInquiries": "Inquiries"
   },
   "epc": {
     "title": "EPC Projects",
