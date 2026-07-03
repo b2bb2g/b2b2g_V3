@@ -109,6 +109,50 @@ export type PublicProductRequestRow = {
   buyer_verified: boolean;
 };
 
+export type BannerPlacement = 'hero' | 'mid' | 'sidebar';
+export type PopupContentType = 'image' | 'rich_text' | 'image_with_text';
+export type PopupTarget = 'all' | 'guest' | 'buyer' | 'supplier' | 'agent';
+export type PopupDismiss = 'close_only' | 'today_off' | 'week_off';
+
+export type AdBannerRow = {
+  id: string;
+  title: string;
+  image: string | null;
+  headline: string | null;
+  subtext: string | null;
+  link_url: string | null;
+  placement: BannerPlacement;
+  supplier_id: string | null;
+  sort_order: number;
+  start_at: string | null;
+  end_at: string | null;
+  is_active: boolean;
+  click_count: number;
+  impression_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PopupRow = {
+  id: string;
+  title: string;
+  content_type: PopupContentType;
+  image: string | null;
+  body: string | null;
+  link_url: string | null;
+  target: PopupTarget;
+  pages: string | null;
+  start_at: string | null;
+  end_at: string | null;
+  priority: number;
+  dismiss_option: PopupDismiss;
+  is_active: boolean;
+  view_count: number;
+  click_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ShortLinkTarget =
   | 'product'
   | 'signup_referral'
@@ -590,6 +634,18 @@ export type Database = {
         Update: Partial<ShortLinkRow>;
         Relationships: [];
       };
+      ad_banners: {
+        Row: AdBannerRow;
+        Insert: Insertable<AdBannerRow, 'title'>;
+        Update: Partial<AdBannerRow>;
+        Relationships: [];
+      };
+      popups: {
+        Row: PopupRow;
+        Insert: Insertable<PopupRow, 'title'>;
+        Update: Partial<PopupRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -665,6 +721,10 @@ export type Database = {
       attachment_kind: AttachmentKind;
       menu_group: MenuGroup;
       short_link_target: ShortLinkTarget;
+      banner_placement: BannerPlacement;
+      popup_content_type: PopupContentType;
+      popup_target: PopupTarget;
+      popup_dismiss: PopupDismiss;
     };
     CompositeTypes: {
       [_ in never]: never;

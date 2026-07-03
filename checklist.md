@@ -185,6 +185,10 @@
 - [ ] (후속) 추천가입 QR(에이전트 referral_code) — 동일 ShareWidget 재사용
 
 ### 슬라이스 4.8: 노출 차등·마케팅(등급·배너·팝업)
-- [ ] 등급/인증마크/추천편성, ad_banners, popups
+- [x] ad_banners + popups + enum 4종 + RLS(활성+게재기간 공개, 관리자 작성)
+- [x] 관리자 CRUD(/admin/banners·/admin/popups + new/edit), 콘솔 링크
+- [x] 랜딩 BannerSlot(placement별) + Popup(대상 역할별·오늘/주간 안보기 localStorage)
+- [x] marketing i18n(en/ko), 프로덕션 적용·RLS 검증, 빌드 통과
+- [ ] (기존) 유·무료 등급(supplier_tier)·추천제품(is_featured) 필드는 Phase 2 에서 이미 존재
 
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)
