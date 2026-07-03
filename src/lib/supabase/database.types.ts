@@ -172,6 +172,9 @@ export type ProductCertificationRow = {
 
 type Insertable<Row, Required extends keyof Row> = Partial<Row> & Pick<Row, Required>;
 
+export type ProductInsert = Insertable<ProductRow, 'supplier_id' | 'title'>;
+export type ProductUpdate = Partial<ProductRow>;
+
 export type Database = {
   public: {
     Tables: {
