@@ -65,6 +65,48 @@ const TEMPLATES: Partial<Record<EmailTemplate, LocaleTemplates>> = {
       ),
     }),
   },
+  supplier_rejected: {
+    en: (p) => ({
+      subject: 'Your account review update',
+      html: wrap(
+        `<h2>Review update</h2><p>Hi ${esc(p.name)}, your account could not be approved at this time. Please contact us for details.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '계정 검토 결과 안내',
+      html: wrap(
+        `<h2>검토 결과</h2><p>${esc(p.name)} 님, 현재 계정을 승인하지 못했습니다. 자세한 사항은 문의해주세요.</p>`,
+      ),
+    }),
+  },
+  product_approved: {
+    en: (p) => ({
+      subject: 'Your product is now listed',
+      html: wrap(
+        `<h2>Product approved</h2><p>Hi ${esc(p.name)}, your product "${esc(p.productTitle)}" has been approved and is now visible to buyers.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '제품이 공개되었습니다',
+      html: wrap(
+        `<h2>제품 승인</h2><p>${esc(p.name)} 님, 제품 "${esc(p.productTitle)}" 이(가) 승인되어 바이어에게 공개되었습니다.</p>`,
+      ),
+    }),
+  },
+  product_rejected: {
+    en: (p) => ({
+      subject: 'Your product review update',
+      html: wrap(
+        `<h2>Product review update</h2><p>Hi ${esc(p.name)}, your product "${esc(p.productTitle)}" was not approved. You can edit and resubmit it.</p>`,
+      ),
+    }),
+    ko: (p) => ({
+      subject: '제품 검토 결과 안내',
+      html: wrap(
+        `<h2>제품 검토 결과</h2><p>${esc(p.name)} 님, 제품 "${esc(p.productTitle)}" 이(가) 반려되었습니다. 수정 후 다시 제출하실 수 있습니다.</p>`,
+      ),
+    }),
+  },
   inquiry_received: {
     en: (p) => ({
       subject: 'New inquiry received',

@@ -131,7 +131,11 @@
     "inquiry_received": "New inquiry received",
     "inquiry_replied": "You have a reply",
     "generic": "Notification",
-    "view": "View"
+    "view": "View",
+    "product_approved": "Your product is now listed",
+    "product_rejected": "Your product was not approved",
+    "member_approved": "Your account is approved",
+    "member_rejected": "Your account review update"
   },
   "ui": {
     "show": "Show",

@@ -2,7 +2,13 @@
 // 관리자 승인/반려 액션. RLS(is_admin)가 최종 방어. 감사로그는 Phase 3에서 추가.
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
-import { notifyInquiryForwarded } from '@/lib/notify';
+import {
+  notifyInquiryForwarded,
+  notifyProductApproved,
+  notifyProductRejected,
+  notifyMemberApproved,
+  notifyMemberRejected,
+} from '@/lib/notify';
 import { logAudit } from '@/lib/admin/audit';
 import type { UserRole, UserStatus } from '@/lib/supabase/database.types';
 
@@ -29,6 +35,7 @@ export async function approveProduct(productId: string): Promise<void> {
     action: 'approve',
     after: { status: 'listed' },
   });
+  await notifyProductApproved(productId);
   revalidatePath('/admin/products');
 }
 
@@ -43,6 +50,7 @@ export async function rejectProduct(productId: string): Promise<void> {
     action: 'reject',
     after: { status: 'rejected' },
   });
+  await notifyProductRejected(productId);
   revalidatePath('/admin/products');
 }
 
@@ -57,6 +65,7 @@ export async function approveSupplier(profileId: string): Promise<void> {
     action: 'approve',
     after: { status: 'approved' },
   });
+  await notifyMemberApproved(profileId);
   revalidatePath('/admin/suppliers');
 }
 
@@ -71,6 +80,7 @@ export async function rejectSupplier(profileId: string): Promise<void> {
     action: 'reject',
     after: { status: 'rejected' },
   });
+  await notifyMemberRejected(profileId);
   revalidatePath('/admin/suppliers');
 }
 

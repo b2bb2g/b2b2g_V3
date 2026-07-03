@@ -12,6 +12,8 @@ export type EmailTemplate =
   | 'password_reset'
   | 'supplier_approved'
   | 'supplier_rejected'
+  | 'product_approved'
+  | 'product_rejected'
   | 'inquiry_received'
   | 'inquiry_replied'
   | 'rfq_response'

@@ -81,3 +81,79 @@ export async function notifyInquiryReplied(inquiryId: string): Promise<void> {
     });
   }
 }
+
+// 제품 승인/반려 → 공급사(제품 소유자)에게 알림 + 이메일.
+async function notifyProductDecision(
+  productId: string,
+  decision: 'product_approved' | 'product_rejected',
+): Promise<void> {
+  const admin = createAdminClient();
+  const { data: product } = await admin
+    .from('products')
+    .select('title, supplier_id')
+    .eq('id', productId)
+    .maybeSingle();
+  if (!product) return;
+
+  const { data: supplier } = await admin
+    .from('suppliers')
+    .select('profile_id')
+    .eq('id', product.supplier_id)
+    .maybeSingle();
+  if (!supplier) return;
+
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('email, locale, display_name')
+    .eq('id', supplier.profile_id)
+    .maybeSingle();
+
+  await admin.from('notifications').insert({
+    profile_id: supplier.profile_id,
+    type: decision,
+    payload: { productTitle: product.title, productId },
+  });
+
+  if (profile?.email) {
+    await sendEmail({
+      to: profile.email,
+      template: decision,
+      locale: profile.locale ?? 'en',
+      payload: { name: profile.display_name, productTitle: product.title },
+      profileId: supplier.profile_id,
+    });
+  }
+}
+
+export const notifyProductApproved = (id: string) => notifyProductDecision(id, 'product_approved');
+export const notifyProductRejected = (id: string) => notifyProductDecision(id, 'product_rejected');
+
+// 회원(공급사) 승인/반려 → 당사자에게 알림 + 이메일.
+async function notifyMemberDecision(profileId: string, approved: boolean): Promise<void> {
+  const admin = createAdminClient();
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('email, locale, display_name')
+    .eq('id', profileId)
+    .maybeSingle();
+  if (!profile) return;
+
+  await admin.from('notifications').insert({
+    profile_id: profileId,
+    type: approved ? 'member_approved' : 'member_rejected',
+    payload: {},
+  });
+
+  if (profile.email) {
+    await sendEmail({
+      to: profile.email,
+      template: approved ? 'supplier_approved' : 'supplier_rejected',
+      locale: profile.locale ?? 'en',
+      payload: { name: profile.display_name },
+      profileId,
+    });
+  }
+}
+
+export const notifyMemberApproved = (id: string) => notifyMemberDecision(id, true);
+export const notifyMemberRejected = (id: string) => notifyMemberDecision(id, false);

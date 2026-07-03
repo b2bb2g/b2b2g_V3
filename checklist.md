@@ -196,4 +196,10 @@
 - [x] marketing i18n(en/ko), 프로덕션 적용·RLS 검증, 빌드 통과
 - [ ] (기존) 유·무료 등급(supplier_tier)·추천제품(is_featured) 필드는 Phase 2 에서 이미 존재
 
+### 설계 갭 보강 (로드맵 7·9·17 잔여)
+- [x] #1 승인/반려 알림+이메일: 제품 승인/반려·회원 승인/반려 시 앱 알림 + 이메일(product_approved/rejected 템플릿 추가, supplier_approved/rejected 활용)
+- [ ] #2 에이전트 산하 바이어 관리(buyers/agents) — 진행 예정
+- [ ] #3 관리자 등급·인증마크 부여 UI — 진행 예정
+- [ ] 가입 인증 메일 우리 발송 대체(Auth 훅), 행사 리마인더 메일, 랜딩 익명 활동 신호
+
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)

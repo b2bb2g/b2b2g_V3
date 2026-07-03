@@ -131,7 +131,11 @@
     "inquiry_received": "새 문의가 도착했습니다",
     "inquiry_replied": "회신이 도착했습니다",
     "generic": "알림",
-    "view": "보기"
+    "view": "보기",
+    "product_approved": "제품이 공개되었습니다",
+    "product_rejected": "제품이 반려되었습니다",
+    "member_approved": "계정이 승인되었습니다",
+    "member_rejected": "계정 검토 결과 안내"
   },
   "ui": {
     "show": "표시",

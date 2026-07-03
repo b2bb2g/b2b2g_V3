@@ -6,13 +6,21 @@ import { markAllNotificationsRead } from '@/lib/notify/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 // 알림 타입 → i18n 키(안전 목록). 미정의 타입은 generic.
-const TYPE_KEYS = new Set(['inquiry_received', 'inquiry_replied']);
+const TYPE_KEYS = new Set([
+  'inquiry_received',
+  'inquiry_replied',
+  'product_approved',
+  'product_rejected',
+  'member_approved',
+  'member_rejected',
+]);
 
 function linkFor(type: string, inquiryId: unknown): string {
   if (type === 'inquiry_received' && typeof inquiryId === 'string') {
     return `/dashboard/supplier-inquiries/${inquiryId}`;
   }
   if (type === 'inquiry_replied') return '/dashboard/inquiries';
+  if (type === 'product_approved' || type === 'product_rejected') return '/dashboard/products';
   return '/dashboard';
 }
 
