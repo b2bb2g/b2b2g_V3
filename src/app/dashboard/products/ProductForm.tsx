@@ -18,12 +18,14 @@ export function ProductForm({
   action,
   suppliers,
   lockedCategory,
+  subCategories,
 }: {
   categories: Category[];
   product?: ProductRow;
   action: ProductFormAction;
   suppliers?: { id: string; company_name: string }[];
   lockedCategory?: Category;
+  subCategories?: Category[];
 }) {
   const t = useTranslations('supplier');
   const tu = useTranslations('ui');
@@ -71,7 +73,22 @@ export function ProductForm({
       </Field>
 
       <Field label={t('fieldCategory')}>
-        {lockedCategory ? (
+        {lockedCategory && subCategories && subCategories.length > 0 ? (
+          // 그룹에 하위 카테고리가 있으면 그 중에서 선택(그룹 맥락 표시).
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-neutral-500">{lockedCategory.name} ·</span>
+            <select name="categoryId" required defaultValue="" className={inputClass}>
+              <option value="" disabled>
+                {t('selectCategory')}
+              </option>
+              {subCategories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : lockedCategory ? (
           <>
             <input type="hidden" name="categoryId" value={lockedCategory.id} />
             <div className={`${inputClass} bg-neutral-50 text-neutral-600`}>{lockedCategory.name}</div>

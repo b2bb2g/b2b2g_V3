@@ -595,5 +595,20 @@
     "status_rejected": "Rejected",
     "status_suspended": "Suspended",
     "status_withdrawn": "Withdrawn"
+  },
+  "categories": {
+    "manage": "Categories",
+    "intro": "Manage top-level sections and their sub-categories.",
+    "newGroup": "New section",
+    "addGroup": "Add section",
+    "addSub": "Add sub-category",
+    "subcategories": "Sub-categories",
+    "noSub": "No sub-categories yet.",
+    "namePlaceholder": "Section name",
+    "subNamePlaceholder": "Sub-category name",
+    "active": "Active",
+    "save": "Save",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this category? (blocked if it has sub-categories or products)"
   }
 }

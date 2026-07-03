@@ -14,6 +14,7 @@ export default async function AdminPage() {
   const tm = await getTranslations('menu');
   const tsv = await getTranslations('services');
   const tmk = await getTranslations('marketing');
+  const tcat = await getTranslations('categories');
   const counts = await approvalCounts();
 
   const groups: { heading: string; links: { href: string; label: string }[] }[] = [
@@ -45,6 +46,7 @@ export default async function AdminPage() {
     {
       heading: t('groupSite'),
       links: [
+        { href: '/admin/categories', label: tcat('manage') },
         { href: '/admin/menu', label: tm('manage') },
         { href: '/admin/banners', label: tmk('banners') },
         { href: '/admin/popups', label: tmk('popups') },

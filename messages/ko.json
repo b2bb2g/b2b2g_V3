@@ -595,5 +595,20 @@
     "status_rejected": "반려",
     "status_suspended": "정지",
     "status_withdrawn": "탈퇴"
+  },
+  "categories": {
+    "manage": "카테고리",
+    "intro": "상위 섹션과 하위 카테고리를 관리합니다.",
+    "newGroup": "새 섹션",
+    "addGroup": "섹션 추가",
+    "addSub": "하위 추가",
+    "subcategories": "하위 카테고리",
+    "noSub": "하위 카테고리가 없습니다.",
+    "namePlaceholder": "섹션 이름",
+    "subNamePlaceholder": "하위 카테고리 이름",
+    "active": "노출",
+    "save": "저장",
+    "delete": "삭제",
+    "deleteConfirm": "이 카테고리를 삭제할까요? (하위·연결 제품이 있으면 삭제되지 않습니다)"
   }
 }
