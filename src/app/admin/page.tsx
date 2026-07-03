@@ -7,6 +7,7 @@ export default async function AdminPage() {
   const t = await getTranslations('admin');
   const tc = await getTranslations('content');
   const te = await getTranslations('events');
+  const tp = await getTranslations('epc');
   const counts = await approvalCounts();
 
   return (
@@ -47,6 +48,9 @@ export default async function AdminPage() {
         </Link>
         <Link href="/admin/events" className="underline">
           {te('manage')}
+        </Link>
+        <Link href="/admin/epc" className="underline">
+          {tp('manage')}
         </Link>
       </div>
     </main>

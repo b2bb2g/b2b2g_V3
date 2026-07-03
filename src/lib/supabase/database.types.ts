@@ -58,6 +58,30 @@ export type EventRegistrationRow = {
   created_at: string;
 };
 
+export type ProjectField = 'power_plant' | 'construction' | 'factory' | 'plant' | 'civil' | 'etc';
+export type ProjectStage = 'planning' | 'bidding' | 'in_progress' | 'completed';
+
+export type ProjectRow = {
+  id: string;
+  author_id: string | null;
+  name: string;
+  field: ProjectField;
+  body: string;
+  cover_image: string | null;
+  client: string | null;
+  location: string | null;
+  country: string | null;
+  scale_amount: number | null;
+  currency: string | null;
+  starts_on: string | null;
+  ends_on: string | null;
+  stage: ProjectStage;
+  status: ContentStatus;
+  is_pinned: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type NoticeRow = {
   id: string;
   author_id: string | null;
@@ -399,6 +423,12 @@ export type Database = {
         Update: Partial<EventRegistrationRow>;
         Relationships: [];
       };
+      projects: {
+        Row: ProjectRow;
+        Insert: Insertable<ProjectRow, 'name'>;
+        Update: Partial<ProjectRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -454,6 +484,8 @@ export type Database = {
       event_category: EventCategory;
       event_participation: EventParticipation;
       registration_status: RegistrationStatus;
+      project_field: ProjectField;
+      project_stage: ProjectStage;
     };
     CompositeTypes: {
       [_ in never]: never;
