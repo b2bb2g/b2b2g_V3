@@ -2,8 +2,17 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { getMemberDetail, listMemberAuditLogs } from '@/lib/admin/queries';
-import { changeMemberRole, changeMemberStatus, updateMemberMemo } from '@/lib/admin/actions';
+import {
+  getMemberDetail,
+  getSupplierByProfile,
+  listMemberAuditLogs,
+} from '@/lib/admin/queries';
+import {
+  changeMemberRole,
+  changeMemberStatus,
+  updateMemberMemo,
+  updateSupplierGrade,
+} from '@/lib/admin/actions';
 import { USER_ROLES, USER_STATUSES } from '@/lib/constants';
 
 export default async function AdminMemberDetailPage({
@@ -15,6 +24,8 @@ export default async function AdminMemberDetailPage({
   const { id } = await params;
   const [member, logs] = await Promise.all([getMemberDetail(id), listMemberAuditLogs(id)]);
   if (!member) notFound();
+
+  const supplier = member.role === 'supplier' ? await getSupplierByProfile(id) : null;
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-6 py-16">
@@ -80,6 +91,38 @@ export default async function AdminMemberDetailPage({
           </div>
         </form>
       </div>
+
+      {supplier && (
+        <form
+          action={updateSupplierGrade.bind(null, supplier.id, id, null)}
+          className="flex flex-col gap-3 rounded-xl border border-neutral-200 p-4 text-sm"
+        >
+          <span className="font-semibold text-neutral-600">{t('supplierGrade')}</span>
+          <div className="flex flex-wrap items-center gap-4">
+            <label className="flex items-center gap-2">
+              <span className="text-neutral-500">{t('tier')}</span>
+              <select
+                name="tier"
+                defaultValue={supplier.tier}
+                className="rounded-md border border-neutral-300 px-3 py-2"
+              >
+                <option value="free">{t('tierFree')}</option>
+                <option value="paid">{t('tierPaid')}</option>
+              </select>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="verified" defaultChecked={supplier.verified} />
+              {t('verifiedBadge')}
+            </label>
+            <button
+              type="submit"
+              className="rounded-md border border-neutral-300 px-3 py-2 font-medium"
+            >
+              {t('save')}
+            </button>
+          </div>
+        </form>
+      )}
 
       <form action={updateMemberMemo.bind(null, id, null)} className="flex flex-col gap-1 text-sm">
         <span className="text-neutral-500">{t('memo')}</span>

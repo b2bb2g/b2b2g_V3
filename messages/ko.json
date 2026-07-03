@@ -330,7 +330,12 @@
     "groupMembers": "회원",
     "groupContent": "콘텐츠 게시판",
     "groupCreate": "작성",
-    "groupSite": "사이트·마케팅"
+    "groupSite": "사이트·마케팅",
+    "supplierGrade": "공급사 등급·인증",
+    "tier": "등급",
+    "tierFree": "무료",
+    "tierPaid": "유료",
+    "verifiedBadge": "인증마크"
   },
   "epc": {
     "title": "EPC 프로젝트",

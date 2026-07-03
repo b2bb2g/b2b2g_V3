@@ -6,7 +6,19 @@ import type {
   InquiryRow,
   ProductRow,
   ProfileRow,
+  SupplierRow,
 } from '@/lib/supabase/database.types';
+
+// 회원이 공급사면 등급·인증 관리를 위해 supplier 레코드 조회(관리자 RLS).
+export async function getSupplierByProfile(profileId: string): Promise<SupplierRow | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('suppliers')
+    .select('*')
+    .eq('profile_id', profileId)
+    .maybeSingle();
+  return data;
+}
 
 export async function listMembers(filter?: {
   role?: string;

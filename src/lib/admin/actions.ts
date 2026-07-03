@@ -10,7 +10,7 @@ import {
   notifyMemberRejected,
 } from '@/lib/notify';
 import { logAudit } from '@/lib/admin/audit';
-import type { UserRole, UserStatus } from '@/lib/supabase/database.types';
+import type { SupplierTier, UserRole, UserStatus } from '@/lib/supabase/database.types';
 
 type AdminCtx = { supabase: Awaited<ReturnType<typeof createClient>>; adminId: string };
 
@@ -85,6 +85,34 @@ export async function rejectSupplier(profileId: string): Promise<void> {
 }
 
 // ── 회원 전권 관리(역할·상태·메모) ─────────────────────────────────────────
+// 공급사 등급(무료↔유료)·인증마크 부여(6.6 / 회원 전권). 변경은 감사로그 기록.
+export async function updateSupplierGrade(
+  supplierId: string,
+  profileId: string,
+  _prev: unknown,
+  formData: FormData,
+): Promise<void> {
+  const ctx = await requireAdmin();
+  if (!ctx) return;
+  const tier = (formData.get('tier') as SupplierTier) === 'paid' ? 'paid' : 'free';
+  const verified = formData.get('verified') === 'on';
+  const { data: before } = await ctx.supabase
+    .from('suppliers')
+    .select('tier, verified')
+    .eq('id', supplierId)
+    .single();
+  await ctx.supabase.from('suppliers').update({ tier, verified }).eq('id', supplierId);
+  await logAudit({
+    adminId: ctx.adminId,
+    targetTable: 'suppliers',
+    targetId: supplierId,
+    action: 'update',
+    before: before ?? null,
+    after: { tier, verified },
+  });
+  revalidatePath(`/admin/members/${profileId}`);
+}
+
 export async function changeMemberRole(
   profileId: string,
   _prev: unknown,

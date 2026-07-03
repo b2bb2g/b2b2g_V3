@@ -199,7 +199,7 @@
 ### 설계 갭 보강 (로드맵 7·9·17 잔여)
 - [x] #1 승인/반려 알림+이메일: 제품 승인/반려·회원 승인/반려 시 앱 알림 + 이메일(product_approved/rejected 템플릿 추가, supplier_approved/rejected 활용)
 - [x] #2 에이전트 산하 바이어 관리: profiles.referred_by(추천인 링크) + 가입 트리거 ref 해석 + 에이전트용 마스킹 뷰(agent_buyers) + /dashboard/my-buyers. 가드에 referred_by·referral_code 보호 추가
-- [ ] #3 관리자 등급·인증마크 부여 UI — 진행 예정
+- [x] #3 관리자 등급·인증마크 부여 UI: 회원 상세(공급사)에 등급(무료↔유료)·인증마크 폼, 변경 감사로그(update). 인증마크는 공급사 미니홈에 즉시 노출
 - [ ] 가입 인증 메일 우리 발송 대체(Auth 훅), 행사 리마인더 메일, 랜딩 익명 활동 신호
 
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)

@@ -330,7 +330,12 @@
     "groupMembers": "Members",
     "groupContent": "Content boards",
     "groupCreate": "Create",
-    "groupSite": "Site & marketing"
+    "groupSite": "Site & marketing",
+    "supplierGrade": "Supplier grade & verification",
+    "tier": "Tier",
+    "tierFree": "Free",
+    "tierPaid": "Paid",
+    "verifiedBadge": "Verified badge"
   },
   "epc": {
     "title": "EPC Projects",
