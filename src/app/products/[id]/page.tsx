@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { getProductDetail } from '@/lib/products/queries';
+import { getProductDetail, getProductCertifications } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { ShareWidget } from '@/components/ShareWidget';
 import { BoardAttachments } from '@/components/BoardAttachments';
@@ -15,6 +15,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const { id } = await params;
   const detail = await getProductDetail(id);
   if (!detail) notFound();
+  const certifications = await getProductCertifications(id);
 
   const { base, categoryName, companyName, images, isMember, full } = detail;
   const ordered = [...images].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary));
@@ -93,6 +94,23 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
         {isMember && full && <InquiryForm productId={base.id} />}
       </section>
+
+      {certifications.length > 0 && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-sm font-semibold text-neutral-500">{t('certifications')}</h2>
+          <ul className="flex flex-wrap gap-2">
+            {certifications.map((c) => (
+              <li
+                key={c.id}
+                className="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-600"
+              >
+                <span className="mr-1 text-neutral-400">{t(`certType_${c.type}`)}</span>
+                {c.name}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <BoardAttachments ownerType="product" ownerId={base.id} />
 

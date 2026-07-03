@@ -1,6 +1,7 @@
 'use server';
 // 공급사 회사정보 저장 + 제품 초안 CRUD·검토제출 서버 액션. 미디어는 슬라이스 2.3.
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import type { ProductUpdate } from '@/lib/supabase/database.types';
 import { companyProfileSchema, productSchema } from './schema';
@@ -91,4 +92,20 @@ export async function submitProductForReview(productId: string): Promise<void> {
     .eq('id', productId)
     .in('status', ['draft', 'rejected']);
   redirect('/dashboard/products');
+}
+
+// 제품 인증/수상 추가·삭제. RLS(소유 공급사 또는 관리자)가 권한 강제.
+export async function addCertification(productId: string, formData: FormData): Promise<void> {
+  const type = formData.get('type') === 'award' ? 'award' : 'certification';
+  const name = String(formData.get('name') ?? '').trim();
+  if (!name) return;
+  const supabase = await createClient();
+  await supabase.from('product_certifications').insert({ product_id: productId, type, name });
+  revalidatePath(`/dashboard/products/${productId}/edit`);
+}
+
+export async function deleteCertification(id: string, productId: string): Promise<void> {
+  const supabase = await createClient();
+  await supabase.from('product_certifications').delete().eq('id', id);
+  revalidatePath(`/dashboard/products/${productId}/edit`);
 }

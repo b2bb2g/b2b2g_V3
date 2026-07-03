@@ -1,6 +1,6 @@
 // 공개 제품 목록·상세 조회. 비회원은 안전 컬럼만, 회원은 전체(가격·거래조건). 6.4 경계.
 import { createClient } from '@/lib/supabase/server';
-import type { ProductRow } from '@/lib/supabase/database.types';
+import type { ProductCertificationRow, ProductRow } from '@/lib/supabase/database.types';
 
 // 비회원에게도 공개 가능한 제품 필드(가격·거래조건 제외).
 const PUBLIC_COLUMNS =
@@ -155,6 +155,18 @@ export async function listTopCategories(): Promise<{ id: string; name: string }[
     .is('parent_id', null)
     .eq('is_active', true)
     .order('sort_order');
+  return data ?? [];
+}
+
+export async function getProductCertifications(
+  productId: string,
+): Promise<ProductCertificationRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('product_certifications')
+    .select('*')
+    .eq('product_id', productId)
+    .order('created_at', { ascending: true });
   return data ?? [];
 }
 

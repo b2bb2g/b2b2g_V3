@@ -7,6 +7,8 @@ import {
   getProductMedia,
   listActiveCategories,
 } from '@/lib/supplier/queries';
+import { getProductCertifications } from '@/lib/products/queries';
+import { Certifications } from './Certifications';
 import { updateProduct } from '@/lib/supplier/actions';
 import { getAttachments } from '@/lib/attachments/queries';
 import { ProductForm } from '../../ProductForm';
@@ -28,10 +30,11 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  const [categories, media, attachments] = await Promise.all([
+  const [categories, media, attachments, certifications] = await Promise.all([
     listActiveCategories(),
     getProductMedia(id),
     getAttachments('product', id),
+    getProductCertifications(id),
   ]);
   const boundUpdate = updateProduct.bind(null, id);
 
@@ -40,6 +43,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
       <h1 className="text-2xl font-bold">{t('editProduct')}</h1>
       <ProductImages productId={id} userId={supplier.profile_id} images={media} />
       <ProductForm categories={categories} product={product} action={boundUpdate} />
+      <Certifications productId={id} items={certifications} />
       <AttachmentManager
         ownerType="product"
         ownerId={id}

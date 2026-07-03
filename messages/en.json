@@ -204,7 +204,13 @@
     "replyPlaceholder": "Write your reply",
     "replyFailed": "Could not send reply.",
     "fieldSupplier": "Supplier",
-    "selectSupplier": "Select a supplier"
+    "selectSupplier": "Select a supplier",
+    "certTitle": "Certifications & awards",
+    "certAdd": "Add",
+    "certDelete": "Remove",
+    "certNamePlaceholder": "Name (e.g. ISO 9001)",
+    "certType_certification": "Certification",
+    "certType_award": "Award"
   },
   "events": {
     "title": "Events",
@@ -287,7 +293,10 @@
     "clearSearch": "Clear",
     "allCategories": "All",
     "noResults": "No results found.",
-    "resetFilters": "Reset filters"
+    "resetFilters": "Reset filters",
+    "certifications": "Certifications & awards",
+    "certType_certification": "Certification",
+    "certType_award": "Award"
   },
   "admin": {
     "title": "Admin",
