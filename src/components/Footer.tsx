@@ -5,10 +5,17 @@ import { CookieSettingsButton } from './CookieSettingsButton';
 
 export async function Footer() {
   const t = await getTranslations('legal');
+  const tc = await getTranslations('content');
 
   return (
     <footer className="border-t border-neutral-200 px-6 py-6 text-sm text-neutral-500">
       <nav className="mx-auto flex max-w-4xl flex-wrap gap-4">
+        <Link href="/notices" className="underline">
+          {tc('notices')}
+        </Link>
+        <Link href="/faq" className="underline">
+          {tc('faq')}
+        </Link>
         <Link href="/legal/terms" className="underline">
           {t('terms')}
         </Link>

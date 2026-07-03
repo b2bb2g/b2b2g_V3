@@ -22,6 +22,31 @@ export type EmailStatus = 'queued' | 'sent' | 'failed';
 
 export type LegalDocType = 'terms' | 'privacy' | 'cookie_policy';
 
+export type ContentStatus = 'draft' | 'published' | 'closed';
+
+export type NoticeRow = {
+  id: string;
+  author_id: string | null;
+  title: string;
+  body: string;
+  is_pinned: boolean;
+  status: ContentStatus;
+  created_at: string;
+  updated_at: string;
+};
+
+export type FaqRow = {
+  id: string;
+  author_id: string | null;
+  category: string | null;
+  question: string;
+  answer: string;
+  sort_order: number;
+  status: ContentStatus;
+  created_at: string;
+  updated_at: string;
+};
+
 export type InquiryType = 'inquiry' | 'quote';
 export type InquiryStatus = 'submitted' | 'admin_review' | 'forwarded' | 'replied' | 'closed';
 export type MessageAuthorRole = 'buyer' | 'admin' | 'supplier';
@@ -316,6 +341,18 @@ export type Database = {
         Update: Partial<AdminAuditLogRow>;
         Relationships: [];
       };
+      notices: {
+        Row: NoticeRow;
+        Insert: Insertable<NoticeRow, 'title'>;
+        Update: Partial<NoticeRow>;
+        Relationships: [];
+      };
+      faqs: {
+        Row: FaqRow;
+        Insert: Insertable<FaqRow, 'question'>;
+        Update: Partial<FaqRow>;
+        Relationships: [];
+      };
     };
     Views: {
       public_suppliers: {
@@ -367,6 +404,7 @@ export type Database = {
       message_author_role: MessageAuthorRole;
       message_visibility: MessageVisibility;
       audit_action: AuditAction;
+      content_status: ContentStatus;
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -134,5 +134,33 @@
 - [x] 감사로그 e2e 4종 PASS(관리자 열람·before/after·비관리자 차단·상태변경)
   - 검증 스크립트 정리 코드 버그(PostgREST .catch 체이닝)로 테스트유저 잔여 → 수동 정리 완료
 
-## Phase 4
-- 이후 세부화. 기획설계서 13장 참조.
+## Phase 4 — 게시판 · 성장 기능
+
+### 슬라이스 4.1: 관리자 공지형 게시판(공지·FAQ) (진행 중)
+- [ ] notices/faqs + content_status enum, RLS(관리자 작성·공개 열람)
+- [ ] 관리자 CRUD(/admin/notices, /admin/faq), 공개 페이지(/notices, /faq)
+- [ ] 본문은 우선 텍스트(공통 리치 에디터·첨부는 별도 슬라이스)
+
+### 슬라이스 4.2: 이벤트/행사 게시판(events)
+- [ ] events(참여신청 event_registrations), 공개 목록·상세, 관리자 CRUD
+
+### 슬라이스 4.3: EPC 프로젝트 게시판(projects)
+- [ ] projects, 공개 목록·상세, 관리자 CRUD
+
+### 슬라이스 4.4: Sourcing Requests / RFQ(product_requests)
+- [ ] product_requests + responses, 바이어 작성→관리자 승인→공급사 응답→중개
+- [ ] 바이어 개인정보 마스킹(관리자 외 비노출)
+
+### 슬라이스 4.5: 공통 리치 에디터 + 첨부/인라인 미디어(board_attachments)
+- [ ] 전 게시판 공용 에디터·첨부(이미지·동영상 인라인/임베드)
+
+### 슬라이스 4.6: 메인 메뉴·서비스 관리(menu_items, services)
+- [ ] 관리자 메뉴 편집(라벨·링크·순서·노출·그룹), 서비스 카탈로그
+
+### 슬라이스 4.7: 공유 단축 URL + QR(short_links)
+- [ ] 제품 공유·추천가입 단축링크·QR, 클릭 추적
+
+### 슬라이스 4.8: 노출 차등·마케팅(등급·배너·팝업)
+- [ ] 등급/인증마크/추천편성, ad_banners, popups
+
+### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)

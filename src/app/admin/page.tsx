@@ -5,6 +5,7 @@ import { approvalCounts } from '@/lib/admin/queries';
 
 export default async function AdminPage() {
   const t = await getTranslations('admin');
+  const tc = await getTranslations('content');
   const counts = await approvalCounts();
 
   return (
@@ -33,9 +34,17 @@ export default async function AdminPage() {
           />
         </div>
       </section>
-      <Link href="/admin/members" className="w-fit text-sm underline">
-        {t('manageMembers')}
-      </Link>
+      <div className="flex flex-wrap gap-4 text-sm">
+        <Link href="/admin/members" className="underline">
+          {t('manageMembers')}
+        </Link>
+        <Link href="/admin/notices" className="underline">
+          {tc('manageNotices')}
+        </Link>
+        <Link href="/admin/faq" className="underline">
+          {tc('manageFaq')}
+        </Link>
+      </div>
     </main>
   );
 }
