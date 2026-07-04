@@ -13,6 +13,19 @@ export async function listPublishedNotices(): Promise<NoticeRow[]> {
   return data ?? [];
 }
 
+const NOTICE_NEW_WINDOW = 7 * 24 * 60 * 60 * 1000;
+export type NoticeBoardItem = NoticeRow & { isNew: boolean };
+
+// 게시판 목록: 최근 7일 이내 작성 여부(isNew)를 데이터 계층에서 계산(컴포넌트 렌더 순수성 유지).
+export async function listPublishedNoticesBoard(): Promise<NoticeBoardItem[]> {
+  const notices = await listPublishedNotices();
+  const now = Date.now();
+  return notices.map((n) => ({
+    ...n,
+    isNew: now - new Date(n.created_at).getTime() < NOTICE_NEW_WINDOW,
+  }));
+}
+
 export async function getNotice(id: string): Promise<NoticeRow | null> {
   const supabase = await createClient();
   const { data } = await supabase.from('notices').select('*').eq('id', id).maybeSingle();

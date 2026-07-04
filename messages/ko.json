@@ -144,7 +144,11 @@
     "statusPublished": "게시",
     "pin": "상단 고정",
     "save": "저장",
-    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요."
+    "saveFailed": "저장하지 못했습니다. 다시 시도해주세요.",
+    "boardNo": "번호",
+    "boardTitle": "제목",
+    "boardDate": "작성일",
+    "boardNew": "NEW"
   },
   "notifications": {
     "title": "알림",

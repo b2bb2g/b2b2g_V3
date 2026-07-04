@@ -144,7 +144,11 @@
     "statusPublished": "Published",
     "pin": "Pin to top",
     "save": "Save",
-    "saveFailed": "Could not save. Please try again."
+    "saveFailed": "Could not save. Please try again.",
+    "boardNo": "No.",
+    "boardTitle": "Title",
+    "boardDate": "Date",
+    "boardNew": "New"
   },
   "notifications": {
     "title": "Notifications",
