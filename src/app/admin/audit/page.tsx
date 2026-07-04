@@ -1,41 +1,62 @@
-// 관리자 감사 로그(전체). 관리 작업 이력 열람(읽기 전용). RLS(is_admin).
+// 관리자 감사 로그(전체). 관리 작업 이력(테이블·페이지네이션, 읽기 전용). RLS(is_admin).
 import { getTranslations } from 'next-intl/server';
 import { listAllAuditLogs } from '@/lib/admin/extra-queries';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { DataTable } from '@/components/admin/DataTable';
+import { Pagination } from '@/components/admin/Pagination';
+import { Badge } from '@/components/ui/Badge';
 
-export default async function AdminAuditPage() {
+export default async function AdminAuditPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const t = await getTranslations('admin');
-  const logs = await listAllAuditLogs(150);
+  const sp = await searchParams;
+  const { rows, total, page, pageSize } = await listAllAuditLogs(Number(sp.page) || 1);
 
   return (
     <>
       <h1 className="text-2xl font-bold">{t('audit')}</h1>
 
-      {logs.length === 0 ? (
+      {rows.length === 0 ? (
         <EmptyState message={t('noActivity')} />
       ) : (
-        <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm">
-          <ul className="flex flex-col divide-y divide-neutral-100">
-            {logs.map((l) => (
-              <li key={l.id} className="flex items-start justify-between gap-3 px-4 py-3 text-sm">
-                <div className="flex min-w-0 flex-col">
-                  <span className="font-medium">
-                    <span className="mr-2 rounded bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-600">
-                      {l.action}
-                    </span>
-                    {l.target_table}
-                  </span>
+        <>
+          <DataTable
+            columns={[
+              { key: 'action', label: t('action') },
+              { key: 'target', label: t('target') },
+              { key: 'time', label: t('time'), className: 'text-right' },
+            ]}
+            rows={rows.map((l) => ({
+              id: l.id,
+              cells: [
+                <Badge key="a" variant="accent">
+                  {l.action}
+                </Badge>,
+                <div key="t" className="flex min-w-0 flex-col">
+                  <span className="font-medium">{l.target_table}</span>
                   <span className="truncate text-xs text-neutral-400">
                     {l.target_id ?? ''} {l.after ? `· ${JSON.stringify(l.after)}` : ''}
                   </span>
-                </div>
-                <span className="shrink-0 text-xs text-neutral-400">
+                </div>,
+                <span key="d" className="block text-right text-xs text-neutral-400">
                   {l.created_at.slice(0, 16).replace('T', ' ')}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                </span>,
+              ],
+            }))}
+          />
+          <Pagination
+            page={page}
+            total={total}
+            pageSize={pageSize}
+            basePath="/admin/audit"
+            params={{}}
+            prevLabel={t('prev')}
+            nextLabel={t('next')}
+          />
+        </>
       )}
     </>
   );

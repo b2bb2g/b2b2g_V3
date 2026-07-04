@@ -20,23 +20,30 @@ export async function getSupplierByProfile(profileId: string): Promise<SupplierR
   return data;
 }
 
+export const ADMIN_PAGE_SIZE = 20;
+
+export type MemberListItem = Pick<ProfileRow, 'id' | 'display_name' | 'email' | 'role' | 'status'>;
+
 export async function listMembers(filter?: {
   role?: string;
   status?: string;
   q?: string;
-}): Promise<Pick<ProfileRow, 'id' | 'display_name' | 'email' | 'role' | 'status'>[]> {
+  page?: number;
+}): Promise<{ rows: MemberListItem[]; total: number; page: number; pageSize: number }> {
   const supabase = await createClient();
+  const page = Math.max(1, filter?.page ?? 1);
+  const from = (page - 1) * ADMIN_PAGE_SIZE;
   let query = supabase
     .from('profiles')
-    .select('id, display_name, email, role, status')
+    .select('id, display_name, email, role, status', { count: 'exact' })
     .order('created_at', { ascending: false })
-    .limit(200);
+    .range(from, from + ADMIN_PAGE_SIZE - 1);
   if (filter?.role) query = query.eq('role', filter.role as ProfileRow['role']);
   if (filter?.status) query = query.eq('status', filter.status as ProfileRow['status']);
   const safe = filter?.q?.replace(/[,()%\\*]/g, ' ').trim();
   if (safe) query = query.or(`display_name.ilike.%${safe}%,email.ilike.%${safe}%`);
-  const { data } = await query;
-  return data ?? [];
+  const { data, count } = await query;
+  return { rows: data ?? [], total: count ?? 0, page, pageSize: ADMIN_PAGE_SIZE };
 }
 
 export async function getMemberDetail(id: string): Promise<ProfileRow | null> {

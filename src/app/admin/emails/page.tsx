@@ -1,7 +1,9 @@
-// 관리자 이메일 발송 로그(email_outbox). 발송 상태·실패 사유 열람(읽기 전용). RLS(is_admin).
+// 관리자 이메일 발송 로그(email_outbox). 상태·실패 사유 열람(테이블·페이지네이션). RLS(is_admin).
 import { getTranslations } from 'next-intl/server';
 import { listEmailOutbox } from '@/lib/admin/extra-queries';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { DataTable } from '@/components/admin/DataTable';
+import { Pagination } from '@/components/admin/Pagination';
 import { Badge, type BadgeVariant } from '@/components/ui/Badge';
 
 const STATUS_VARIANT: Record<string, BadgeVariant> = {
@@ -10,9 +12,14 @@ const STATUS_VARIANT: Record<string, BadgeVariant> = {
   failed: 'danger',
 };
 
-export default async function AdminEmailsPage() {
+export default async function AdminEmailsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const t = await getTranslations('admin');
-  const rows = await listEmailOutbox(100);
+  const sp = await searchParams;
+  const { rows, total, page, pageSize } = await listEmailOutbox(Number(sp.page) || 1);
 
   return (
     <>
@@ -21,27 +28,43 @@ export default async function AdminEmailsPage() {
       {rows.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
       ) : (
-        <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm">
-          <ul className="flex flex-col divide-y divide-neutral-100">
-            {rows.map((e) => (
-              <li key={e.id} className="flex items-start justify-between gap-3 px-4 py-3 text-sm">
-                <div className="flex min-w-0 flex-col">
-                  <div className="flex items-center gap-2">
-                    <Badge variant={STATUS_VARIANT[e.status] ?? 'neutral'}>{e.status}</Badge>
-                    <span className="truncate font-medium">{e.to_email}</span>
-                  </div>
-                  <span className="truncate text-xs text-neutral-400">
-                    {e.template}
-                    {e.error ? ` · ${e.error}` : ''}
-                  </span>
-                </div>
-                <span className="shrink-0 text-xs text-neutral-400">
+        <>
+          <DataTable
+            columns={[
+              { key: 'status', label: t('status') },
+              { key: 'to', label: t('recipient') },
+              { key: 'template', label: t('template') },
+              { key: 'time', label: t('time'), className: 'text-right' },
+            ]}
+            rows={rows.map((e) => ({
+              id: e.id,
+              cells: [
+                <Badge key="s" variant={STATUS_VARIANT[e.status] ?? 'neutral'}>
+                  {e.status}
+                </Badge>,
+                <span key="to" className="font-medium">
+                  {e.to_email}
+                </span>,
+                <span key="t" className="text-neutral-500">
+                  {e.template}
+                  {e.error ? <span className="ml-2 text-red-500">{e.error}</span> : null}
+                </span>,
+                <span key="d" className="block text-right text-xs text-neutral-400">
                   {e.created_at.slice(0, 16).replace('T', ' ')}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                </span>,
+              ],
+            }))}
+          />
+          <Pagination
+            page={page}
+            total={total}
+            pageSize={pageSize}
+            basePath="/admin/emails"
+            params={{}}
+            prevLabel={t('prev')}
+            nextLabel={t('next')}
+          />
+        </>
       )}
     </>
   );

@@ -377,7 +377,16 @@
     "groupSystem": "시스템",
     "activate": "활성화",
     "deactivate": "비활성화",
-    "recipient": "수신"
+    "recipient": "수신",
+    "prev": "이전",
+    "next": "다음",
+    "name": "이름",
+    "template": "템플릿",
+    "time": "시각",
+    "action": "작업",
+    "target": "대상",
+    "link": "링크",
+    "clicksCol": "클릭"
   },
   "epc": {
     "title": "EPC 프로젝트",

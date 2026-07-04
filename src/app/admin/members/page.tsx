@@ -1,19 +1,37 @@
-// 관리자 회원 목록. 실시간 검색(#3) + 역할·상태 필터.
+// 관리자 회원 목록. 실시간 검색 + 역할·상태 필터 + 테이블·페이지네이션.
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { listMembers } from '@/lib/admin/queries';
 import { USER_ROLES, USER_STATUSES } from '@/lib/constants';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { DataTable } from '@/components/admin/DataTable';
+import { Pagination } from '@/components/admin/Pagination';
+import { Badge, type BadgeVariant } from '@/components/ui/Badge';
 import { MemberSearch } from './MemberSearch';
+
+const STATUS_VARIANT: Record<string, BadgeVariant> = {
+  approved: 'success',
+  pending: 'warning',
+  rejected: 'danger',
+  suspended: 'danger',
+  withdrawn: 'neutral',
+};
 
 export default async function AdminMembersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ role?: string; status?: string; q?: string }>;
+  searchParams: Promise<{ role?: string; status?: string; q?: string; page?: string }>;
 }) {
   const t = await getTranslations('admin');
-  const { role, status, q } = await searchParams;
-  const members = await listMembers({ role, status, q });
+  const tc = await getTranslations('common');
+  const sp = await searchParams;
+  const { role, status, q } = sp;
+  const { rows, total, page, pageSize } = await listMembers({
+    role,
+    status,
+    q,
+    page: Number(sp.page) || 1,
+  });
 
   return (
     <>
@@ -27,32 +45,48 @@ export default async function AdminMembersPage({
         statuses={USER_STATUSES}
       />
 
-      {members.length === 0 ? (
+      {rows.length === 0 ? (
         <EmptyState message={t('queueEmpty')} />
       ) : (
-        <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
-          {members.map((m) => (
-            <li key={m.id}>
-              <Link
-                href={`/admin/members/${m.id}`}
-                className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-neutral-50"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-xs font-semibold text-neutral-600">
+        <>
+          <DataTable
+            columns={[
+              { key: 'name', label: t('name') },
+              { key: 'email', label: tc('email') },
+              { key: 'role', label: t('role') },
+              { key: 'status', label: t('status') },
+            ]}
+            rows={rows.map((m) => ({
+              id: m.id,
+              cells: [
+                <Link key="n" href={`/admin/members/${m.id}`} className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-xs font-semibold text-neutral-600">
                     {(m.display_name?.[0] ?? '?').toUpperCase()}
                   </span>
-                  <div className="flex flex-col">
-                    <span className="font-medium">{m.display_name}</span>
-                    <span className="text-xs text-neutral-500">{m.email}</span>
-                  </div>
-                </div>
-                <span className="text-xs text-neutral-500">
-                  {m.role} · {m.status}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                  <span className="font-medium hover:underline">{m.display_name}</span>
+                </Link>,
+                <span key="e" className="text-neutral-500">
+                  {m.email}
+                </span>,
+                <Badge key="r" variant="accent">
+                  {m.role}
+                </Badge>,
+                <Badge key="s" variant={STATUS_VARIANT[m.status] ?? 'neutral'}>
+                  {m.status}
+                </Badge>,
+              ],
+            }))}
+          />
+          <Pagination
+            page={page}
+            total={total}
+            pageSize={pageSize}
+            basePath="/admin/members"
+            params={{ role, status, q }}
+            prevLabel={t('prev')}
+            nextLabel={t('next')}
+          />
+        </>
       )}
     </>
   );

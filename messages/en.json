@@ -377,7 +377,16 @@
     "groupSystem": "System",
     "activate": "Activate",
     "deactivate": "Deactivate",
-    "recipient": "To"
+    "recipient": "To",
+    "prev": "Previous",
+    "next": "Next",
+    "name": "Name",
+    "template": "Template",
+    "time": "Time",
+    "action": "Action",
+    "target": "Target",
+    "link": "Link",
+    "clicksCol": "Clicks"
   },
   "epc": {
     "title": "EPC Projects",
