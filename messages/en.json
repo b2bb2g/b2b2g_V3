@@ -35,7 +35,9 @@
     "why3Desc": "Post products and sourcing requests at no cost and reach real overseas buyers.",
     "ctaTitle": "Post your product for free",
     "ctaDesc": "List it on the platform and get genuine leads from verified buyers.",
-    "ctaButton": "Post your product"
+    "ctaButton": "Post your product",
+    "resultsFor": "Results for “{q}”",
+    "noResults": "No matching products."
   },
   "auth": {
     "loginTitle": "Sign in",

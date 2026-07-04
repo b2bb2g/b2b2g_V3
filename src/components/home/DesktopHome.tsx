@@ -3,10 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { listActiveMenu } from '@/lib/menu/queries';
+import { listPublicProducts, type ProductListItem } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
 import { BannerSlot } from '@/components/BannerSlot';
 import { CategoryIcon } from '@/components/CategoryIcon';
-import type { ProductListItem } from '@/lib/products/queries';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { HeroSearch } from '@/components/home/HeroSearch';
 import type { PlatformStats } from '@/lib/stats/queries';
 import type { MenuItemRow } from '@/lib/supabase/database.types';
 
@@ -23,11 +25,13 @@ export async function DesktopHome({
   signals,
   stats,
   isLoggedIn,
+  q,
 }: {
   featured: ProductListItem[];
   signals: Signal[];
   stats: PlatformStats;
   isLoggedIn: boolean;
+  q?: string;
 }) {
   const t = await getTranslations('home');
   const locale = await getLocale();
@@ -37,6 +41,60 @@ export async function DesktopHome({
 
   const badge = signals[0] ?? { value: stats.listedProducts, label: t('statProducts') };
   const preview = featured.slice(0, 3);
+
+  const query = q?.trim() ?? '';
+  const results = query ? await listPublicProducts({ q: query }) : null;
+
+  // 검색 중: 히어로 검색 + 결과 그리드만(랜딩 섹션 숨김).
+  if (results) {
+    return (
+      <div className="hidden md:block">
+        <div className="mx-auto w-full max-w-6xl px-6 py-12">
+          <HeroSearch currentQ={query} />
+          <h2 className="mt-8 text-lg font-semibold text-neutral-500">
+            {t('resultsFor', { q: query })}
+          </h2>
+          {results.length === 0 ? (
+            <div className="mt-4">
+              <EmptyState message={t('noResults')} />
+            </div>
+          ) : (
+            <ul className="mt-4 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+              {results.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={`/products/${p.id}`}
+                    className="flex h-full flex-col gap-3 rounded-2xl border border-neutral-200 bg-white p-3 transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-md"
+                  >
+                    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
+                      {p.primaryImagePath && (
+                        <Image
+                          src={publicImageUrl(p.primaryImagePath)}
+                          alt=""
+                          fill
+                          sizes="(max-width: 1024px) 33vw, 260px"
+                          className="object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-0.5 px-1 pb-1">
+                      <span className="line-clamp-1 text-sm font-medium text-neutral-900">
+                        {p.title}
+                      </span>
+                      <span className="line-clamp-1 text-xs text-neutral-500">
+                        {p.categoryName ? `${p.categoryName} · ` : ''}
+                        {p.companyName}
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:block">
@@ -53,32 +111,7 @@ export async function DesktopHome({
             </h1>
             <p className="max-w-md text-lg text-neutral-600">{t('heroSubtitle')}</p>
 
-            <form action="/commercial" className="flex max-w-md items-center gap-2">
-              <div className="relative flex-1">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                >
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M20 20l-3-3" />
-                </svg>
-                <input
-                  type="search"
-                  name="q"
-                  placeholder={t('searchPlaceholder')}
-                  className="w-full rounded-xl border border-neutral-300 bg-white py-3 pl-11 pr-3 text-sm shadow-sm"
-                />
-              </div>
-              <button
-                type="submit"
-                className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-              >
-                {t('searchButton')}
-              </button>
-            </form>
+            <HeroSearch currentQ={query} />
 
             <div className="flex flex-wrap gap-3">
               <Link

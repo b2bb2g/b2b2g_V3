@@ -35,7 +35,9 @@
     "why3Desc": "제품과 소싱 요청을 무료로 등록하고 실제 해외 바이어를 만나보세요.",
     "ctaTitle": "제품을 무료로 등록하세요",
     "ctaDesc": "플랫폼에 올리고 검증된 바이어에게서 진짜 리드를 받아보세요.",
-    "ctaButton": "제품 등록"
+    "ctaButton": "제품 등록",
+    "resultsFor": "“{q}” 검색 결과",
+    "noResults": "일치하는 제품이 없습니다."
   },
   "auth": {
     "loginTitle": "로그인",

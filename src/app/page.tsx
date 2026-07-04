@@ -60,6 +60,7 @@ export default async function HomePage({
         signals={signals}
         stats={stats}
         isLoggedIn={Boolean(user)}
+        q={q}
       />
 
       <Popup popup={popup} />
