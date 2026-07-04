@@ -8,10 +8,11 @@ import {
   getBoardSettings,
   type NoticeBoardRow,
 } from '@/lib/content/queries';
+import { startNoticeDraft } from '@/lib/content/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { Pagination } from '@/components/admin/Pagination';
+import { BoardPagination } from '@/components/board/BoardPagination';
 import { NoticeSearch } from './NoticeSearch';
 
 function Clip() {
@@ -25,7 +26,13 @@ function Clip() {
 export default async function NoticesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; q?: string; period?: string; page?: string }>;
+  searchParams: Promise<{
+    category?: string;
+    q?: string;
+    period?: string;
+    sort?: string;
+    page?: string;
+  }>;
 }) {
   const t = await getTranslations('content');
   const locale = await getLocale();
@@ -33,9 +40,10 @@ export default async function NoticesPage({
   const category = sp.category ?? '';
   const q = sp.q ?? '';
   const period = sp.period ?? '';
+  const sort = sp.sort ?? '';
 
   const [{ rows, total, page, pageSize }, categories, settings] = await Promise.all([
-    listNoticeBoard({ category, q, period, page: Number(sp.page) || 1 }),
+    listNoticeBoard({ category, q, period, sort, page: Number(sp.page) || 1 }),
     listBoardCategories('notices'),
     getBoardSettings('notices'),
   ]);
@@ -57,6 +65,7 @@ export default async function NoticesPage({
     if (id) p.set('category', id);
     if (q) p.set('q', q);
     if (period) p.set('period', period);
+    if (sort) p.set('sort', sort);
     const s = p.toString();
     return s ? `/notices?${s}` : '/notices';
   };
@@ -92,15 +101,22 @@ export default async function NoticesPage({
       {/* 검색 + 기간 + 글쓰기 */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="min-w-56 flex-1">
-          <NoticeSearch category={category} currentQ={q} currentPeriod={period} />
+          <NoticeSearch
+            category={category}
+            currentQ={q}
+            currentPeriod={period}
+            currentSort={sort}
+          />
         </div>
         {isAdmin && (
-          <Link
-            href="/admin/notices/new"
-            className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-          >
-            {t('boardWrite')}
-          </Link>
+          <form action={startNoticeDraft}>
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+            >
+              {t('boardWrite')}
+            </button>
+          </form>
         )}
       </div>
 
@@ -136,7 +152,7 @@ export default async function NoticesPage({
                     <tr key={n.id} className={n.is_pinned ? 'bg-blue-50/40' : 'hover:bg-neutral-50'}>
                       <td className="hidden px-4 py-3.5 text-center align-middle sm:table-cell">
                         {n.is_pinned ? (
-                          <span className="rounded-md bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
+                          <span className="rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
                             {t('pinned')}
                           </span>
                         ) : (
@@ -188,14 +204,17 @@ export default async function NoticesPage({
             </table>
           </div>
 
-          <Pagination
+          <BoardPagination
             page={page}
             total={total}
             pageSize={pageSize}
             basePath="/notices"
-            params={{ category: category || undefined, q: q || undefined, period: period || undefined }}
-            prevLabel={t('prev')}
-            nextLabel={t('next')}
+            params={{
+              category: category || undefined,
+              q: q || undefined,
+              period: period || undefined,
+              sort: sort || undefined,
+            }}
           />
         </>
       )}

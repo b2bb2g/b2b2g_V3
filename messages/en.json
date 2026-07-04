@@ -174,7 +174,15 @@
     "boardAddCategory": "Add category",
     "prev": "Previous",
     "next": "Next",
-    "home": "Home"
+    "home": "Home",
+    "boardSaveDraft": "Save draft",
+    "boardRegister": "Publish",
+    "boardUpdate": "Update",
+    "boardTitlePlaceholder": "Enter a title",
+    "pinHint": "Pin to top",
+    "sortLatest": "Newest first",
+    "sortOldest": "Oldest first",
+    "boardShare": "Copy link"
   },
   "notifications": {
     "title": "Notifications",
@@ -547,7 +555,10 @@
     "kind_image": "image",
     "kind_video_file": "video",
     "kind_video_link": "video link",
-    "kind_file": "file"
+    "kind_file": "file",
+    "dropTitle": "Drag files here or click to upload",
+    "dropHint": "You can select or drop multiple files. (Max 20MB)",
+    "selectFile": "Select file"
   },
   "menu": {
     "manage": "Main menu",

@@ -60,19 +60,21 @@ export async function listNoticeBoard(opts: {
   category?: string;
   q?: string;
   period?: string;
+  sort?: string;
   page?: number;
 }): Promise<{ rows: NoticeBoardRow[]; total: number; page: number; pageSize: number }> {
   const supabase = await createClient();
   const page = Math.max(1, opts.page ?? 1);
   const from = (page - 1) * NOTICE_PAGE_SIZE;
   const now = Date.now();
+  const ascending = opts.sort === 'oldest';
 
   let query = supabase
     .from('notices')
     .select('id, title, is_pinned, created_at, view_count, category_id', { count: 'exact' })
     .eq('status', 'published')
     .order('is_pinned', { ascending: false })
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending })
     .range(from, from + NOTICE_PAGE_SIZE - 1);
 
   if (opts.category) query = query.eq('category_id', opts.category);

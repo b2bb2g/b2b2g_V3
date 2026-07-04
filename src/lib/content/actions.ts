@@ -20,6 +20,18 @@ function statusOf(v: FormDataEntryValue | null): ContentStatus {
   return v === 'published' ? 'published' : 'draft';
 }
 
+// 글쓰기 시작: 빈 초안(draft)을 즉시 생성해 첨부가 가능한 편집 화면으로 이동(드래프트-우선).
+export async function startNoticeDraft(): Promise<void> {
+  const ctx = await adminClient();
+  if (!ctx) redirect('/notices');
+  const { data } = await ctx!.supabase
+    .from('notices')
+    .insert({ title: '', author_id: ctx!.userId, status: 'draft' })
+    .select('id')
+    .single();
+  redirect(data ? `/notices/${data.id}/edit` : '/notices');
+}
+
 export async function saveNotice(
   _prev: ContentResult | null,
   formData: FormData,
@@ -30,12 +42,18 @@ export async function saveNotice(
   const id = (formData.get('id') as string) || null;
   const title = String(formData.get('title') ?? '').trim();
   if (!title) return { ok: false, error: 'invalid_input' };
+
+  // intent: 'draft'(임시저장) | 'publish'(등록/수정완료). 없으면 status 필드 사용(하위호환).
+  const intent = formData.get('intent');
+  const status: ContentStatus =
+    intent === 'publish' ? 'published' : intent === 'draft' ? 'draft' : statusOf(formData.get('status'));
+
   const row = {
     title,
     body: String(formData.get('body') ?? ''),
     category_id: (formData.get('category_id') as string) || null,
     is_pinned: formData.get('is_pinned') === 'on',
-    status: statusOf(formData.get('status')),
+    status,
   };
 
   const { error } = id
@@ -43,14 +61,21 @@ export async function saveNotice(
     : await ctx.supabase.from('notices').insert({ ...row, author_id: ctx.userId });
   if (error) return { ok: false, error: error.message };
 
-  redirect('/admin/notices');
+  // 임시저장은 편집 화면 유지, 등록/수정완료는 상세로.
+  if (id && status === 'draft') redirect(`/notices/${id}/edit`);
+  redirect(id ? `/notices/${id}` : '/notices');
+}
+
+// 편집기 폼(다중 제출 버튼: intent) 용 void 래퍼.
+export async function submitNotice(formData: FormData): Promise<void> {
+  await saveNotice(null, formData);
 }
 
 export async function deleteNotice(id: string): Promise<void> {
   const ctx = await adminClient();
   if (!ctx) return;
   await ctx.supabase.from('notices').delete().eq('id', id);
-  redirect('/admin/notices');
+  redirect('/notices');
 }
 
 export async function saveFaq(

@@ -99,3 +99,13 @@
 - 관리자: NoticeForm 카테고리 select 추가. /admin/board 게시판 설정(표시 토글 + 카테고리 CRUD, board-actions). 사이드바 Content 그룹에 링크.
 - 조회수 증가는 상세 렌더에서 RPC 호출(간단, 봇/프리페치 중복 가능성은 감수). NEW/기간은 데이터 계층에서 Date 계산(컴포넌트 렌더 순수성 회피).
 - 검증: 설정·카테고리 anon 조회 OK, RPC 0→1 OK, 샘플 공지 12건 카테고리 배정. tsc/eslint/build 통과.
+
+## Phase 7.1 — 게시판 4화면 목업 정합 + 재사용화 (2026-07-04)
+- 재사용 컴포넌트: BoardPagination(번호형), BoardEditor(글쓰기/수정 통합, 상단 액션바+라벨좌측폼+첨부, record/actions/ownerType props 로 다른 메뉴 재사용), ShareButton(링크복사).
+- 리스트: 검색 아이콘 우측, 정렬 토글(최신/오래된, ?sort=oldest), 번호형 페이지네이션, 공지 배지=연블루 아웃라인, 첨부 클립. 글쓰기=startNoticeDraft(드래프트-우선) 폼.
+- 상세: 상단바(뒤로←·홈·공지사항 / 목록·공유·수정[admin]), 등록일 날짜+시간(슬라이스 16), 조회수 증가.
+- 편집기: /notices/[id]/edit (admin 게이트, 스탠드얼론). 드래프트-우선이라 첨부 즉시 가능. intent(draft/publish)로 임시저장/등록·수정완료. 삭제는 published 일 때만. 구 /admin/notices/new·[id]/edit·NoticeForm 제거, 관리자 목록·공개 글쓰기 → 새 편집기 연결.
+- AttachmentManager: 드래그앤드롭 존 + 다중 업로드 + 파일 칩(이름·크기·x). attachments i18n dropTitle/dropHint/selectFile.
+- content i18n: boardSaveDraft/Register/Update, boardTitlePlaceholder, pinHint, sortLatest/Oldest, boardShare.
+- saveNotice: intent 기반 status + 리다이렉트(임시저장→편집유지, 등록→상세). submitNotice(void 래퍼)·startNoticeDraft 추가.
+- 재사용 경로: 다른 메뉴는 각자 list/detail 페이지 + BoardEditor(ownerType·actions·categories 주입)로 확장 가능.

@@ -36,35 +36,49 @@ export function AttachmentManager({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [link, setLink] = useState('');
+  const [drag, setDrag] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  async function onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    setError(null);
-    if (file.size > MAX_BYTES) return setError(t('sizeError'));
+  async function uploadFile(file: File) {
+    if (file.size > MAX_BYTES) {
+      setError(t('sizeError'));
+      return;
+    }
+    const supabase = createClient();
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `${userId}/${ownerType}/${ownerId}/${crypto.randomUUID()}-${safeName}`;
+    const { error: upErr } = await supabase.storage
+      .from(BOARD_MEDIA_BUCKET)
+      .upload(path, file, { contentType: file.type });
+    if (upErr) {
+      setError(t('uploadFailed'));
+      return;
+    }
+    await addFileAttachment(ownerType, ownerId, {
+      storagePath: path,
+      kind: kindOf(file),
+      fileName: file.name,
+      mimeType: file.type,
+      sizeBytes: file.size,
+    });
+  }
 
+  async function onFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setError(null);
     setUploading(true);
     try {
-      const supabase = createClient();
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const path = `${userId}/${ownerType}/${ownerId}/${crypto.randomUUID()}-${safeName}`;
-      const { error: upErr } = await supabase.storage
-        .from(BOARD_MEDIA_BUCKET)
-        .upload(path, file, { contentType: file.type });
-      if (upErr) return setError(t('uploadFailed'));
-      await addFileAttachment(ownerType, ownerId, {
-        storagePath: path,
-        kind: kindOf(file),
-        fileName: file.name,
-        mimeType: file.type,
-        sizeBytes: file.size,
-      });
+      for (const file of Array.from(files)) await uploadFile(file);
       router.refresh();
     } finally {
       setUploading(false);
     }
+  }
+
+  async function onSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    e.target.value = '';
+    await onFiles(files);
   }
 
   function onAddLink() {
@@ -78,40 +92,74 @@ export function AttachmentManager({
   }
 
   return (
-    <section className="flex flex-col gap-3 rounded-lg border border-neutral-200 p-4">
-      <h2 className="text-sm font-semibold text-neutral-500">{t('manage')}</h2>
+    <section className="flex w-full flex-col gap-3">
+      {/* 드래그앤드롭 업로드 존 */}
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDrag(true);
+        }}
+        onDragLeave={() => setDrag(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDrag(false);
+          onFiles(e.dataTransfer.files);
+        }}
+        className={`flex flex-col items-center gap-1 rounded-xl border-2 border-dashed px-4 py-6 text-center transition ${
+          drag ? 'border-blue-400 bg-blue-50/50' : 'border-neutral-300 bg-neutral-50'
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="h-6 w-6 text-neutral-400" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M12 16V4M8 8l4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+        </svg>
+        <p className="text-sm font-medium text-neutral-600">{t('dropTitle')}</p>
+        <p className="text-xs text-neutral-400">{t('dropHint')}</p>
+        <label className="mt-2 cursor-pointer rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-medium hover:border-neutral-400">
+          {t('selectFile')}
+          <input type="file" multiple onChange={onSelect} disabled={uploading} className="hidden" />
+        </label>
+      </div>
 
+      {/* 업로드된 파일 칩 */}
       {attachments.length > 0 && (
-        <ul className="flex flex-col gap-1">
+        <ul className="flex flex-wrap gap-2">
           {attachments.map((a) => (
-            <li key={a.id} className="flex items-center justify-between gap-2 text-sm">
-              <span className="truncate">
+            <li
+              key={a.id}
+              className="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm"
+            >
+              <span className="max-w-48 truncate text-neutral-700">
                 {a.kind === 'video_link' ? a.external_url : (a.file_name ?? a.storage_path)}
-                <span className="ml-2 text-xs text-neutral-400">{t(`kind_${a.kind}`)}</span>
               </span>
+              {a.size_bytes ? (
+                <span className="text-xs text-neutral-400">
+                  {a.size_bytes >= 1048576
+                    ? `${(a.size_bytes / 1048576).toFixed(1)}MB`
+                    : `${Math.round(a.size_bytes / 1024)}KB`}
+                </span>
+              ) : null}
               <button
                 type="button"
                 disabled={pending}
+                aria-label={t('delete')}
                 onClick={() =>
                   startTransition(async () => {
                     await deleteAttachment(a.id);
                     router.refresh();
                   })
                 }
-                className="text-xs text-red-600 underline"
+                className="text-neutral-400 hover:text-red-600"
               >
-                {t('delete')}
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
               </button>
             </li>
           ))}
         </ul>
       )}
 
-      <label className="text-sm">
-        <span className="mb-1 block text-neutral-500">{t('uploadLabel')}</span>
-        <input type="file" onChange={onSelect} disabled={uploading} className="text-sm" />
-      </label>
-
+      {/* 동영상 링크(선택) */}
       <div className="flex gap-2">
         <input
           type="url"

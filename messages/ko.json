@@ -174,7 +174,15 @@
     "boardAddCategory": "카테고리 추가",
     "prev": "이전",
     "next": "다음",
-    "home": "홈"
+    "home": "홈",
+    "boardSaveDraft": "임시저장",
+    "boardRegister": "등록",
+    "boardUpdate": "수정 완료",
+    "boardTitlePlaceholder": "제목을 입력해주세요",
+    "pinHint": "상단 고정",
+    "sortLatest": "최신순",
+    "sortOldest": "오래된순",
+    "boardShare": "링크 복사"
   },
   "notifications": {
     "title": "알림",
@@ -547,7 +555,10 @@
     "kind_image": "이미지",
     "kind_video_file": "동영상",
     "kind_video_link": "동영상 링크",
-    "kind_file": "파일"
+    "kind_file": "파일",
+    "dropTitle": "파일을 드래그하거나 클릭하여 업로드하세요",
+    "dropHint": "여러 파일을 선택하거나 드래그할 수 있습니다. (최대 20MB)",
+    "selectFile": "파일 선택"
   },
   "menu": {
     "manage": "메인 메뉴",

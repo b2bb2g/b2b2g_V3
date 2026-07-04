@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { listAllNotices } from '@/lib/content/queries';
-import { deleteNotice } from '@/lib/content/actions';
+import { deleteNotice, startNoticeDraft } from '@/lib/content/actions';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
 
@@ -14,12 +14,14 @@ export default async function AdminNoticesPage() {
     <>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('manageNotices')}</h1>
-        <Link
-          href="/admin/notices/new"
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
-        >
-          {t('new')}
-        </Link>
+        <form action={startNoticeDraft}>
+          <button
+            type="submit"
+            className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+          >
+            {t('new')}
+          </button>
+        </form>
       </div>
 
       {notices.length === 0 ? (
@@ -36,7 +38,7 @@ export default async function AdminNoticesPage() {
                 </span>
               </div>
               <div className="flex items-center gap-3 text-sm">
-                <Link href={`/admin/notices/${n.id}/edit`} className="underline">
+                <Link href={`/notices/${n.id}/edit`} className="underline">
                   {t('edit')}
                 </Link>
                 <ConfirmButton
