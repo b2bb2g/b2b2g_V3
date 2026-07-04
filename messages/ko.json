@@ -712,13 +712,6 @@
   "search": {
     "resultsFor": "“{q}” 검색 결과",
     "noResults": "“{q}” 검색 결과가 없습니다.",
-    "viewAllType": "전체 보기",
-    "type_products": "제품",
-    "type_epc": "EPC 프로젝트",
-    "type_requests": "소싱 요청",
-    "type_events": "행사",
-    "type_services": "서비스",
-    "type_notices": "공지사항",
-    "type_faq": "FAQ"
+    "viewAllType": "전체 보기"
   }
 }

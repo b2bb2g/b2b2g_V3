@@ -712,13 +712,6 @@
   "search": {
     "resultsFor": "Results for “{q}”",
     "noResults": "No results for “{q}”.",
-    "viewAllType": "View all",
-    "type_products": "Products",
-    "type_epc": "EPC Projects",
-    "type_requests": "Sourcing Requests",
-    "type_events": "Events",
-    "type_services": "Services",
-    "type_notices": "Notices",
-    "type_faq": "FAQ"
+    "viewAllType": "View all"
   }
 }
