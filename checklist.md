@@ -206,4 +206,20 @@
 - [x] product_certifications 입력 UI: 제품 편집에 인증/수상 추가·삭제(RLS 소유자 쓰기), 공개 상세에 배지 표시
 - [x] 업로드 용량/mime 서버측 하드닝: 버킷 file_size_limit·allowed_mime_types 강제(product-media 5MB·이미지, board-media 50MB·이미지/영상/문서). svg·html·js 차단(XSS 방지)
 
+## Phase 5 — 초대 관리 + 메뉴 샘플 시드 (진행중)
+
+### A. 메뉴 샘플 콘텐츠 12건씩 시드
+- [ ] 시드 마이그레이션(idempotent, count<12 가드): Commercial/Industrial 제품 각 12(listed), EPC projects 12, Requests 12(listed), Events 12, Services 12, Notices 12, FAQ 12(published)
+- [ ] db push 후 라이브 카운트 검증(각 12+)
+
+### B. 초대 링크 관리(관리자 페이지)
+- [ ] /admin/invites 페이지 + 사이드바 링크 + i18n
+- [ ] 초대 링크 생성기(역할 선택 → ?ref=&role= 복사 링크)
+- [ ] 이메일 직접 초대(admin.inviteUserByEmail, 역할 메타데이터)
+- [ ] 회원 초대 트리(referred_by 재귀 렌더)
+- [ ] signup 페이지 role 파라미터 프리셋
+
+### C. 검증/배포
+- [ ] tsc / eslint / build, 커밋·푸시, 마이그레이션 배포
+
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)
