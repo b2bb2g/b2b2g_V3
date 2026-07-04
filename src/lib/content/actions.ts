@@ -33,6 +33,7 @@ export async function saveNotice(
   const row = {
     title,
     body: String(formData.get('body') ?? ''),
+    category_id: (formData.get('category_id') as string) || null,
     is_pinned: formData.get('is_pinned') === 'on',
     status: statusOf(formData.get('status')),
   };

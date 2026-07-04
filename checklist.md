@@ -224,3 +224,16 @@
 - [x] 커밋·푸시
 
 ### 슬라이스 4.9: (후속) 익명 신호, 에이전트 산하 바이어(buyers/agents)
+
+## Phase 7 — 게시판 시스템(공지사항, 첨부 목업 반영)
+### 데이터
+- [x] board_categories(bilingual)·board_settings(작성자/조회수 노출)·notices(category_id·view_count)·increment_notice_view RPC 마이그레이션 + 시드
+- [x] database.types 반영
+### 공개
+- [x] /notices 리스트: 카테고리 탭·실시간 검색·기간필터·번호/제목(첨부아이콘)/날짜/조회수 테이블·페이지네이션·공지 고정
+- [x] /notices/[id] 상세: 브레드크럼·목록·공지/카테고리 배지·조회수·작성자(설정)·첨부·조회수 증가
+### 관리자
+- [x] NoticeForm 카테고리 선택
+- [x] /admin/board 게시판 설정: 카테고리 CRUD + 작성자/조회수 노출 토글 + 사이드바
+### 마감
+- [x] i18n(en·ko), tsc/eslint/build, 마이그레이션 배포, 커밋·푸시

@@ -91,3 +91,11 @@
 - 실시간 검색: MobileSearch(client) 250ms 디바운스 → /?q= 교체, 서버가 listPublicProducts({q}) 재조회 후 결과 리스트. useTransition 스피너로 로딩표시. q 있으면 카테고리·프로모·Featured 숨기고 결과만.
 - 좌우 스와이프 수정: 루트 overflow-x-clip 으로 페이지 수평 스크롤 차단 → 내부 행(카테고리·Featured)의 overflow-x-auto 가 독립 스와이프. snap-x + 스크롤바 숨김.
 - Featured/결과 빈 상태 EmptyState. i18n mobileHome +resultsFor/noResults/featuredEmpty.
+
+## Phase 7 — 게시판 시스템(공지사항) (2026-07-04)
+- 마이그레이션 20260704230000_board_system: board_categories(bilingual name_en/ko, board별)·board_settings(show_author/show_view_count, board별)·notices.category_id·notices.view_count·increment_notice_view(definer, anon 호출). 기본 설정 + 공지 카테고리 4종(Service/Event/Update/Etc) 시드.
+- 공개 /notices: 카테고리 탭(전체+카테고리) + 실시간 검색(NoticeSearch, 디바운스+스피너) + 기간필터(1m/3m/1y) + 테이블(번호·제목[카테고리태그·첨부클립·NEW]·첨부·날짜·조회수) + 페이지네이션(공용 Pagination). 번호=total-오프셋, 고정글=공지 배지. 첨부유무는 board_attachments(inline=false) 조인.
+- 공개 /notices/[id]: 브레드크럼+목록, 공지/카테고리 배지, 등록일·조회수·작성자(설정 시), 본문(SafeHtml)+첨부. 진입 시 bumpNoticeView(RPC) 조회수 증가.
+- 관리자: NoticeForm 카테고리 select 추가. /admin/board 게시판 설정(표시 토글 + 카테고리 CRUD, board-actions). 사이드바 Content 그룹에 링크.
+- 조회수 증가는 상세 렌더에서 RPC 호출(간단, 봇/프리페치 중복 가능성은 감수). NEW/기간은 데이터 계층에서 Date 계산(컴포넌트 렌더 순수성 회피).
+- 검증: 설정·카테고리 anon 조회 OK, RPC 0→1 OK, 샘플 공지 12건 카테고리 배정. tsc/eslint/build 통과.

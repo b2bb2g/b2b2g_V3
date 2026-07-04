@@ -35,6 +35,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       heading: t('groupContent'),
       links: [
         { href: '/admin/notices', label: tc('manageNotices') },
+        { href: '/admin/board', label: tc('boardSettings') },
         { href: '/admin/faq', label: tc('manageFaq') },
         { href: '/admin/events', label: te('manage') },
         { href: '/admin/epc', label: tp('manage') },

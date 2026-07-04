@@ -267,9 +267,28 @@ export type NoticeRow = {
   author_id: string | null;
   title: string;
   body: string;
+  category_id: string | null;
+  view_count: number;
   is_pinned: boolean;
   status: ContentStatus;
   created_at: string;
+  updated_at: string;
+};
+
+export type BoardCategoryRow = {
+  id: string;
+  board: string;
+  name_en: string;
+  name_ko: string;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type BoardSettingsRow = {
+  board: string;
+  show_author: boolean;
+  show_view_count: boolean;
   updated_at: string;
 };
 
@@ -595,6 +614,18 @@ export type Database = {
         Update: Partial<NoticeRow>;
         Relationships: [];
       };
+      board_categories: {
+        Row: BoardCategoryRow;
+        Insert: Insertable<BoardCategoryRow, 'board' | 'name_en' | 'name_ko'>;
+        Update: Partial<BoardCategoryRow>;
+        Relationships: [];
+      };
+      board_settings: {
+        Row: BoardSettingsRow;
+        Insert: Insertable<BoardSettingsRow, 'board'>;
+        Update: Partial<BoardSettingsRow>;
+        Relationships: [];
+      };
       faqs: {
         Row: FaqRow;
         Insert: Insertable<FaqRow, 'question'>;
@@ -727,6 +758,10 @@ export type Database = {
       resolve_short_link: {
         Args: { p_slug: string };
         Returns: { target_type: ShortLinkTarget; target_id: string | null; ref_code: string | null }[];
+      };
+      increment_notice_view: {
+        Args: { p_id: string };
+        Returns: undefined;
       };
       platform_stats: {
         Args: Record<PropertyKey, never>;

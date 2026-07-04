@@ -3,13 +3,21 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { saveNotice, type ContentResult } from '@/lib/content/actions';
-import type { NoticeRow } from '@/lib/supabase/database.types';
+import type { BoardCategoryRow, NoticeRow } from '@/lib/supabase/database.types';
 import { FormButton } from '@/components/ui/FormButton';
 import { RichTextEditor } from '@/components/RichTextEditor';
 
 const input = 'rounded-md border border-neutral-300 px-3 py-2';
 
-export function NoticeForm({ notice }: { notice?: NoticeRow }) {
+export function NoticeForm({
+  notice,
+  categories,
+  locale,
+}: {
+  notice?: NoticeRow;
+  categories: BoardCategoryRow[];
+  locale: string;
+}) {
   const t = useTranslations('content');
   const [state, formAction] = useActionState<ContentResult | null, FormData>(saveNotice, null);
 
@@ -19,6 +27,17 @@ export function NoticeForm({ notice }: { notice?: NoticeRow }) {
       <label className="flex flex-col gap-1 text-sm">
         <span>{t('fieldTitle')}</span>
         <input type="text" name="title" required defaultValue={notice?.title} className={input} />
+      </label>
+      <label className="flex flex-col gap-1 text-sm">
+        <span>{t('fieldCategory')}</span>
+        <select name="category_id" defaultValue={notice?.category_id ?? ''} className={input}>
+          <option value="">{t('categoryNone')}</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {locale === 'ko' ? c.name_ko : c.name_en}
+            </option>
+          ))}
+        </select>
       </label>
       <div className="flex flex-col gap-1 text-sm">
         <span>{t('fieldBody')}</span>
