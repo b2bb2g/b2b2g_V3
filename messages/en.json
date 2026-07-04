@@ -388,7 +388,20 @@
     "link": "Link",
     "clicksCol": "Clicks",
     "chartMembers": "Members by role",
-    "chartContent": "Published content"
+    "chartContent": "Published content",
+    "invites": "Invites",
+    "inviteLinkTitle": "Invite links",
+    "inviteLinkDesc": "Copy a role-specific sign-up link and share it through any channel.",
+    "inviteEmailTitle": "Invite by email",
+    "inviteEmailDesc": "Send an invitation email directly. The recipient sets their password on first sign-in.",
+    "inviteTreeTitle": "Invite tree",
+    "inviteEmpty": "No members yet.",
+    "inviteRole": "Role",
+    "inviteSend": "Send invite",
+    "inviteSent": "Invitation sent.",
+    "inviteFailed": "Could not send the invitation.",
+    "copy": "Copy",
+    "copied": "Copied"
   },
   "epc": {
     "title": "EPC Projects",

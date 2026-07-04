@@ -56,3 +56,23 @@
 - board_attachments 표시/업로더를 공지·FAQ·행사 보드에도 연결(현재 EPC·RFQ만). 동일 컴포넌트 재사용.
 - 추천가입 QR(에이전트 referral_code) — ShareWidget 재사용.
 - 배너/팝업/공유/업로더 등 상호작용 UI는 build+RLS로만 검증 → 실제 브라우저 동작 QA 권장.
+
+## Phase 5 — 초대 관리 + 메뉴 샘플 시드 (2026-07-04)
+
+### 초대 링크 "작동 안됨" 진단
+- DB 경로는 정상: 단축링크 생성 → resolve_short_link RPC(anon) → /auth/signup?ref= → 가입 트리거 handle_new_user 가 ref→referred_by 설정. anon RPC 라이브 테스트 통과.
+- 실제 문제는 발견성: 개인 추천 위젯이 대시보드에만 있어 관리자가 관리·초대·집계 불가. 관리자 이관이 실질적 해결.
+
+### 초대 방식 결정: "둘 다"(사용자 선택)
+- **초대 링크**: supplier·buyer 만 제공. self-signup 스키마(SELF_SIGNUP_ROLES=supplier,buyer)가 role 을 검증하므로 agent 링크는 폼에서 막힘 → 링크는 두 역할만.
+  - 링크 형식: {siteUrl}/auth/signup?ref={관리자 referral_code}&role={role}. role 파라미터로 가입폼 역할 프리셋(SignupForm presetRole). referred_by=관리자 → 트리 루트가 관리자.
+- **이메일 초대**: buyer·supplier·agent 전부. admin.inviteUserByEmail(service_role) 로 role·ref 메타데이터 주입 → 트리거가 role 반영(agent 포함, 폼 우회). 감사로그(action=create, target_table=invite).
+  - 초대 수락 흐름: GoTrue invite 메일 → 우리 Send Email Hook(email_action_type=invite) → signup_verify 템플릿. mapAction invite next 를 /dashboard → **/auth/reset-password** 로 변경(수락자가 비번 없으므로 세션 유지한 채 비번 설정). 콜백 route 는 next=/auth/reset-password 면 세션 유지.
+
+### 초대 트리
+- getReferralTree(): 전체 profiles 를 referred_by 로 트리화. 루트=추천인 없음(직접가입/관리자직생성). /admin/invites 재귀 TreeList 렌더. 이름→/admin/members/[id] 링크.
+
+### 메뉴 샘플 시드 (마이그레이션 20260704220000_sample_content)
+- idempotent: 테이블별 count<12 일 때만 generate_series(1..12) 삽입. 운영 데이터 차오르면 자동 skip.
+- Commercial/Industrial 제품(supplier=첫 공급사, status=listed), EPC projects(published), requests(listed, requester=첫 buyer/agent), events/services/notices/faqs(published, author=admin). 라이브 카운트 각 12+ 확인(notices 는 기존 1 포함 13).
+- 후속: 사용자가 재점검·테스트 예정. 샘플 제거 시 title LIKE 'Sample %'/'Commercial Sample %'/'Industrial Sample %' 로 식별.

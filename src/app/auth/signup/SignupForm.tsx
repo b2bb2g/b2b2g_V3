@@ -7,7 +7,13 @@ import { SELF_SIGNUP_ROLES } from '@/lib/auth/schema';
 import { PasswordInput } from '@/components/ui/PasswordInput';
 import { FormButton } from '@/components/ui/FormButton';
 
-export function SignupForm({ referralCode }: { referralCode?: string }) {
+export function SignupForm({
+  referralCode,
+  presetRole,
+}: {
+  referralCode?: string;
+  presetRole?: (typeof SELF_SIGNUP_ROLES)[number];
+}) {
   const t = useTranslations('auth');
   const tc = useTranslations('common');
   const locale = useLocale();
@@ -33,7 +39,7 @@ export function SignupForm({ referralCode }: { referralCode?: string }) {
         <span>{t('memberType')}</span>
         <select
           name="role"
-          defaultValue={referralCode ? 'buyer' : 'supplier'}
+          defaultValue={presetRole ?? (referralCode ? 'buyer' : 'supplier')}
           className="rounded-md border border-neutral-300 px-3 py-2"
         >
           {SELF_SIGNUP_ROLES.map((role) => (

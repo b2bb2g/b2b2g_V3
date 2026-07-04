@@ -20,6 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       heading: t('groupMembers'),
       links: [
         { href: '/admin/members', label: t('manageMembers') },
+        { href: '/admin/invites', label: t('invites') },
         { href: '/admin/suppliers', label: t('pendingSuppliers') },
       ],
     },

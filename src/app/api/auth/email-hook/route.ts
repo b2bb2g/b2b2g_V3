@@ -28,7 +28,8 @@ function mapAction(type: string): { template: EmailTemplate; otpType: string; ne
     case 'magiclink':
       return { template: 'signup_verify', otpType: 'magiclink', next: '/dashboard' };
     case 'invite':
-      return { template: 'signup_verify', otpType: 'invite', next: '/dashboard' };
+      // 초대 수락자는 비밀번호가 없으므로 세션 유지한 채 비밀번호 설정 페이지로.
+      return { template: 'signup_verify', otpType: 'invite', next: '/auth/reset-password' };
     default:
       return null;
   }

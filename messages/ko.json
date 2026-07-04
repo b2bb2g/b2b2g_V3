@@ -388,7 +388,20 @@
     "link": "링크",
     "clicksCol": "클릭",
     "chartMembers": "역할별 회원",
-    "chartContent": "발행 콘텐츠"
+    "chartContent": "발행 콘텐츠",
+    "invites": "초대 관리",
+    "inviteLinkTitle": "초대 링크",
+    "inviteLinkDesc": "역할별 가입 링크를 복사해 원하는 채널로 공유하세요.",
+    "inviteEmailTitle": "이메일로 초대",
+    "inviteEmailDesc": "초대 메일을 바로 발송합니다. 수신자는 첫 로그인 시 비밀번호를 설정합니다.",
+    "inviteTreeTitle": "초대 관계 트리",
+    "inviteEmpty": "회원이 없습니다.",
+    "inviteRole": "역할",
+    "inviteSend": "초대 보내기",
+    "inviteSent": "초대를 보냈습니다.",
+    "inviteFailed": "초대를 보내지 못했습니다.",
+    "copy": "복사",
+    "copied": "복사됨"
   },
   "epc": {
     "title": "EPC 프로젝트",
