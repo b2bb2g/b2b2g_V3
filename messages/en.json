@@ -666,5 +666,24 @@
     "save": "Save",
     "delete": "Delete",
     "deleteConfirm": "Delete this category? (blocked if it has sub-categories or products)"
+  },
+  "mobileNav": {
+    "home": "Home",
+    "browse": "Browse",
+    "messages": "Messages",
+    "profile": "Profile"
+  },
+  "mobileHome": {
+    "hello": "Hello",
+    "welcome": "Welcome",
+    "guest": "Guest",
+    "notifications": "Notifications",
+    "filter": "Filter",
+    "searchPlaceholder": "Search products, suppliers, categories",
+    "promoTitle": "Post your product for free",
+    "promoDesc": "List it on the platform and get genuine leads",
+    "promoCta": "Post your product",
+    "featured": "Featured Listings",
+    "seeAll": "See All"
   }
 }

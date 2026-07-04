@@ -666,5 +666,24 @@
     "save": "저장",
     "delete": "삭제",
     "deleteConfirm": "이 카테고리를 삭제할까요? (하위·연결 제품이 있으면 삭제되지 않습니다)"
+  },
+  "mobileNav": {
+    "home": "홈",
+    "browse": "둘러보기",
+    "messages": "메시지",
+    "profile": "프로필"
+  },
+  "mobileHome": {
+    "hello": "안녕하세요",
+    "welcome": "환영합니다",
+    "guest": "게스트",
+    "notifications": "알림",
+    "filter": "필터",
+    "searchPlaceholder": "제품·공급사·카테고리 검색",
+    "promoTitle": "제품을 무료로 등록하세요",
+    "promoDesc": "플랫폼에 올리고 진짜 리드를 받아보세요",
+    "promoCta": "제품 등록",
+    "featured": "추천 리스트",
+    "seeAll": "전체 보기"
   }
 }

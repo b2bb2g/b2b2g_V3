@@ -9,6 +9,7 @@ import { getTopPopup } from '@/lib/marketing/queries';
 import { getPlatformStats } from '@/lib/stats/queries';
 import { BannerSlot } from '@/components/BannerSlot';
 import { Popup } from '@/components/Popup';
+import { MobileHome } from '@/components/mobile/MobileHome';
 import type { PopupTarget } from '@/lib/supabase/database.types';
 
 export default async function HomePage() {
@@ -48,6 +49,11 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* 모바일: 앱 셸 홈(인사말·검색·카테고리·프로모·Featured) */}
+      <MobileHome featured={featured} />
+
+      {/* 데스크톱: 기존 랜딩 유지 */}
+      <div className="hidden md:block">
       <section className="border-b border-neutral-200 bg-neutral-50">
         <div className="mx-auto flex max-w-5xl flex-col gap-5 px-6 py-16">
           <h1 className="max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
@@ -123,6 +129,7 @@ export default async function HomePage() {
 
       <div className="pb-16">
         <BannerSlot placement="mid" />
+      </div>
       </div>
 
       <Popup popup={popup} />

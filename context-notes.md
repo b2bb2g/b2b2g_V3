@@ -76,3 +76,12 @@
 - idempotent: 테이블별 count<12 일 때만 generate_series(1..12) 삽입. 운영 데이터 차오르면 자동 skip.
 - Commercial/Industrial 제품(supplier=첫 공급사, status=listed), EPC projects(published), requests(listed, requester=첫 buyer/agent), events/services/notices/faqs(published, author=admin). 라이브 카운트 각 12+ 확인(notices 는 기존 1 포함 13).
 - 후속: 사용자가 재점검·테스트 예정. 샘플 제거 시 title LIKE 'Sample %'/'Commercial Sample %'/'Industrial Sample %' 로 식별.
+
+## Phase 6 — 모바일 앱 셸(첨부 부동산 앱 레이아웃 적용) (2026-07-04)
+- 사용자 선택: "풀 모바일 앱 셸". 데스크톱은 기존 랜딩 유지, 모바일(<md)만 재구성.
+- 구성: 인사말 헤더(아바타·SVG 웨이브·알림벨 배지) + 검색+파란 필터버튼 + 카테고리 칩(menu_items, 라우트별 SVG 아이콘) + 프로모 배너(제품 무료등록) + Featured 가로 스크롤 카드.
+- 하단 탭바(MobileTabBar, md:hidden 고정): Home / Browse(/commercial) / Messages(/dashboard/notifications, 미읽음 배지) / Profile(/dashboard). 활성 판정=최장 프리픽스. 부동산의 "My Properties"는 마켓 특성상 Browse 로 대체.
+- 상단 MainNav 는 TopNavGate(client, usePathname)로 감싸 **모바일 홈(/)에서만 숨김**(인사말 헤더가 대체). 그 외 라우트·데스크톱은 항상 노출 → 네비 회귀 없음.
+- 레이아웃: Footer 뒤 h-16 모바일 스페이서로 고정 탭바가 콘텐츠 가리지 않게.
+- 규칙: 이모지 0(웨이브·집·벨 전부 인라인 SVG), 텍스트 전부 i18n(mobileNav/mobileHome en·ko), 새 파일 한글 헤더.
+- 미채택(기능 부재): Featured 카드의 Map 플로팅 버튼·즐겨찾기·비교·"1 year old" 배지(지도/찜/비교 기능 없음). 필요 시 후속.
