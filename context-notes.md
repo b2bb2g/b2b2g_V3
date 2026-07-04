@@ -85,3 +85,9 @@
 - 레이아웃: Footer 뒤 h-16 모바일 스페이서로 고정 탭바가 콘텐츠 가리지 않게.
 - 규칙: 이모지 0(웨이브·집·벨 전부 인라인 SVG), 텍스트 전부 i18n(mobileNav/mobileHome en·ko), 새 파일 한글 헤더.
 - 미채택(기능 부재): Featured 카드의 Map 플로팅 버튼·즐겨찾기·비교·"1 year old" 배지(지도/찜/비교 기능 없음). 필요 시 후속.
+
+## Phase 6.1 — 모바일 홈 기능 보강 (2026-07-04)
+- 로그인 전/후 분기(첨부 Before/After): 로그인 전=인사말 헤더 없이 검색이 첫 요소, 로그인 후=인사말 헤더(아바타·벨) 노출.
+- 실시간 검색: MobileSearch(client) 250ms 디바운스 → /?q= 교체, 서버가 listPublicProducts({q}) 재조회 후 결과 리스트. useTransition 스피너로 로딩표시. q 있으면 카테고리·프로모·Featured 숨기고 결과만.
+- 좌우 스와이프 수정: 루트 overflow-x-clip 으로 페이지 수평 스크롤 차단 → 내부 행(카테고리·Featured)의 overflow-x-auto 가 독립 스와이프. snap-x + 스크롤바 숨김.
+- Featured/결과 빈 상태 EmptyState. i18n mobileHome +resultsFor/noResults/featuredEmpty.

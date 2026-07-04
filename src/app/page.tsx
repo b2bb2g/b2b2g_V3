@@ -12,8 +12,13 @@ import { Popup } from '@/components/Popup';
 import { MobileHome } from '@/components/mobile/MobileHome';
 import type { PopupTarget } from '@/lib/supabase/database.types';
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
   const t = await getTranslations('home');
+  const { q } = await searchParams;
 
   const supabase = await createClient();
   const {
@@ -49,8 +54,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* 모바일: 앱 셸 홈(인사말·검색·카테고리·프로모·Featured) */}
-      <MobileHome featured={featured} />
+      {/* 모바일: 앱 셸 홈(로그인 전/후 분기·실시간 검색·카테고리·프로모·Featured) */}
+      <MobileHome featured={featured} q={q} />
 
       {/* 데스크톱: 기존 랜딩 유지 */}
       <div className="hidden md:block">

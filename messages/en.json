@@ -684,6 +684,9 @@
     "promoDesc": "List it on the platform and get genuine leads",
     "promoCta": "Post your product",
     "featured": "Featured Listings",
-    "seeAll": "See All"
+    "seeAll": "See All",
+    "resultsFor": "Results for “{q}”",
+    "noResults": "No matching products.",
+    "featuredEmpty": "No featured listings yet."
   }
 }

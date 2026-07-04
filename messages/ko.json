@@ -684,6 +684,9 @@
     "promoDesc": "플랫폼에 올리고 진짜 리드를 받아보세요",
     "promoCta": "제품 등록",
     "featured": "추천 리스트",
-    "seeAll": "전체 보기"
+    "seeAll": "전체 보기",
+    "resultsFor": "“{q}” 검색 결과",
+    "noResults": "일치하는 제품이 없습니다.",
+    "featuredEmpty": "추천 리스트가 아직 없습니다."
   }
 }
