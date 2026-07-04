@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { getInviteContext, getReferralTree, type TreeNode } from '@/lib/admin/invite-queries';
+import { qrDataUrl } from '@/lib/shortlinks/qr';
 import { CopyLink } from '@/components/admin/CopyLink';
 import { InviteEmailForm } from '@/components/admin/InviteEmailForm';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -51,10 +52,15 @@ export default async function AdminInvitesPage() {
       ? `${siteUrl}/auth/signup?ref=${encodeURIComponent(referralCode)}&role=${role}`
       : `${siteUrl}/auth/signup?role=${role}`;
 
-  const linkRoles = [
-    { value: 'supplier', label: tn('role_supplier') },
-    { value: 'buyer', label: tn('role_buyer') },
-  ];
+  const linkRoles = await Promise.all(
+    [
+      { value: 'supplier', label: tn('role_supplier') },
+      { value: 'buyer', label: tn('role_buyer') },
+    ].map(async (r) => {
+      const url = linkFor(r.value);
+      return { ...r, url, qr: await qrDataUrl(url) };
+    }),
+  );
   const emailRoles = [
     { value: 'buyer', label: tn('role_buyer') },
     { value: 'supplier', label: tn('role_supplier') },
@@ -74,7 +80,7 @@ export default async function AdminInvitesPage() {
           {linkRoles.map((r) => (
             <div key={r.value} className="flex flex-col gap-1">
               <span className="text-xs font-medium text-neutral-500">{r.label}</span>
-              <CopyLink url={linkFor(r.value)} />
+              <CopyLink url={r.url} qr={r.qr} />
             </div>
           ))}
         </div>

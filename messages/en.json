@@ -401,7 +401,10 @@
     "inviteSent": "Invitation sent.",
     "inviteFailed": "Could not send the invitation.",
     "copy": "Copy",
-    "copied": "Copied"
+    "copied": "Copied",
+    "qrShow": "Show QR",
+    "qrHide": "Hide QR",
+    "qrDownload": "Download"
   },
   "epc": {
     "title": "EPC Projects",
