@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
+import { publicEnv } from '@/lib/env';
+import { qrDataUrl } from '@/lib/shortlinks/qr';
 import { unreadNotificationCount } from '@/lib/notify/queries';
 import { PageShell } from '@/components/ui/PageShell';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { ShareWidget } from '@/components/ShareWidget';
+import { CopyLink } from '@/components/ui/CopyLink';
 
 type Card = { href: string; title: string; desc: string; badge?: number };
 
@@ -25,6 +27,10 @@ export default async function DashboardPage() {
 
   const notApproved = profile.role !== 'admin' && profile.status !== 'approved';
   const unread = await unreadNotificationCount();
+
+  // 추천 초대 링크(가입 시 referred_by 로 귀속) + QR. 즉시 노출.
+  const referralUrl = `${publicEnv.siteUrl}/auth/signup?ref=${encodeURIComponent(profile.referral_code)}`;
+  const referralQr = await qrDataUrl(referralUrl);
 
   const cards: Card[] = [];
   if (profile.role === 'supplier') {
@@ -96,7 +102,7 @@ export default async function DashboardPage() {
           <h2 className="font-semibold">{t('referralTitle')}</h2>
           <p className="text-sm text-neutral-500">{t('referralDesc')}</p>
         </div>
-        <ShareWidget targetType="signup_referral" targetId={null} refCode={profile.referral_code} />
+        <CopyLink url={referralUrl} qr={referralQr} />
       </section>
     </PageShell>
   );

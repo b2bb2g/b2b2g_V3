@@ -1,12 +1,12 @@
 'use client';
-// 초대 링크 복사 위젯. 읽기전용 입력 + 클립보드 복사 버튼 + QR 코드 토글(있을 때).
+// 링크 복사 위젯. 읽기전용 입력 + 클립보드 복사 버튼 + QR 코드 토글(있을 때). 초대·추천 링크 공용.
 import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { btn } from '@/components/ui/button';
 
 export function CopyLink({ url, qr }: { url: string; qr?: string }) {
-  const t = useTranslations('admin');
+  const t = useTranslations('share');
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
 
@@ -38,7 +38,7 @@ export function CopyLink({ url, qr }: { url: string; qr?: string }) {
       </div>
       {qr && showQr && (
         <div className="flex flex-col items-start gap-2 rounded-lg border border-neutral-200 p-4">
-          <Image src={qr} alt={t('qrShow')} width={160} height={160} unoptimized />
+          <Image src={qr} alt={t('qrAlt')} width={160} height={160} unoptimized />
           <a href={qr} download="invite-qr.png" className="text-sm text-neutral-600 underline">
             {t('qrDownload')}
           </a>

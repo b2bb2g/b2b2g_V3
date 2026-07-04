@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { getInviteContext, getReferralTree, type TreeNode } from '@/lib/admin/invite-queries';
 import { qrDataUrl } from '@/lib/shortlinks/qr';
-import { CopyLink } from '@/components/admin/CopyLink';
+import { CopyLink } from '@/components/ui/CopyLink';
 import { InviteEmailForm } from '@/components/admin/InviteEmailForm';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Badge, type BadgeVariant } from '@/components/ui/Badge';

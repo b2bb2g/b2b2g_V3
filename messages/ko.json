@@ -399,12 +399,7 @@
     "inviteRole": "역할",
     "inviteSend": "초대 보내기",
     "inviteSent": "초대를 보냈습니다.",
-    "inviteFailed": "초대를 보내지 못했습니다.",
-    "copy": "복사",
-    "copied": "복사됨",
-    "qrShow": "QR 코드",
-    "qrHide": "QR 숨기기",
-    "qrDownload": "다운로드"
+    "inviteFailed": "초대를 보내지 못했습니다."
   },
   "epc": {
     "title": "EPC 프로젝트",
@@ -554,7 +549,11 @@
     "loading": "생성 중…",
     "copy": "복사",
     "qrAlt": "QR 코드",
-    "loginRequired": "공유 링크를 만들려면 로그인하세요."
+    "loginRequired": "공유 링크를 만들려면 로그인하세요.",
+    "copied": "복사됨",
+    "qrShow": "QR 코드",
+    "qrHide": "QR 숨기기",
+    "qrDownload": "다운로드"
   },
   "marketing": {
     "banners": "광고배너",

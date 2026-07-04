@@ -399,12 +399,7 @@
     "inviteRole": "Role",
     "inviteSend": "Send invite",
     "inviteSent": "Invitation sent.",
-    "inviteFailed": "Could not send the invitation.",
-    "copy": "Copy",
-    "copied": "Copied",
-    "qrShow": "Show QR",
-    "qrHide": "Hide QR",
-    "qrDownload": "Download"
+    "inviteFailed": "Could not send the invitation."
   },
   "epc": {
     "title": "EPC Projects",
@@ -554,7 +549,11 @@
     "loading": "Generating…",
     "copy": "Copy",
     "qrAlt": "QR code",
-    "loginRequired": "Sign in to create a share link."
+    "loginRequired": "Sign in to create a share link.",
+    "copied": "Copied",
+    "qrShow": "Show QR",
+    "qrHide": "Hide QR",
+    "qrDownload": "Download"
   },
   "marketing": {
     "banners": "Ad banners",
