@@ -29,6 +29,27 @@ async function writeCtx(): Promise<
   return { supabase };
 }
 
+// 서명 업로드 URL 발급(서버 세션 기반). 브라우저 세션 없이도 업로드 가능하게 한다.
+// 경로 첫 폴더 = 로그인 UID(스토리지 정책 충족). 서버가 UID·경로를 만든다.
+export async function signUpload(
+  ownerType: BoardOwnerType,
+  ownerId: string,
+  fileName: string,
+): Promise<{ ok: true; path: string; token: string } | { ok: false; error: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: 'unauthenticated' };
+  const safe = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const path = `${user.id}/${ownerType}/${ownerId}/${crypto.randomUUID()}-${safe}`;
+  const { data, error } = await supabase.storage
+    .from(BOARD_MEDIA_BUCKET)
+    .createSignedUploadUrl(path);
+  if (error || !data) return { ok: false, error: error?.message ?? 'sign_failed' };
+  return { ok: true, path: data.path, token: data.token };
+}
+
 async function nextSort(
   supabase: Awaited<ReturnType<typeof createClient>>,
   ownerType: BoardOwnerType,

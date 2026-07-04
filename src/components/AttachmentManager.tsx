@@ -5,7 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { BOARD_MEDIA_BUCKET } from '@/lib/attachments/media';
-import { addFileAttachment, addVideoLink, deleteAttachment } from '@/lib/attachments/actions';
+import {
+  signUpload,
+  addFileAttachment,
+  addVideoLink,
+  deleteAttachment,
+} from '@/lib/attachments/actions';
 import type {
   AttachmentKind,
   BoardAttachmentRow,
@@ -23,12 +28,12 @@ function kindOf(file: File): AttachmentKind {
 export function AttachmentManager({
   ownerType,
   ownerId,
-  userId,
   attachments,
 }: {
   ownerType: BoardOwnerType;
   ownerId: string;
-  userId: string;
+  // userId 는 하위호환용(현재는 서버 서명 URL 이 UID·경로를 결정).
+  userId?: string;
   attachments: BoardAttachmentRow[];
 }) {
   const t = useTranslations('attachments');
@@ -44,19 +49,22 @@ export function AttachmentManager({
       setError(t('sizeError'));
       return;
     }
+    // 서버가 서명 업로드 URL 발급(브라우저 세션 불필요) → 토큰으로 업로드 → 메타 기록.
+    const signed = await signUpload(ownerType, ownerId, file.name);
+    if (!signed.ok) {
+      setError(`${t('uploadFailed')}: ${signed.error}`);
+      return;
+    }
     const supabase = createClient();
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const path = `${userId}/${ownerType}/${ownerId}/${crypto.randomUUID()}-${safeName}`;
     const { error: upErr } = await supabase.storage
       .from(BOARD_MEDIA_BUCKET)
-      .upload(path, file, { contentType: file.type });
+      .uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type });
     if (upErr) {
-      // 실제 원인(권한/용량/MIME)을 노출.
       setError(`${t('uploadFailed')}: ${upErr.message}`);
       return;
     }
     const res = await addFileAttachment(ownerType, ownerId, {
-      storagePath: path,
+      storagePath: signed.path,
       kind: kindOf(file),
       fileName: file.name,
       mimeType: file.type,

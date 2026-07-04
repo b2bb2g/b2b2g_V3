@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import { RichTextEditor } from '@/components/RichTextEditor';
 import { AttachmentManager } from '@/components/AttachmentManager';
 import { ConfirmButton } from '@/components/ui/ConfirmButton';
+import { EditorSubmit } from '@/components/board/EditorSubmit';
 import type { BoardAttachmentRow, BoardCategoryRow, BoardOwnerType } from '@/lib/supabase/database.types';
 
 export type EditorRecord = {
@@ -75,24 +76,12 @@ export async function BoardEditor({
               {t('delete')}
             </ConfirmButton>
           )}
-          <button
-            type="submit"
-            form={FORM_ID}
-            name="intent"
-            value="draft"
-            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium hover:border-neutral-400"
-          >
+          <EditorSubmit formId={FORM_ID} intent="draft">
             {t('boardSaveDraft')}
-          </button>
-          <button
-            type="submit"
-            form={FORM_ID}
-            name="intent"
-            value="publish"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-          >
+          </EditorSubmit>
+          <EditorSubmit formId={FORM_ID} intent="publish" primary>
             {published ? t('boardUpdate') : t('boardRegister')}
-          </button>
+          </EditorSubmit>
         </div>
       </div>
 
@@ -103,6 +92,7 @@ export async function BoardEditor({
         className="grid grid-cols-1 gap-5 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:grid-cols-[88px_1fr] sm:items-center"
       >
         <input type="hidden" name="id" value={record.id} />
+        <input type="hidden" name="intent" defaultValue="publish" />
 
         <label className="text-sm font-medium">{t('fieldTitle')}{req}</label>
         <input
