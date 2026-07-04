@@ -5,10 +5,11 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { listActiveMenu } from '@/lib/menu/queries';
 import { unreadNotificationCount } from '@/lib/notify/queries';
-import { listPublicProducts } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
+import { globalSearch } from '@/lib/search/queries';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { CategoryIcon } from '@/components/CategoryIcon';
+import { SearchResults } from '@/components/SearchResults';
 import { MobileSearch } from '@/components/mobile/MobileSearch';
 import type { ProductListItem } from '@/lib/products/queries';
 import type { MenuItemRow } from '@/lib/supabase/database.types';
@@ -36,7 +37,7 @@ export async function MobileHome({ featured, q }: { featured: ProductListItem[];
   }
 
   const query = q?.trim() ?? '';
-  const results = query ? await listPublicProducts({ q: query }) : null;
+  const groups = query ? await globalSearch(query) : null;
 
   const menu = await listActiveMenu();
   const label = (m: MenuItemRow) => (locale === 'ko' ? m.label_ko : m.label_en);
@@ -79,46 +80,9 @@ export async function MobileHome({ featured, q }: { featured: ProductListItem[];
       {/* 실시간 검색 + 필터 */}
       <MobileSearch currentQ={query} />
 
-      {results ? (
-        /* 검색 결과 */
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-neutral-500">
-            {t('resultsFor', { q: query })}
-          </h2>
-          {results.length === 0 ? (
-            <EmptyState message={t('noResults')} />
-          ) : (
-            <ul className="flex flex-col gap-3">
-              {results.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    href={`/products/${p.id}`}
-                    className="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-white p-3"
-                  >
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
-                      {p.primaryImagePath && (
-                        <Image
-                          src={publicImageUrl(p.primaryImagePath)}
-                          alt=""
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex min-w-0 flex-col">
-                      <span className="line-clamp-1 font-medium text-neutral-900">{p.title}</span>
-                      <span className="line-clamp-1 text-xs text-neutral-500">
-                        {p.categoryName ? `${p.categoryName} · ` : ''}
-                        {p.companyName}
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+      {groups ? (
+        /* 통합 검색 결과(포털형) */
+        <SearchResults groups={groups} query={query} />
       ) : (
         <>
           {/* 카테고리 칩 */}

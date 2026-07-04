@@ -703,8 +703,18 @@
     "promoCta": "제품 등록",
     "featured": "추천 리스트",
     "seeAll": "전체 보기",
-    "resultsFor": "“{q}” 검색 결과",
-    "noResults": "일치하는 제품이 없습니다.",
     "featuredEmpty": "추천 리스트가 아직 없습니다."
+  },
+  "search": {
+    "resultsFor": "“{q}” 검색 결과",
+    "noResults": "“{q}” 검색 결과가 없습니다.",
+    "viewAllType": "전체 보기",
+    "type_products": "제품",
+    "type_epc": "EPC 프로젝트",
+    "type_requests": "소싱 요청",
+    "type_events": "행사",
+    "type_services": "서비스",
+    "type_notices": "공지사항",
+    "type_faq": "FAQ"
   }
 }

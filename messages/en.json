@@ -703,8 +703,18 @@
     "promoCta": "Post your product",
     "featured": "Featured Listings",
     "seeAll": "See All",
-    "resultsFor": "Results for “{q}”",
-    "noResults": "No matching products.",
     "featuredEmpty": "No featured listings yet."
+  },
+  "search": {
+    "resultsFor": "Results for “{q}”",
+    "noResults": "No results for “{q}”.",
+    "viewAllType": "View all",
+    "type_products": "Products",
+    "type_epc": "EPC Projects",
+    "type_requests": "Sourcing Requests",
+    "type_events": "Events",
+    "type_services": "Services",
+    "type_notices": "Notices",
+    "type_faq": "FAQ"
   }
 }

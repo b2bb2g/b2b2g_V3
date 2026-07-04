@@ -34,6 +34,12 @@ const PATHS: Record<string, ReactNode> = {
       <path d="M9.5 9.5a2.5 2.5 0 0 1 4 2c0 1.5-2 2-2 3M12 17h.01" />
     </>
   ),
+  '/notices': (
+    <>
+      <path d="M4 9v6h4l6 4V5L8 9H4z" />
+      <path d="M17 9a4 4 0 0 1 0 6" />
+    </>
+  ),
 };
 
 export function CategoryIcon({ route, className }: { route: string; className?: string }) {

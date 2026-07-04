@@ -3,11 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { listActiveMenu } from '@/lib/menu/queries';
-import { listPublicProducts, type ProductListItem } from '@/lib/products/queries';
+import { type ProductListItem } from '@/lib/products/queries';
 import { publicImageUrl } from '@/lib/products/media';
+import { globalSearch } from '@/lib/search/queries';
 import { BannerSlot } from '@/components/BannerSlot';
 import { CategoryIcon } from '@/components/CategoryIcon';
-import { EmptyState } from '@/components/ui/EmptyState';
+import { SearchResults } from '@/components/SearchResults';
 import { HeroSearch } from '@/components/home/HeroSearch';
 import type { PlatformStats } from '@/lib/stats/queries';
 import type { MenuItemRow } from '@/lib/supabase/database.types';
@@ -43,54 +44,15 @@ export async function DesktopHome({
   const preview = featured.slice(0, 3);
 
   const query = q?.trim() ?? '';
-  const results = query ? await listPublicProducts({ q: query }) : null;
+  const groups = query ? await globalSearch(query) : null;
 
-  // 검색 중: 히어로 검색 + 결과 그리드만(랜딩 섹션 숨김).
-  if (results) {
+  // 검색 중: 히어로 검색 + 통합 결과만(랜딩 섹션 숨김).
+  if (groups) {
     return (
       <div className="hidden md:block">
-        <div className="mx-auto w-full max-w-6xl px-6 py-12">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12">
           <HeroSearch currentQ={query} />
-          <h2 className="mt-8 text-lg font-semibold text-neutral-500">
-            {t('resultsFor', { q: query })}
-          </h2>
-          {results.length === 0 ? (
-            <div className="mt-4">
-              <EmptyState message={t('noResults')} />
-            </div>
-          ) : (
-            <ul className="mt-4 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-              {results.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    href={`/products/${p.id}`}
-                    className="flex h-full flex-col gap-3 rounded-2xl border border-neutral-200 bg-white p-3 transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-md"
-                  >
-                    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
-                      {p.primaryImagePath && (
-                        <Image
-                          src={publicImageUrl(p.primaryImagePath)}
-                          alt=""
-                          fill
-                          sizes="(max-width: 1024px) 33vw, 260px"
-                          className="object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-0.5 px-1 pb-1">
-                      <span className="line-clamp-1 text-sm font-medium text-neutral-900">
-                        {p.title}
-                      </span>
-                      <span className="line-clamp-1 text-xs text-neutral-500">
-                        {p.categoryName ? `${p.categoryName} · ` : ''}
-                        {p.companyName}
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          <SearchResults groups={groups} query={query} />
         </div>
       </div>
     );
