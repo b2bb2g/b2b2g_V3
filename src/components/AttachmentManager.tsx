@@ -51,16 +51,18 @@ export function AttachmentManager({
       .from(BOARD_MEDIA_BUCKET)
       .upload(path, file, { contentType: file.type });
     if (upErr) {
-      setError(t('uploadFailed'));
+      // 실제 원인(권한/용량/MIME)을 노출.
+      setError(`${t('uploadFailed')}: ${upErr.message}`);
       return;
     }
-    await addFileAttachment(ownerType, ownerId, {
+    const res = await addFileAttachment(ownerType, ownerId, {
       storagePath: path,
       kind: kindOf(file),
       fileName: file.name,
       mimeType: file.type,
       sizeBytes: file.size,
     });
+    if (!res.ok) setError(res.error);
   }
 
   async function onFiles(files: FileList | null) {
@@ -84,8 +86,13 @@ export function AttachmentManager({
   function onAddLink() {
     const url = link.trim();
     if (!url) return;
+    setError(null);
     startTransition(async () => {
-      await addVideoLink(ownerType, ownerId, url);
+      const res = await addVideoLink(ownerType, ownerId, url);
+      if (!res.ok) {
+        setError(res.error);
+        return;
+      }
       setLink('');
       router.refresh();
     });
@@ -144,7 +151,11 @@ export function AttachmentManager({
                 aria-label={t('delete')}
                 onClick={() =>
                   startTransition(async () => {
-                    await deleteAttachment(a.id);
+                    const res = await deleteAttachment(a.id);
+                    if (!res.ok) {
+                      setError(res.error);
+                      return;
+                    }
                     router.refresh();
                   })
                 }

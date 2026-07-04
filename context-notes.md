@@ -109,3 +109,9 @@
 - content i18n: boardSaveDraft/Register/Update, boardTitlePlaceholder, pinHint, sortLatest/Oldest, boardShare.
 - saveNotice: intent 기반 status + 리다이렉트(임시저장→편집유지, 등록→상세). submitNotice(void 래퍼)·startNoticeDraft 추가.
 - 재사용 경로: 다른 메뉴는 각자 list/detail 페이지 + BoardEditor(ownerType·actions·categories 주입)로 확장 가능.
+
+## Phase 7.2 — 첨부 실패 진단/수정 (2026-07-04)
+- 진단: board_attachments 전 보드 0행. 실제 admin(role=admin)으로 검증 시 is_admin()=true, video_link·file 삽입·select 모두 OK → 백엔드/RLS 정상.
+- 회귀 발견/수정: guard_profile_self_update 의 "auth.uid() null(백엔드) 허용" 바이패스를 agent_buyers 마이그레이션이 제거함 → 20260704240000 로 복원(서비스롤 role 업데이트 가능, referred_by/referral_code 보호 유지).
+- 첨부 액션(addFileAttachment/addVideoLink/deleteAttachment)이 실패를 조용히 삼키던 것을 AttachResult(ok/error) 반환으로 변경 + 로그인 선검사. AttachmentManager 가 Storage 실제 에러 메시지(upErr.message)와 액션 에러를 화면에 노출. revalidatePath 를 notice 는 /notices/[id]/edit 로.
+- 파일 업로드는 브라우저 supabase 세션 필요(board-media insert 정책 path[1]=auth.uid()). 영상링크는 서버액션(SSR 쿠키). 사용자 재시도 시 표시되는 에러로 원인 특정 예정.
