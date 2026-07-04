@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { type ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
-import { approvalCounts, listRecentAuditLogs } from '@/lib/admin/queries';
+import { approvalCounts, listRecentAuditLogs, getDashboardCharts } from '@/lib/admin/queries';
 import { getPlatformStats } from '@/lib/stats/queries';
+import { DonutChart } from '@/components/admin/DonutChart';
+import { BarChart } from '@/components/admin/BarChart';
 
 // 단색 선 아이콘(이모지 미사용).
 const IconUser = (
@@ -34,6 +36,11 @@ const IconChat = (
 export default async function AdminPage() {
   const t = await getTranslations('admin');
   const th = await getTranslations('home');
+  const tn = await getTranslations('nav');
+  const tr = await getTranslations('requests');
+  const te = await getTranslations('events');
+  const tsv = await getTranslations('services');
+  const tcn = await getTranslations('content');
   const supabase = await createClient();
   const {
     data: { user },
@@ -42,11 +49,30 @@ export default async function AdminPage() {
     ? await supabase.from('profiles').select('display_name').eq('id', user.id).single()
     : { data: null };
 
-  const [counts, stats, activity] = await Promise.all([
+  const [counts, stats, activity, charts] = await Promise.all([
     approvalCounts(),
     getPlatformStats(),
     listRecentAuditLogs(8),
+    getDashboardCharts(),
   ]);
+
+  const ROLE_COLOR: Record<string, string> = {
+    buyer: '#3b82f6',
+    supplier: '#10b981',
+    agent: '#8b5cf6',
+    admin: '#f59e0b',
+  };
+  const roleSegments = charts.roles
+    .filter((r) => r.count > 0)
+    .map((r) => ({ label: tn(`role_${r.role}`), value: r.count, color: ROLE_COLOR[r.role] ?? '#94a3b8' }));
+  const CONTENT_LABEL: Record<string, string> = {
+    products: th('statProducts'),
+    requests: tr('title'),
+    events: te('title'),
+    services: tsv('title'),
+    notices: tcn('notices'),
+  };
+  const contentBars = charts.content.map((c) => ({ label: CONTENT_LABEL[c.key] ?? c.key, value: c.count }));
 
   const cards: { label: string; value: number; icon: ReactNode; wrap: string }[] = [
     { label: th('statSuppliers'), value: stats.verifiedSuppliers, icon: IconUser, wrap: 'bg-emerald-50 text-emerald-600' },
@@ -87,6 +113,30 @@ export default async function AdminPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 차트 */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <section className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <h2 className="text-sm font-semibold text-neutral-500">{t('chartMembers')}</h2>
+          <div className="flex items-center gap-6">
+            <DonutChart segments={roleSegments} />
+            <ul className="flex flex-col gap-2 text-sm">
+              {roleSegments.map((s) => (
+                <li key={s.label} className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: s.color }} aria-hidden />
+                  <span className="text-neutral-600">{s.label}</span>
+                  <span className="ml-auto font-medium tabular-nums">{s.value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <h2 className="text-sm font-semibold text-neutral-500">{t('chartContent')}</h2>
+          <BarChart bars={contentBars} />
+        </section>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

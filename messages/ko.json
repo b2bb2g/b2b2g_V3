@@ -386,7 +386,9 @@
     "action": "작업",
     "target": "대상",
     "link": "링크",
-    "clicksCol": "클릭"
+    "clicksCol": "클릭",
+    "chartMembers": "역할별 회원",
+    "chartContent": "발행 콘텐츠"
   },
   "epc": {
     "title": "EPC 프로젝트",

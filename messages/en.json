@@ -386,7 +386,9 @@
     "action": "Action",
     "target": "Target",
     "link": "Link",
-    "clicksCol": "Clicks"
+    "clicksCol": "Clicks",
+    "chartMembers": "Members by role",
+    "chartContent": "Published content"
   },
   "epc": {
     "title": "EPC Projects",

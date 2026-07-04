@@ -22,6 +22,53 @@ export async function getSupplierByProfile(profileId: string): Promise<SupplierR
 
 export const ADMIN_PAGE_SIZE = 20;
 
+// 대시보드 차트용 집계(회원 역할 분포 + 콘텐츠 발행 현황). head count 로 가볍게.
+export type DashboardCharts = {
+  roles: { role: string; count: number }[];
+  content: { key: string; count: number }[];
+};
+
+export async function getDashboardCharts(): Promise<DashboardCharts> {
+  const supabase = await createClient();
+  const roleCount = (role: ProfileRow['role']) =>
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('role', role);
+
+  const [buyer, supplier, agent, admin, products, requests, events, services, notices] =
+    await Promise.all([
+      roleCount('buyer'),
+      roleCount('supplier'),
+      roleCount('agent'),
+      roleCount('admin'),
+      supabase.from('products').select('id', { count: 'exact', head: true }).eq('status', 'listed'),
+      supabase
+        .from('product_requests')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'listed'),
+      supabase.from('events').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+      supabase
+        .from('services')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'published'),
+      supabase.from('notices').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+    ]);
+
+  return {
+    roles: [
+      { role: 'buyer', count: buyer.count ?? 0 },
+      { role: 'supplier', count: supplier.count ?? 0 },
+      { role: 'agent', count: agent.count ?? 0 },
+      { role: 'admin', count: admin.count ?? 0 },
+    ],
+    content: [
+      { key: 'products', count: products.count ?? 0 },
+      { key: 'requests', count: requests.count ?? 0 },
+      { key: 'events', count: events.count ?? 0 },
+      { key: 'services', count: services.count ?? 0 },
+      { key: 'notices', count: notices.count ?? 0 },
+    ],
+  };
+}
+
 export type MemberListItem = Pick<ProfileRow, 'id' | 'display_name' | 'email' | 'role' | 'status'>;
 
 export async function listMembers(filter?: {
